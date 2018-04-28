@@ -6,7 +6,7 @@ shift
 message=$*
 if [ -e /home/zack/dbot/logs/$channel ]
 then
-	echo -e "$(tail -99 $logDir/$channel)\n$message" > $logDir/$channel
+    echo -e "$(tail -99 $logDir/$channel)\n$message" > $logDir/$channel
 else
-	echo -e $message\n > $logDir/$channel
+    echo -e $message\n > $logDir/$channel
 fi
