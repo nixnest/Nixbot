@@ -53,7 +53,7 @@ client.on("message", async message => {
     const arg = message.cleanContent.split(" ");
     arg.unshift(message.channel);
     const { execFile } = require('child_process');
-    const child = execFile('/home/zack/dbot/log.sh', arg,(error, stdout, stderr) => {
+    const child = execFile('/home/zack/Nixbot/log.sh', arg,(error, stdout, stderr) => {
         if (error) {
             throw error;
         }
@@ -70,7 +70,7 @@ client.on("message", async message => {
         if (message.mentions.channels.array().join() == "") {
             const { execFile } = require('child_process');
             const arg = [message.channel]
-            const child = execFile('/home/zack/dbot/emote.sh', arg, (err, stdout, stderr) => {
+            const child = execFile('/home/zack/Nixbot/emote.sh', arg, (err, stdout, stderr) => {
                 if (err) {
                     // node couldn't execute the command
                     return;
@@ -85,7 +85,7 @@ client.on("message", async message => {
             const { execFile } = require('child_process');
             const arg = [message.mentions.channels.array()];
             arg.unshift('custchannel');
-            const child = execFile('/home/zack/dbot/emote.sh', arg, (err, stdout, stderr) => {
+            const child = execFile('/home/zack/Nixbot/emote.sh', arg, (err, stdout, stderr) => {
                 if (err) {
                     // node couldn't execute the command
                     return;

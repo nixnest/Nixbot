@@ -1,5 +1,8 @@
 #!/bin/bash
+cd /home/zack/Nixbot/
 source ./emote_config.conf
+
+echo args: "$*"
 case $1 in
     "help")
         echo "this is the help text"
