@@ -112,6 +112,7 @@ client.on("message", async message => {
         arg.join();
         var query = arg.toString().replace(/,/g, '+');
         message.channel.send("https://lmgtfy.com/?q=" + query);
+	message.delete();
     }
     if (command === "searx") {
         arg.shift();
@@ -119,6 +120,7 @@ client.on("message", async message => {
         arg.join();
         var query = arg.toString().replace(/,/g, '%20');
         message.channel.send("https://searx.tadeo.ca/?q=" + query + "&categories=general");
+	message.delete();
     }
     if (command === "echo") {
         arg.shift();
@@ -126,6 +128,7 @@ client.on("message", async message => {
         arg.join();
         var echo = arg.toString().replace(/,/g, ' ');
         message.channel.send(echo);
+	message.delete();
     }
     if (command === "wiki") {
         arg.shift();
@@ -133,9 +136,11 @@ client.on("message", async message => {
         arg.join();
         var wiki = arg.toString().replace(/,/g, '+');
         message.channel.send("https://wiki.archlinux.org/index.php?search=" + wiki);
+	message.delete();
     }
     if (command === "ban") {
         message.channel.send("__**USER WAS BANNED FOR THIS POST**__");
+	message.delete();
     }
     if (command === "c") {
 	arg.shift();
@@ -149,7 +154,26 @@ client.on("message", async message => {
 	    message.channel.send('`' + pasta + "`: Not found\nCurrent available copypasta are:\n`" + Object.keys(copypasta).join(', ') + '`');
     }
     };
-    message.delete();
+    if (command === "neko") {
+        if(message.channel.nsfw) {
+    	    arg.shift();
+	    arg.shift();
+	    arg.join();
+	    var neko = arg.toString();
+            const request = require('request');
+            request('https://nekos.life/api/v2/img/' + neko, { json: true }, (err, res, body) => {
+            if (err) { return console.log(err); }
+                if (body.url) {
+	        message.channel.send(body.url);
+                } else {
+                message.channel.send("`" + neko + "`: Not found. Options are:\n```'cum', 'les', 'meow', 'tickle', 'lewd', 'feed', 'bj', 'nsfw_neko_gif', 'nsfw_avatar', 'poke', 'anal', 'slap', 'avatar', 'pussy', 'lizard', 'classic', 'kuni', 'pat', 'kiss', 'neko', 'cuddle', 'fox_girl', 'boobs', 'Random_hentai_gif', 'hug'```");
+	        }
+	    });
+        } else {
+	message.channel.send("This channel must be marked NSFW");
+	}
+    }
+    // message.delete();
     if (message.guild.id.toString().includes('297744523910578176')) {
         client.channels.get('439881143798595604').send( message.author.username + '(' + message.author.id + ') ran command `' + message.cleanContent + '` in ' + message.channel);
     }
