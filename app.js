@@ -8,9 +8,8 @@ client.on("ready", () => {
     client.user.setGame(`type +help`);
     const guildsNum = `${client.guilds.size}`;
     const guilds = `${client.guilds.firstKey()}`;
-    console.log(`Guilds: ${guilds}`);
 });
-var copypastafile = require('./copypasta.json');
+var copypastafile = require(config.copypastajson);
 var copypasta = JSON.parse(JSON.stringify(copypastafile));
 console.log("copypasta file parsed")
 client.on("guildCreate", guild => {
@@ -26,9 +25,6 @@ client.on("guildDelete", guild => {
 var messages = [];
 client.on("message", async message => {
     if (message.author.bot) return;
-    if (message.channel.toString().includes("436660589616431106")) {
-        message.delete();
-    }
     if (messages.length > 99) {
         messages.shift();
         messages.push(message.cleanContent);
@@ -53,7 +49,7 @@ client.on("message", async message => {
     const arg = message.cleanContent.split(" ");
     arg.unshift(message.channel);
     const { execFile } = require('child_process');
-    const child = execFile('/home/zack/Nixbot/log.sh', arg,(error, stdout, stderr) => {
+    const child = execFile('./log.sh', arg,(error, stdout, stderr) => {
         if (error) {
             throw error;
         }
@@ -70,7 +66,7 @@ client.on("message", async message => {
         if (message.mentions.channels.array().join() == "") {
             const { execFile } = require('child_process');
             const arg = [message.channel]
-            const child = execFile('/home/zack/Nixbot/emote.sh', arg, (err, stdout, stderr) => {
+            const child = execFile('./emote.sh', arg, (err, stdout, stderr) => {
                 if (err) {
                     // node couldn't execute the command
                     return;
@@ -85,7 +81,7 @@ client.on("message", async message => {
             const { execFile } = require('child_process');
             const arg = [message.mentions.channels.array()];
             arg.unshift('custchannel');
-            const child = execFile('/home/zack/Nixbot/emote.sh', arg, (err, stdout, stderr) => {
+            const child = execFile('./emote.sh', arg, (err, stdout, stderr) => {
                 if (err) {
                     // node couldn't execute the command
                     return;
@@ -174,8 +170,8 @@ client.on("message", async message => {
 	}
     }
     // message.delete();
-    if (message.guild.id.toString().includes('297744523910578176')) {
-        client.channels.get('439881143798595604').send( message.author.username + '(' + message.author.id + ') ran command `' + message.cleanContent + '` in ' + message.channel);
+    if (message.guild.id.toString().includes(config.logserver)) {
+        client.channels.get(config.logchannel).send( message.author.username + '(' + message.author.id + ') ran command `' + message.cleanContent + '` in ' + message.channel);
     }
 });
 
