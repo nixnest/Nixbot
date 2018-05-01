@@ -131,7 +131,7 @@ client.on("message", async message => {
             arg.shift();
             arg.join();
             var query = arg.toString().replace(/,/g, '+');
-            message.channel.send("https: {//lmgtfy.com/?q=" + query);
+            message.channel.send("https://lmgtfy.com/?q=" + query);
             message.delete();
             break;
         }
@@ -140,7 +140,7 @@ client.on("message", async message => {
             arg.shift();
             arg.join();
             var query = arg.toString().replace(/,/g, '%20');
-            message.channel.send("https: {//searx.tadeo.ca/?q=" + query + "&categories=general");
+            message.channel.send("https://searx.tadeo.ca/?q=" + query + "&categories=general");
             message.delete();
             break;
         }
@@ -158,7 +158,7 @@ client.on("message", async message => {
             arg.shift();
             arg.join();
             var wiki = arg.toString().replace(/,/g, '+');
-            message.channel.send("https: {//wiki.archlinux.org/index.php?search=" + wiki);
+            message.channel.send("https://wiki.archlinux.org/index.php?search=" + wiki);
             message.delete();
             break;
         }
@@ -187,7 +187,7 @@ client.on("message", async message => {
                 arg.join();
                 var neko = arg.toString();
                 const request = require('request');
-                request('https: {//nekos.life/api/v2/img/' + neko, { json: true }, (err, res, body) => {
+                request('https://nekos.life/api/v2/img/' + neko, { json: true }, (err, res, body) => {
                     if (err) {
                         return console.log(err);
                     }
