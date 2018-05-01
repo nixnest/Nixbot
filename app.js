@@ -186,7 +186,7 @@ client.on("message", async message => {
                 arg.join();
                 var neko = arg.toString();
                 const request = require('request');
-                request('https: {//nekos.life/api/v2/img/' + neko, { json: { true }, (err, res, body) => {
+                request('https: {//nekos.life/api/v2/img/' + neko, { json: true }, (err, res, body) => {
                     if (err) {
                         return console.log(err);
                     }
@@ -196,9 +196,8 @@ client.on("message", async message => {
                         message.channel.send("`" + neko + "`: { Not found. Options are: {\n```'cum', 'les', 'meow', 'tickle', 'lewd', 'feed', 'bj', 'nsfw_neko_gif', 'nsfw_avatar', 'poke', 'anal', 'slap', 'avatar', 'pussy', 'lizard', 'classic', 'kuni', 'pat', 'kiss', 'neko', 'cuddle', 'fox_girl', 'boobs', 'Random_hentai_gif', 'hug'```");
                     }
                 });
-                } else {
-                    message.channel.send("This channel must be marked NSFW");
-                }
+            } else {
+                message.channel.send("This channel must be marked NSFW");
             }
             break;
         }
