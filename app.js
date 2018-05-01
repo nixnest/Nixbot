@@ -2,6 +2,7 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require("./config.json");
+const gotkicked = require("./gotkicked.json");
 fs = require('fs');
 function loadplugins() {
     //fs = require('fs');
@@ -23,12 +24,13 @@ var copypasta = JSON.parse(JSON.stringify(copypastafile));
 console.log("copypasta file parsed")
 client.on("guildCreate", guild => {
     console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-    client.user.setGame(`on ${client.guilds.size} servers`);
 });
 
 client.on("guildDelete", guild => {
     console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
-    client.user.setGame(`on ${client.guilds.size} servers`);
+    //complain to just the devs
+    client.channels.get(config.sasschannel).send(gotkicked.message[Math.ceil(Math.random() * gotkicked.messages.length)]);
+
 });
 //var pluginfs = require('fs');
 //var pluginfiles = pluginfs.readdirSync('./plugins');
