@@ -208,13 +208,15 @@ client.on("message", async message => {
                 arg.shift();
                 //console.log(command + ' is in plugins');
                 const { execFile } = require('child_process');
-                const child = execFile(plugins[command], arg,(error, stdout, stderr) => {
+                const child = execFile(plugins[command][0], arg,(error, stdout, stderr) => {
                     if (error) {
                         throw error;
                     }
                     message.channel.send(stdout);
                 });
-
+                if (plugins[command][1] === "1") {
+                    message.delete();
+                }
             } else {
                 message.channel.send(help.message + "`" + Object.keys(plugins) + "`");
             }

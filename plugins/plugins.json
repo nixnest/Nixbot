@@ -1,6 +1,15 @@
 {
-    "test":
-    "./plugins/test.sh",
-    "xkcd":
-    "./plugins/xkcd.sh"
+    "test":[
+    "./plugins/test.sh","1"],
+    "xkcd":[
+    "./plugins/xkcd.sh","0"],
+    "emote":[
+    "./plugins/emote_classic.sh", "1"],
+    "cowsay":[
+    "./plugins/cowsay.sh", "1"],
+    "toilet":[
+    "./plugins/toilet.sh", "1"],
+    "insult":[
+    "./plugins/insulter.py", "1"]
 }
+
