@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require("./config.json");
 const gotkicked = require("./gotkicked.json");
-const help = require('help.json');
+const help = require('./help.json');
 fs = require('fs');
 function loadplugins() {
     //fs = require('fs');
