@@ -5,7 +5,7 @@ case $1 in
         ;;
     *)
         string=$*
-	echo "**Input:**`$string`"
+	echo "**Input:**\`$*\`"
         string=${string// /%20}
         response=$(curl -s -X GET --header 'Accept: application/json' --header 'Content-Language: en' --header 'Accept-Language: en' "https://watson-api-explorer.mybluemix.net/tone-analyzer/api/v3/tone?text=$string&version=2017-09-20&sentences=false&tones=emotion")
         #echo $response
