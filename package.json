@@ -1,0 +1,17 @@
+{
+  "name": "Nixbot",
+  "version": "478",
+  "description": "Its a bot... send help",
+  "readme": "README.md",
+  "maintainers": [],
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zwater/NixBot.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+      "discord.js": "11.3.x^",
+      "request": "2.85.x^"
+  }
+}
