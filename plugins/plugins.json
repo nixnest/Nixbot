@@ -1,4 +1,6 @@
 {
-	"test":
-	"./plugins/test.sh"
+    "test":
+    "./plugins/test.sh",
+    "other":
+    "./plugins/other.sh"
 }

@@ -2,14 +2,11 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require("./config.json");
-//const pluginsfile = require("./plugins/plugins.json");
-//var plugins = JSON.parse(JSON.stringify(pluginsfile));
-//console.log(plugins);
-var pluginsfile;
-var plugins;
+fs = require('fs');
 function loadplugins() {
-    pluginsfile = require("./plugins/plugins.json");
-    plugins = JSON.parse(JSON.stringify(pluginsfile));
+    //fs = require('fs');
+    pluginsfile = fs.readFileSync('./plugins/plugins.json');
+    plugins = JSON.parse(pluginsfile);
     console.log(plugins);
     return("Reloaded plugins. Current plugins:\n\n`" + Object.keys(plugins) + "`");
 }
