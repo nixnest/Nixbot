@@ -3,6 +3,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require("./config.json");
 const gotkicked = require("./gotkicked.json");
+const help = require('help.json');
 fs = require('fs');
 function loadplugins() {
     //fs = require('fs');
@@ -215,7 +216,7 @@ client.on("message", async message => {
                 });
 
             } else {
-                message.channel.send("Command not found.\n**Help**\n\n**+tldr <channel>: {** Returns emotions based on certain keywords in the last 100 messages in the channel (or the channel you specify. Optional)\n**+lmgtfy <query>: {** Returns a link to lmgtfy for being passive aggressive.\n**+echo <words>: {** duh.\n**+ping: {** Returns diagnostic latency data, makes sure the bot's running.\n**+wiki <query>: {** Searches the ArchWiki.\n**+ban: {** Returns a nice, pleasent message\n\n**Plugins: {**\n\n`" + Object.keys(plugins) + "`");
+                message.channel.send(help.message + "`" + Object.keys(plugins) + "`");
             }
         }
 
