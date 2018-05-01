@@ -2,15 +2,24 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require("./config.json");
-const pluginsfile = require("./plugins/plugins.json");
-var plugins = JSON.parse(JSON.stringify(pluginsfile));
-console.log(plugins);
+//const pluginsfile = require("./plugins/plugins.json");
+//var plugins = JSON.parse(JSON.stringify(pluginsfile));
+//console.log(plugins);
+var pluginsfile;
+var plugins;
+function loadplugins() {
+    pluginsfile = require("./plugins/plugins.json");
+    plugins = JSON.parse(JSON.stringify(pluginsfile));
+    console.log(plugins);
+    return("Reloaded plugins. Current plugins:\n\n`" + Object.keys(plugins) + "`");
+}
 
 client.on("ready", () => {
     console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
     client.user.setGame(`type +help`);
     const guildsNum = `${client.guilds.size}`;
     const guilds = `${client.guilds.firstKey()}`;
+    console.log(loadplugins());
 });
 var copypastafile = require(config.copypastajson);
 var copypasta = JSON.parse(JSON.stringify(copypastafile));
@@ -27,6 +36,7 @@ client.on("guildDelete", guild => {
 //var pluginfs = require('fs');
 //var pluginfiles = pluginfs.readdirSync('./plugins');
 //console.log(pluginfiles);
+
 
 var messages = [];
 client.on("message", async message => {
@@ -67,6 +77,12 @@ client.on("message", async message => {
     const command = args.shift().toLowerCase();
 
     switch(command) {
+        case 'reload':
+        {
+            message.channel.send(loadplugins());
+        }
+        break;
+
         case 'tldr':
         {
             const m = await message.channel.send("Working on it...");
