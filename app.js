@@ -201,11 +201,9 @@ client.on("message", async message => {
                 if (plugins.hasOwnProperty(command)) {
                     arg.shift();
                     arg.shift();
-                    arg.join();
-                    var pluginargs = arg.toString().replace(/,/g, ' ');
                     //console.log(command + ' is in plugins');
                     const { execFile } = require('child_process');
-                    const child = execFile(plugins[command], pluginargs,(error, stdout, stderr) => {
+                    const child = execFile(plugins[command], arg,(error, stdout, stderr) => {
                     if (error) {
                         throw error;
                     }
