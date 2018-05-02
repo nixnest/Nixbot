@@ -218,7 +218,8 @@ client.on("message", async message => {
                     message.delete();
                 }
             } else {
-                message.channel.send(help.message + "`" + Object.keys(plugins) + "`");
+                //message.channel.send(help.message + "`" + Object.keys(plugins) + "`");
+                message.channel.send("Discord's best practices for bots state that failed commands should fail silently");
             }
         }
 
