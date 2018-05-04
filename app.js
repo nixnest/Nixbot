@@ -119,7 +119,7 @@ client.on("message", async message => {
                 message.member.addRole(config.msgs_25000[0]);
             }
             if (newcount > 50000) {
-                message.member.addRole(config.msgs_25000[0])
+                message.member.addRole(config.msgs_50000[0])
             }
         })
         checkusers[message.author.id] = 0;
