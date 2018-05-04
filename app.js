@@ -96,7 +96,7 @@ client.on("message", async message => {
     }
     checkusers[message.author.id] += 1;
     //console.log(checkusers);
-    if (checkusers[message.author.id] % 2 == 0) {
+    if (checkusers[message.author.id] % 10 == 0) {
         console.log("checking " + message.author.id);
         influx.query("SELECT SUM(value) + SUM(manual) FROM message WHERE \"id\"=\'" + message.author.id + "\' fill(0)").then(results => {
         newcount = results[0].sum_sum;
