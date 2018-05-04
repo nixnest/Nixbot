@@ -11,7 +11,8 @@
   },
   "license": "MIT",
   "dependencies": {
-      "discord.js": "11.3.x^",
-      "request": "2.85.x^"
+    "discord.js": "11.3.x^",
+    "influx": "^5.0.7",
+    "request": "2.85.x^"
   }
 }
