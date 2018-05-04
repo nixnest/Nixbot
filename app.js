@@ -152,7 +152,7 @@ client.on("message", async message => {
                 var newmsg = arg.toString();
                 //message.channel.send("Setting your messages to " + newmsg + ". **You cannot do this again**");
                 //console.log(message.member.roles.array());
-                if (!isNaN(newmsg)) {
+                if (isNaN(newmsg)) {
                     message.channel.send("Provided message count `" + newmsg + "` does not appear to be a number. Try again.");
                 } else if (message.member.roles.find('id', '297744523910578176') && newmsg < config.msgs_500[1]) {
                     influx.writePoints([
