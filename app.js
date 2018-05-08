@@ -83,7 +83,7 @@ client.on("message", async message => {
 
 
     //console.log(`message in channel: ${message.cleanContent}`)
-    //console.log(message.guild.roles);
+    console.log(message.guild.roles);
     if (message.guild.id.toString().includes(config.logserver)) {
         influx.writePoints([
              {
@@ -190,7 +190,7 @@ client.on("message", async message => {
                 //console.log(message.member.roles.array());
                 if (isNaN(newmsg)) {
                     message.channel.send("Provided message count `" + newmsg + "` does not appear to be a number. Try again.");
-                } else if (message.member.roles.find('id', '440703110013255720') && newmsg < 500 && newmsg > 0) {
+                } else if (newmsg < 500 && newmsg > 0) {
                     influx.writePoints([
                     {
                         measurement: 'message',
