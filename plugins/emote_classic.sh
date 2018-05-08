@@ -8,7 +8,7 @@ case $1 in
 	echo "**Input:**\`$*\`"
         string=${string// /%20}
         response=$(curl -s -X GET --header 'Accept: application/json' --header 'Content-Language: en' --header 'Accept-Language: en' "https://watson-api-explorer.mybluemix.net/tone-analyzer/api/v3/tone?text=$string&version=2017-09-20&sentences=false&tones=emotion")
-        #echo $response
+        echo $response > /dev/null
         echo -e "The supercomputer that beat _Jeopardy!_ is:\n"
         madraw=$(echo $response | jq -r '.document_tone.tone_categories[0].tones[0].score')
         disgustraw=$(echo $response | jq -r '.document_tone.tone_categories[0].tones[1].score')
