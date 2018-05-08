@@ -11,7 +11,9 @@ function loadplugins() {
     plugins = JSON.parse(pluginsfile);
     return("Reloaded plugins. Current plugins:\n\n`" + Object.keys(plugins) + "`");
 }
-
+async function sleep(ms = 0) {
+  return new Promise(r => setTimeout(r, ms));
+}
 client.on("ready", () => {
     console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
     client.user.setGame(`type +help`);
@@ -140,11 +142,45 @@ client.on("message", async message => {
     const command = args.shift().toLowerCase();
 
     switch(command) {
+        case 'setmsgs': {
+            mentions = message.mentions.users.array();
+            target = mentions[0].id;
+            //var filterarg = arg.filter(function(e) { return e !== message.mentions.users.username})
+            arg.shift();
+            arg.shift();
+            var newmsg = arg[arg.length -1].toString();
+            if (message.member.roles.find('id', config.modrole)) {
+                if (isNaN(newmsg)) {
+                    message.channel.send("Provided message cound `" + newmsg + "` does not appear to be a number. Try again.");
+                } else {
+                    influx.dropSeries({
+                        measurement: m => m.name('message'),
+                        where: e => e.tag('id').equals.value(target),
+                        database: 'nixnest'
+                    });
+                    message.channel.send("Setting messages for user");
+                    await sleep(2000);
+                    influx.writePoints([
+                    {
+                        measurement: 'message',
+                        tags: { id: target },
+                        fields: { manual: newmsg },
+                    }
+                    ]);
+
+                
+                
+                }
+            } else {
+                message.channel.send(message.author.username + " is not in the sudoers file. This incident will be reported.");
+            }
+        break;
+        }
         case 'messages': {
             influx.query("SELECT SUM(manual) FROM message WHERE \"id\"=\'" + message.author.id + "\' fill(0)").then(manresults => {
             if (manresults[0] !== undefined) {
                 message.channel.send("You have already set your messages.");
-
+ 
             } else {
                 arg.shift();
                 arg.shift();
@@ -154,7 +190,7 @@ client.on("message", async message => {
                 //console.log(message.member.roles.array());
                 if (isNaN(newmsg)) {
                     message.channel.send("Provided message count `" + newmsg + "` does not appear to be a number. Try again.");
-                } else if (message.member.roles.find('id', '297744523910578176') && newmsg < config.msgs_500[1]) {
+                } else if (message.member.roles.find('id', '440703110013255720') && newmsg < 500 && newmsg > 0) {
                     influx.writePoints([
                     {
                         measurement: 'message',
@@ -163,7 +199,34 @@ client.on("message", async message => {
                     }
                     ]);
                     message.channel.send("Setting your message count in the database to " + newmsg + ". **You cannot do this again. If you screwed it up, Ping ZackW**");
-                } else if (message.member.roles.find('id', config.msgs_500[0]) && newmsg < config.msgs_1000[1]) {
+                } else if (message.member.roles.find('id', config.msgs_500[0]) && newmsg < config.msgs_1000[1] && newmsg > 0) {
+                    influx.writePoints([
+                    {
+                        measurement: 'message',
+                        tags: { id: message.author.id },
+                        fields: { manual: newmsg},
+                    }
+                    ]);
+                    message.channel.send("Setting your message count in the database to " + newmsg + ". **You cannot do this again. If you screwed it up, Ping ZackW**"); 
+                } else if (message.member.roles.find('id', config.msgs_1000[0]) && newmsg < config.msgs_2500[1] && newmsg > 0) {
+                    influx.writePoints([
+                    { 
+                        measurement: 'message',
+                        tags: { id: message.author.id },
+                        fields: { manual: newmsg}, 
+                    }
+                    ]);
+                    message.channel.send("Setting your message count in the database to " + newmsg + ". **You cannot do this again. If you screwed it up, Ping ZackW**"); 
+                } else if (message.member.roles.find('id', config.msgs_2500[0]) && newmsg < config.msgs_5000[1] && newmsg > 0) {
+                    influx.writePoints([
+                    { 
+                        measurement: 'message',
+                        tags: { id: message.author.id },
+                        fields: { manual: newmsg}, 
+                    }
+                    ]);
+                    message.channel.send("Setting your message count in the database to " + newmsg + ". **You cannot do this again. If you screwed it up, Ping ZackW**");
+                } else if (message.member.roles.find('id', config.msgs_5000[0]) && newmsg < config.msgs_10000[1] && newmsg > 0) {
                     influx.writePoints([
                     {
                         measurement: 'message',
@@ -172,7 +235,7 @@ client.on("message", async message => {
                     }
                     ]);
                     message.channel.send("Setting your message count in the database to " + newmsg + ". **You cannot do this again. If you screwed it up, Ping ZackW**");
-                } else if (message.member.roles.find('id', config.msgs_1000[0]) && newmsg < config.msgs_2500[1]) {
+                } else if (message.member.roles.find('id', config.msgs_10000[0]) && newmsg < config.msgs_25000[1] && newmsg > 0) {
                     influx.writePoints([
                     {
                         measurement: 'message',
@@ -181,34 +244,7 @@ client.on("message", async message => {
                     }
                     ]);
                     message.channel.send("Setting your message count in the database to " + newmsg + ". **You cannot do this again. If you screwed it up, Ping ZackW**");
-                } else if (message.member.roles.find('id', config.msgs_2500[0]) && newmsg < config.msgs_5000[1]) {
-                    influx.writePoints([
-                    {
-                        measurement: 'message',
-                        tags: { id: message.author.id },
-                        fields: { manual: newmsg},
-                    }
-                    ]);
-                    message.channel.send("Setting your message count in the database to " + newmsg + ". **You cannot do this again. If you screwed it up, Ping ZackW**");
-                } else if (message.member.roles.find('id', config.msgs_5000[0]) && newmsg < config.msgs_10000[1]) {
-                    influx.writePoints([
-                    {
-                        measurement: 'message',
-                        tags: { id: message.author.id },
-                        fields: { manual: newmsg},
-                    }
-                    ]);
-                    message.channel.send("Setting your message count in the database to " + newmsg + ". **You cannot do this again. If you screwed it up, Ping ZackW**");
-                } else if (message.member.roles.find('id', config.msgs_10000[0]) && newmsg < config.msgs_25000[1]) {
-                    influx.writePoints([
-                    {
-                        measurement: 'message',
-                        tags: { id: message.author.id },
-                        fields: { manual: newmsg},
-                    }
-                    ]);
-                    message.channel.send("Setting your message count in the database to " + newmsg + ". **You cannot do this again. If you screwed it up, Ping ZackW**");
-                } else if (message.member.roles.find('id', config.msgs_25000[0]) && newmsg < config.msgs_50000[1]) {
+                } else if (message.member.roles.find('id', config.msgs_25000[0]) && newmsg < config.msgs_50000[1] && newmsg > 0) {
                     influx.writePoints([
                     {
                         measurement: 'message',
