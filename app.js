@@ -83,7 +83,7 @@ client.on("message", async message => {
 
 
     //console.log(`message in channel: ${message.cleanContent}`)
-    console.log(message.guild.roles);
+    //console.log(message.guild.roles);
     if (message.guild.id.toString().includes(config.logserver)) {
         influx.writePoints([
              {
@@ -140,8 +140,12 @@ client.on("message", async message => {
 
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
-
     switch(command) {
+        case '🅱an' : {
+            message.channel.send("__**:b:USER WAS :b:ANNED FOR THIS :b:OST**__");
+            message.delete();
+            break;
+        }
         case 'setmsgs': {
             mentions = message.mentions.users.array();
             target = mentions[0].id;
