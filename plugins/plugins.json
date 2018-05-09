@@ -10,6 +10,8 @@
     "toilet":[
     "./plugins/toilet.sh", "1"],
     "insult":[
-    "./plugins/insulter.py", "1"]
+    "./plugins/insulter.py", "1"],
+    "fortune":[
+    "./plugins/fortune.sh":,"1"]
 }
 
