@@ -137,6 +137,19 @@ client.on("message", async message => {
         message.channel.send({
             files: ['https://cdn.discordapp.com/attachments/437302483044401152/446047008147374091/Roblox_Death_Sound_Effect.mp3']
          });
+        if (message.member.voiceChannelID) {
+            //console.log(message.member.voiceChannel);
+            message.member.voiceChannel.join()
+            .then(connection => {
+                const dispatcher = connection.playFile('./oof.mp3');
+                
+            })
+            await sleep(3000);
+            message.member.voiceChannel.leave();
+            //message.member.voiceChannel.leave();
+            
+
+    }
     }
     arg.unshift(message.channel);
     const { execFile } = require('child_process');

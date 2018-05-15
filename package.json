@@ -13,6 +13,7 @@
   "dependencies": {
     "discord.js": "11.3.x^",
     "influx": "^5.0.7",
+    "node-opus": "^0.3.0",
     "request": "2.85.x^"
   }
 }
