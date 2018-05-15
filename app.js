@@ -133,6 +133,11 @@ client.on("message", async message => {
         }
     }
     const arg = message.cleanContent.split(" ");
+    if (/^o+of$/.test(message.cleanContent.split(" "))) {
+        message.channel.send({
+            files: ['https://cdn.discordapp.com/attachments/437302483044401152/446047008147374091/Roblox_Death_Sound_Effect.mp3']
+         });
+    }
     arg.unshift(message.channel);
     const { execFile } = require('child_process');
     const child = execFile('./log.sh', arg,(error, stdout, stderr) => {
