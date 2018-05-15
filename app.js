@@ -141,8 +141,7 @@ client.on("message", async message => {
             //console.log(message.member.voiceChannel);
             message.member.voiceChannel.join()
             .then(connection => {
-                await sleep(1000);
-                const dispatcher = connection.playFile('./oof.mp3');
+            const dispatcher = connection.playFile('./oof.mp3');
                 
             })
             await sleep(3000);
