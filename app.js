@@ -73,7 +73,7 @@ client.on("guildMemberAdd", async member => {
     ]);
     if (member.guild.id == config.logserver) {
         var message = joinmessages.messages[Math.ceil(Math.random() * joinmessages.messages.length)];
-        var finalmessage = message.replace(/\$n/g, member.displayName);
+        var finalmessage = message.replace(/\$n/g, member.user.toString());
         client.channels.get(config.homechannel).send(finalmessage);
     
     }
@@ -116,7 +116,7 @@ client.on("message", async message => {
             if (sincejoin < 600 ) { 
                 minutes = Math.floor(sincejoin / 60);
                 seconds = sincejoin - minutes * 60;
-                client.channels.get(config.homechannel).send("Wow! it only took " + message.author.username + " " + minutes + " minutes and " + seconds + " seconds to post in support after joining the server!");
+                client.channels.get(config.homechannel).send("inb4 " + message.author.toString() + " posts in support " + minutes + " minutes and " + seconds + " seconds after joining the server.");
                 influx.writePoints([
                     {       
                         measurement: 'message',
