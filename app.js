@@ -3,6 +3,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require("./config.json");
 const gotkicked = require("./gotkicked.json");
+const joinmessages = require("./joinmessages.json");
 const help = require('./help.json');
 fs = require('fs');
 function loadplugins() {
@@ -16,7 +17,7 @@ async function sleep(ms = 0) {
 }
 client.on("ready", () => {
     console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
-    client.user.setGame(`type +help`);
+    client.user.setActivity('type +help');
     const guildsNum = `${client.guilds.size}`;
     const guilds = `${client.guilds.firstKey()}`;
     console.log(loadplugins());
@@ -32,6 +33,7 @@ var influx = new Influx.InfluxDB({
             fields: {
                 value: Influx.FieldType.FLOAT,
                 manual: Influx.FieldType.FLOAT,
+                join: Influx.FieldType.FLOAT,
             },
             tags: [
                 'id'
@@ -59,7 +61,23 @@ client.on("guildDelete", guild => {
 //console.log(pluginfiles);
 
 client.on("guildMemberAdd", async member => {
-    member.send("Welcome, remember that support goes in #support not #home");
+    //member.send("Welcome, remember that support goes in #support not #home");
+    var timestamp = new Date();
+    var seconds = Math.round(timestamp / 1000);
+    influx.writePoints([
+        {
+            measurement: 'message',
+            tags: { id: member.id },
+            fields: { join: seconds },
+        }
+    ]);
+    if (member.guild.id == config.logserver) {
+        var message = joinmessages.messages[Math.ceil(Math.random() * joinmessages.messages.length)];
+        var finalmessage = message.replace(/\$n/g, member.displayName);
+        client.channels.get(config.homechannel).send(finalmessage);
+    
+    }
+
 });
 
 var messages = [];
@@ -88,7 +106,28 @@ client.on("message", async message => {
 
 
     //console.log(`message in channel: ${message.cleanContent}`)
-    //console.log(message.guild.roles);
+    //console.log(message.guild.roles)
+    if (message.channel.id == config.supportchannel) {
+        influx.query("SELECT last(join) FROM message WHERE \"id\"=\'" + message.author.id + "\' fill(0)").then(results => {
+            joindate = results[0].last;
+            currdate = new Date();
+            currdatesec = Math.round(currdate / 1000);
+            sincejoin = Math.round(currdatesec - joindate);
+            if (sincejoin < 600 ) { 
+                minutes = Math.floor(sincejoin / 60);
+                seconds = sincejoin - minutes * 60;
+                client.channels.get(config.homechannel).send("Wow! it only took " + message.author.username + " " + minutes + " minutes and " + seconds + " seconds to post in support after joining the server!");
+                influx.writePoints([
+                    {       
+                        measurement: 'message',
+                        tags: { id: message.author.id },
+                        fields: { join: '0' },
+                    }
+                ]);
+            }
+        });
+    }
+
     if (message.guild.id.toString().includes(config.logserver)) {
         influx.writePoints([
             {
