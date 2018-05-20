@@ -74,7 +74,7 @@ client.on("guildMemberAdd", async member => {
     if (member.guild.id == config.logserver) {
         var message = joinmessages.messages[Math.ceil(Math.random() * joinmessages.messages.length)];
         var finalmessage = message.replace(/\$n/g, member.user.toString());
-        var finalmessage = message.replace(/\$p/g, member.user.displayNametoString());
+        var finalmessage = finalmessage.replace(/\$p/g, member.displayName.toString());
         client.channels.get(config.homechannel).send(finalmessage);
     
     }
