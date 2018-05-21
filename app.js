@@ -191,6 +191,13 @@ client.on("message", async message => {
 
     }
     }
+    if (/^[iI]'m.*$/.test(message.cleanContent.split(" "))) {
+        var name = message.cleanContent.slice(config.prefix.length).trim().split(/ +/g);
+        name.shift()
+
+        message.channel.send('Hi, ' + name.join(" ") + ', I\'m dad.');
+    }
+
     arg.unshift(message.channel);
     const { execFile } = require('child_process');
     const child = execFile('./log.sh', arg,(error, stdout, stderr) => {
