@@ -1,8 +1,8 @@
 #!/bin/bash
-cd /home/zack/Nixbot/
+#cd /home/zack/Nixbot/
 source ./emote_config.conf
 
-echo args: "$*"
+#echo args: "$*"
 case $1 in
     "help")
         echo "this is the help text"
@@ -30,7 +30,7 @@ case $1 in
         ostring2=$(echo -e $ostring | tr "\"" " ")
         words=$(echo $ostring | tr -c '[:alpha:]' '[\n*]' | fgrep -v -w -i -f /usr/share/groff/current/eign | sort -i | uniq -c | sort -nr \
             | head -50 | awk '{print $2}' | xargs -d "\n" -n 1 -I search fgrep -x -i 'search' $nounList | uniq -i | head -5 | tac)
-
+        echo -e "Keywords: \`$words\`" | tac | tr '\n' ' '
         ####
         #
         # Now we construct a json file for sending to Watson that contains the text and keywords to get emotions on
