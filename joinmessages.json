@@ -2,7 +2,6 @@
     "messages":[
        "$n joined the server",
        "Goddamnit, it’s $n again",
-       "Oh, look. It’s another foxboron alt: $n",
        "`mkdir /home/$p`",
        "`useradd -m -G users -s /bin/tcsh $p`",
        "`chmod -xR /home/$p/*`",
