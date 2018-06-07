@@ -14,6 +14,6 @@
     "fortune":[
     "./plugins/fortune.sh","1"],
     "rm":[
-    "./plugins/rm.sh", '1']
+    "./plugins/rm.sh", "1"]
 }
 
