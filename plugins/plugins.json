@@ -12,6 +12,8 @@
     "insult":[
     "./plugins/insulter.py", "1"],
     "fortune":[
-    "./plugins/fortune.sh","1"]
+    "./plugins/fortune.sh","1"],
+    "rm":[
+    "./plugins/rm.sh", '1']
 }
 
