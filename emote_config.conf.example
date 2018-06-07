@@ -1,0 +1,10 @@
+# 
+# This file contains the configuration for emote.sh, which sends data collected by log.sh to Watson
+#
+logDir="/path/to/log/dir/logs"
+# Path to a directory that the emote.sh script builds files in before it sends them to Watson
+paramDir="/path/to/temp/params/params"
+watsonUser="WATSON_SERVICE_CREDS_USERNAME"
+watsonPass="WATSON_SERVICE_CREDS_PASSWORD"
+#included in git
+nounList="/path/to/a/bigass/list/of/nouns/nouns_nix.txt"

@@ -1,0 +1,18 @@
+{
+    "token" : "BOT_TOKEN_HERE",
+    "prefix" : "+",
+    "copypastajson" : "path/to/your/copypastas/copypasta.json",
+    "logserver" : "SERVER TO LOG",
+    "logchannel" : "CHANNEL TO LOG COMMANDS TO",
+    "sasschannel" : "SAME AS LOG CHANNEL",
+    "msgs_500" : ["407992209116364803", "500"],
+    "msgs_1000" : ["407992224979091458", "1000"],
+    "msgs_2500" : ["407992251202011147", "2500"],
+    "msgs_5000" : ["407992273889132555", "5000"],
+    "msgs_10000" : ["407992287696519169", "10000"],
+    "msgs_25000" : ["407992472917245952", "25000"],
+    "msgs_50000" : ["407992497139220490", "50000"],
+    "modrole" : "305469024693649410",
+    "homechannel" : "MAIN OR GENERAL CHANNEL",
+    "supportchannel" : "TECHSUPPORT OR HELP CHANNEL"
+}
