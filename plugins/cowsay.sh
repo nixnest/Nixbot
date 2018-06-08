@@ -1,4 +1,5 @@
 #!/bin/bash
+shift
 case $1 in
     "help")
         echo 'Accepts -f and -l, in the same manner that `cowsay` usually does'

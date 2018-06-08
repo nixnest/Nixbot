@@ -28,8 +28,15 @@ case $1 in
         esac
         ostring=$(cat $logDir/$channel)
         ostring2=$(echo -e $ostring | tr "\"" " ")
+        #echo $(echo $ostring | tr -c '[:alpha:]' '[\n*]' | fgrep -v -w -i -f /usr/share/groff/current/eign | sort -i | uniq -c | sort -nr | head -50)
         words=$(echo $ostring | tr -c '[:alpha:]' '[\n*]' | fgrep -v -w -i -f /usr/share/groff/current/eign | sort -i | uniq -c | sort -nr \
             | head -50 | awk '{print $2}' | xargs -d "\n" -n 1 -I search fgrep -x -i 'search' $nounList | uniq -i | head -5 | tac)
+        if [ "$keywords" = "" ]
+        then
+            echo "Not able to get enough unique topic words out of the recent discussion. You people are boring."
+            exit 0
+        fi
+
         echo -e "Keywords: \`$words\`" | tac | tr '\n' ' '
         ####
         #

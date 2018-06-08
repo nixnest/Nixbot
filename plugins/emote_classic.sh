@@ -1,4 +1,5 @@
 #!/bin/bash
+shift
 case $1 in
     "help")
         echo "Pass this command a string, and it will do it's best to determine how the author of that string is feeling"

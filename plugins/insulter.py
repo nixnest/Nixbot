@@ -44,6 +44,7 @@ def generate_insult(target):
 
 
 def main():
+    sys.argv.pop(0)
     if len(sys.argv) == 2 and sys.argv[1] == "help":
         help()
     elif len(sys.argv) == 2:

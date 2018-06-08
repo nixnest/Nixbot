@@ -1,4 +1,5 @@
 #!/bin/bash
+shift
 current=$(curl -s https://xkcd.com/info.0.json)
 max=$(echo $current | jq -r '.num')
 rand=$(shuf -i 1-$max -n 1)

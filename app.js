@@ -463,6 +463,7 @@ client.on("message", async message => {
             if (plugins.hasOwnProperty(command)) {
                 arg.shift();
                 arg.shift();
+                arg.unshift(message.author.id);
                 //console.log(command + ' is in plugins');
                 const { execFile } = require('child_process');
                 const child = execFile(plugins[command][0], arg,(error, stdout, stderr) => {
