@@ -14,6 +14,8 @@
     "fortune":[
     "./plugins/fortune.sh","1"],
     "mymessages":[
-    "./plugins/mymessages.sh", "0"]
+    "./plugins/mymessages.sh", "0"],
+    "rem":[
+    "./plugins/remember.sh", "1"]
 }
 
