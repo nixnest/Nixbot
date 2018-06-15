@@ -212,7 +212,7 @@ client.on("message", async message => {
     const command = args.shift().toLowerCase();
     switch(command) {
         case '🅱an' : {
-            message.channel.send("__**:b:USER WAS :b:ANNED FOR THIS :b:OST**__");
+            message.channel.send("__**:b:SER :b:AS :b:ANNED :b:OR :b:HIS :b:OST :laughing: :100:**__");
             message.delete();
             break;
         }
