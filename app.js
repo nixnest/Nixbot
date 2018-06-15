@@ -53,7 +53,7 @@ client.on("guildCreate", guild => {
 client.on("guildDelete", guild => {
     console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
     //complain to just the devs
-    client.channels.get(config.sasschannel).send(gotkicked.message[Math.ceil(Math.random() * gotkicked.messages.length)]);
+    client.channels.get(config.sasschannel).send(gotkicked.message[Math.ceil(Math.random() * gotkicked.messages.length)], {"split":true});
 
 });
 //var pluginfs = require('fs');
@@ -75,7 +75,7 @@ client.on("guildMemberAdd", async member => {
         var message = joinmessages.messages[Math.ceil(Math.random() * joinmessages.messages.length)];
         var finalmessage = message.replace(/\$n/g, member.user.toString());
         var finalmessage = finalmessage.replace(/\$p/g, member.displayName.toString());
-        client.channels.get(config.homechannel).send(finalmessage);
+        client.channels.get(config.homechannel).send(finalmessage, {"split":true});
     
     }
 
@@ -334,7 +334,7 @@ client.on("message", async message => {
         }
 
         case 'reload': {
-            message.channel.send(loadplugins());
+            message.channel.send(loadplugins(), {"split":true});
             break;
         }
         case 'tldr': {
@@ -372,7 +372,7 @@ client.on("message", async message => {
             break;
         }
         case 'help': {
-            message.channel.send(help.message + "`" + Object.keys(plugins) + "`");
+            message.channel.send(help.message + "`" + Object.keys(plugins) + "`", {"split":true});
             //message.channel.send("**Help**\n\n**+tldr <channel>: {** Returns emotions based on certain keywords in the last 100 messages in the channel (or the channel you specify. Optional)\n**+lmgtfy <query>: {** Returns a link to lmgtfy for being passive aggressive.\n**+echo <words>: {** duh.\n**+ping: {** Returns diagnostic latency data, makes sure the bot's running.\n**+wiki <query>: {** Searches the ArchWiki.\n**+ban: {** Returns a nice message\n\n**Plugins: {**\n\n`" + Object.keys(plugins) + "`");
             break;
         }
@@ -431,9 +431,9 @@ client.on("message", async message => {
             var pasta = arg.toString();
             // console.log(pasta);
             if(copypasta.hasOwnProperty(pasta)){
-                message.channel.send(copypasta[pasta]);
+                message.channel.send(copypasta[pasta], {"split":true});
             } else {
-                message.channel.send('`' + pasta + "`: { Not found\nCurrent available copypasta are: {\n`" + Object.keys(copypasta).join(', ') + '`');
+                message.channel.send('`' + pasta + "`: { Not found\nCurrent available copypasta are: {\n`" + Object.keys(copypasta).join(', ') + '`', {"split":true});
             }
             break;
         }
@@ -451,7 +451,7 @@ client.on("message", async message => {
                     if (body.url) {
                         message.channel.send(body.url);
                     } else {
-                        message.channel.send("`" + neko + "`: { Not found. Options are: {\n```'cum', 'les', 'meow', 'tickle', 'lewd', 'feed', 'bj', 'nsfw_neko_gif', 'nsfw_avatar', 'poke', 'anal', 'slap', 'avatar', 'pussy', 'lizard', 'classic', 'kuni', 'pat', 'kiss', 'neko', 'cuddle', 'fox_girl', 'boobs', 'Random_hentai_gif', 'hug'```");
+                        message.channel.send("`" + neko + "`: { Not found. Options are: {\n```'cum', 'les', 'meow', 'tickle', 'lewd', 'feed', 'bj', 'nsfw_neko_gif', 'nsfw_avatar', 'poke', 'anal', 'slap', 'avatar', 'pussy', 'lizard', 'classic', 'kuni', 'pat', 'kiss', 'neko', 'cuddle', 'fox_girl', 'boobs', 'Random_hentai_gif', 'hug'```")
                     }
                 });
             } else {
@@ -470,7 +470,7 @@ client.on("message", async message => {
                     if (error) {
                         throw error;
                     }
-                    message.channel.send(stdout);
+                    message.channel.send(stdout, {"split":true});
                 });
                 if (plugins[command][1] === "1") {
                     message.delete();
@@ -484,7 +484,7 @@ client.on("message", async message => {
     };
     // message.delete();
     if (message.guild.id.toString().includes(config.logserver)) {
-        client.channels.get(config.logchannel).send( message.author.username + '(' + message.author.id + ') ran command `' + message.cleanContent + '` in ' + message.channel);
+        client.channels.get(config.logchannel).send( message.author.username + '(' + message.author.id + ') ran command `' + message.cleanContent + '` in ' + message.channel, {"split":true});
     }
 });
 
