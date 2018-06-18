@@ -21,7 +21,7 @@ for opt in options:
         query = opt
 
 if (query == ""): 
-    reply = "That's not an option you baka! (`⌒´メ)\nValid options are `" + optionslist(options) + "`"
+    reply = "That's not an option you baka! (\`⌒´メ)\nValid options are `" + optionslist(options) + "`"
 else:
     endpoint = url + query
     fetch = http.request('GET', endpoint)

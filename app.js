@@ -400,6 +400,7 @@ client.on("message", async message => {
         default: {
             if (plugins.hasOwnProperty(command)) {
                 if (plugins[command].nsfw && !message.channel.nsfw) {
+                    message.channel.send('Tisk tisk, '.join( message.author.username, ". Don't be naughty here."))
                     break;
                 }
                 arg.shift();
