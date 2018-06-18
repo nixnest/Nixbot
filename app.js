@@ -383,24 +383,6 @@ client.on("message", async message => {
             m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
             break;
         }
-        case 'lmgtfy': {
-            arg.shift();
-            arg.shift();
-            arg.join();
-            var query = arg.toString().replace(/,/g, '+');
-            message.channel.send("https://lmgtfy.com/?q=" + query);
-            message.delete();
-            break;
-        }
-        case 'searx': {
-            arg.shift();
-            arg.shift();
-            arg.join();
-            var query = arg.toString().replace(/,/g, '%20');
-            message.channel.send("https://searx.tadeo.ca/?q=" + query + "&categories=general");
-            message.delete();
-            break;
-        }
         case 'echo': {
             arg.shift();
             arg.shift();
@@ -410,69 +392,28 @@ client.on("message", async message => {
             message.delete()
             break;
         }
-        case 'wiki': {
-            arg.shift();
-            arg.shift();
-            arg.join();
-            var wiki = arg.toString().replace(/,/g, '+');
-            message.channel.send("https://wiki.archlinux.org/index.php?search=" + wiki);
-            message.delete();
-            break;
-        }
         case 'ban': {
             message.channel.send("__**USER WAS BANNED FOR THIS POST**__");
             message.delete();
             break;
         }
-        case 'c': {
-            arg.shift();
-            arg.shift();
-            arg.join(' ');
-            var pasta = arg.toString();
-            // console.log(pasta);
-            if(copypasta.hasOwnProperty(pasta)){
-                message.channel.send(copypasta[pasta], {"split":true});
-            } else {
-                message.channel.send('`' + pasta + "`: { Not found\nCurrent available copypasta are: {\n`" + Object.keys(copypasta).join(', ') + '`', {"split":true});
-            }
-            break;
-        }
-        case 'neko': {
-            if(message.channel.nsfw) {
-                arg.shift();
-                arg.shift();
-                arg.join();
-                var neko = arg.toString();
-                const request = require('request');
-                request('https://nekos.life/api/v2/img/' + neko, { json: true }, (err, res, body) => {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    if (body.url) {
-                        message.channel.send(body.url);
-                    } else {
-                        message.channel.send("`" + neko + "`: { Not found. Options are: {\n```'cum', 'les', 'meow', 'tickle', 'lewd', 'feed', 'bj', 'nsfw_neko_gif', 'nsfw_avatar', 'poke', 'anal', 'slap', 'avatar', 'pussy', 'lizard', 'classic', 'kuni', 'pat', 'kiss', 'neko', 'cuddle', 'fox_girl', 'boobs', 'Random_hentai_gif', 'hug'```")
-                    }
-                });
-            } else {
-                message.channel.send("This channel must be marked NSFW");
-            }
-            break;
-        }
         default: {
             if (plugins.hasOwnProperty(command)) {
+                if (plugins[command].nsfw && !message.channel.nsfw) {
+                    break;
+                }
                 arg.shift();
                 arg.shift();
                 arg.unshift(message.author.id);
                 //console.log(command + ' is in plugins');
                 const { execFile } = require('child_process');
-                const child = execFile(plugins[command][0], arg,(error, stdout, stderr) => {
+                const child = execFile(plugins[command].path, arg,(error, stdout, stderr) => {
                     if (error) {
                         throw error;
                     }
                     message.channel.send(stdout, {"split":true});
                 });
-                if (plugins[command][1] === "1") {
+                if (plugins[command].delete) {
                     message.delete();
                 }
             } else {

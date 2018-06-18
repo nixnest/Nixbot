@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 import os
 import sys
 import json
@@ -15,10 +15,10 @@ config = "Returns an insult"\
 
 
 def help():
-    print config
+    print(config)
 
 def print_help():
-    print "Usage: %s person" % config["triggers"][0]
+    help()
     sys.exit(0)
 
 
@@ -48,7 +48,7 @@ def main():
     if len(sys.argv) == 2 and sys.argv[1] == "help":
         help()
     elif len(sys.argv) == 2:
-        print generate_insult(sys.argv[1])
+        print(generate_insult(sys.argv[1]))
     else:
         print_help()
 
