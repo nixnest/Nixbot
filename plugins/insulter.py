@@ -18,7 +18,6 @@ def help():
     print(config)
 
 def print_help():
-    #print("Usage: " + config["triggers"][0] + " person")
     help()
     sys.exit(0)
 

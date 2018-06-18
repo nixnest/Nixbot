@@ -11,11 +11,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "brainfuck": "^1.0.2",
-    "discord.js": "11.3.x^",
+    "discord.js": "^11.3.x",
     "influx": "^5.0.7",
     "node-opus": "^0.3.0",
-    "request": "2.85.x^",
+    "request": "^2.85.x",
     "sqlite3": "^4.0.0"
   }
 }
