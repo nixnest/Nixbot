@@ -10,7 +10,7 @@ def commandlist():
         cmds = "`"+commands.strip().replace(" ", ", ")+"`"
     return cmds
 
-with open('copypasta.json') as fp:
+with open('./plugins/copypasta/copypasta.json') as fp:
     try:
         obj = json.load(fp)
     except ValueError:
