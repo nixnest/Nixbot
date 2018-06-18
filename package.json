@@ -1,6 +1,6 @@
 {
   "name": "Nixbot",
-  "version": "478",
+  "version": "4.7.8",
   "description": "Its a bot... send help",
   "readme": "README.md",
   "maintainers": [],
@@ -11,9 +11,11 @@
   },
   "license": "MIT",
   "dependencies": {
+    "brainfuck": "^1.0.2",
     "discord.js": "11.3.x^",
     "influx": "^5.0.7",
     "node-opus": "^0.3.0",
-    "request": "2.85.x^"
+    "request": "2.85.x^",
+    "sqlite3": "^4.0.0"
   }
 }
