@@ -5,7 +5,7 @@ import json
 import urllib3
 
 url = "https://nekos.life/api/v2/img/"
-options = [ "cum", "les", "meow", "tickle", "lewd", "feed", "bj", "nsfw_neko_gif", "poke", "anal", "slap", "avatar", "pussy", "lizard", "classic", "kuni", "pat", "kiss", "neko", "cuddle", "fox_girl", "boobs", "Random_hentai_gif", "hug"]
+options = [ "cum", "les", "meow", "tickle", "lewd", "feed", "bj", "nsfw_neko_gif", "poke", "anal", "slap", "avatar", "pussy", "lizard", "classic", "kuni", "pat", "kiss", "neko", "cuddle", "fox_girl", "boobs", "random_hentai_gif", "hug"]
 http = urllib3.PoolManager()
 
 def optionslist(opts):
