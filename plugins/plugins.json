@@ -54,7 +54,7 @@
         "nsfw": false
     },
     "c":{
-        "path": "./plugins/copypasta/main.py",
+        "path": "./plugins/copypasta/copypasta.py",
         "description": "Print one of many copypastas",
         "delete": false,
         "nsfw": false
