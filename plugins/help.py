@@ -4,8 +4,8 @@ import sys
 import json
 
 path = "./plugins/"
-pluginfile = "plugins.json"
-builtinfile = "builtins.json"
+pluginfile = path + "plugins.json"
+builtinfile = path + "builtins.json"
 args = sys.argv
 
 msgtitle = "**Help**\n"
