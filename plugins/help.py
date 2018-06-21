@@ -20,19 +20,19 @@ def loadJSON(jf):
 plugins = loadJSON(pluginfile)
 builtins = loadJSON(builtinfile)
 
-#Makes a list of all avaliable commands (from json file)
+# Makes a list of all avaliable commands (from json file)
 def cmdList(cmds):
     cmdList = ""
     for cmd in cmds:
         cmdList += "**+" + cmd + ":** " + cmds[cmd]['description'] + "\n"
     return cmdList
 
-#Finds command info (from json file)
+# Finds command info (from json file)
 def cmdLookup(cmds):
     lookup = ""
     for cmd in cmds:
         if (arg == cmd):
-            if (plugins[cmd]['arguments'] == None):
+            if (plugins[cmd]['arguments'] is None):
                 cmdargs = "This command takes no arguments"
             else:
                 cmdargs = ""
