@@ -16,9 +16,10 @@ def optionslist(opts):
     return m   
 
 query = ""
-for opt in options:
-    if (sys.argv[2].lower() == opt):
-        query = opt
+if (len(sys.argv) >= 3):
+    for opt in options:
+        if (sys.argv[2].lower() == opt):
+            query = opt
 
 if (query == ""): 
     reply = "That's not an option you baka! (\`⌒´メ)\nValid options are `" + optionslist(options) + "`"

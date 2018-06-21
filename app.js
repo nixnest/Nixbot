@@ -211,11 +211,6 @@ client.on("message", async message => {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     switch(command) {
-        case '🅱an' : {
-            message.channel.send("__**:b:SER :b:AS :b:ANNED :b:OR :b:HIS :b:OST :laughing: :100:**__");
-            message.delete();
-            break;
-        }
         case 'setmsgs': {
             mentions = message.mentions.users.array();
             target = mentions[0].id;
@@ -371,11 +366,7 @@ client.on("message", async message => {
             }
             break;
         }
-        case 'help': {
-            message.channel.send(help.message + "`" + Object.keys(plugins) + "`", {"split":true});
-            //message.channel.send("**Help**\n\n**+tldr <channel>: {** Returns emotions based on certain keywords in the last 100 messages in the channel (or the channel you specify. Optional)\n**+lmgtfy <query>: {** Returns a link to lmgtfy for being passive aggressive.\n**+echo <words>: {** duh.\n**+ping: {** Returns diagnostic latency data, makes sure the bot's running.\n**+wiki <query>: {** Searches the ArchWiki.\n**+ban: {** Returns a nice message\n\n**Plugins: {**\n\n`" + Object.keys(plugins) + "`");
-            break;
-        }
+
         case 'ping': {
             // Calculates ping between sending a message and editing it, giving a nice round-trip latency.
             // The second ping is an average latency between the bot and the websocket server (one-way, not round-trip)
@@ -390,11 +381,6 @@ client.on("message", async message => {
             var echo = arg.toString().replace(/,/g, ' ');
             message.channel.send(echo);
             message.delete()
-            break;
-        }
-        case 'ban': {
-            message.channel.send("__**USER WAS BANNED FOR THIS POST**__");
-            message.delete();
             break;
         }
         default: {

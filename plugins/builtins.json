@@ -1,0 +1,54 @@
+{
+    "setmsgs" : {
+        "description" : "Set user's message count (mod only)",
+        "arguments" : {
+            "user" : {
+                "msg" : "@mention of user",
+                "required" : true
+            },
+            "amount" : {
+                "msg" : "amount to set counter to",
+                "required" : true
+            }
+        },
+        "delete" : false,
+        "nsfw" : false
+    },
+    "messages" : {
+        "description" : "Set your message count (single use)",
+        "arguments" : {
+            "amount" : {
+                "msg" : "amount to set counter to",
+                "required" : true
+            }
+        },
+        "delete" : false,
+        "nsfw" : false
+    },
+    "tldr" : {
+        "description" : "Get info about channel from Watson",
+        "arguments" : {
+            "channel" : {
+                "msg" : "Channel to get info about (leave out to get current channel)",
+                "required" : false
+            }
+        },
+        "delete" : false,
+        "nsfw" : false
+    },
+    "ping" : {
+        "description" : "Calculate bot's latency",
+        "arguments" : null,
+        "delete" : false,
+        "nsfw" : false
+    },
+    "echo" : {
+        "description" : "Repeats what you send",
+        "arguments" : {
+            "string" : {
+                "msg" : "Text to repeat",
+                "required" : true
+            }
+        }
+    }
+}
