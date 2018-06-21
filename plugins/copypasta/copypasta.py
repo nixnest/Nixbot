@@ -3,21 +3,23 @@
 import json
 import sys
 
-def commandlist():
+pastafile = "./plugins/copypasta/copypasta.json"
+
+def commandlist(obj):
     commands = ""
     for key in obj:
         commands += str(key) + " "
         cmds = "`"+commands.strip().replace(" ", ", ")+"`"
     return cmds
 
-with open('./plugins/copypasta/copypasta.json') as fp:
+with open(pastafile) as pf:
     try:
-        obj = json.load(fp)
+        obj = json.load(pf)
     except ValueError:
-        print('error loading JSON')
+        print('Error loading JSON from file')
 
 if (len(sys.argv) < 3):
-    cmds = commandlist() 
+    cmds = commandlist(obj) 
     reply = "Missing argument. Current available copypasta are: " + cmds
 else:
     pasta = ""
@@ -25,7 +27,7 @@ else:
         if (sys.argv[2] == key):
             pasta = obj[key]
     if (pasta == ""):
-        cmds = commandlist()
+        cmds = commandlist(obj)
         reply = "Invalid argument. Current available copypasta are: " + cmds
     else:
         reply = pasta

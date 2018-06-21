@@ -1,87 +1,186 @@
 {
     "test":{
         "path": "./plugins/test.sh",
-        "description": "Test plugin; plz ignore",
+        "description": "Test plugin: Returns arguments sent",
+        "arguments" : {
+            "echo" : {
+                "msg" : "Text to echo back",
+                "required" : false
+            }
+        },
         "delete": true,
         "nsfw": false
     },
     "xkcd":{
         "path": "./plugins/xkcd.sh",
-        "description": "Get xkcd by ID, if the ID is missing or invalid then get newest",
+        "description": "XKCD Comic fetcher",
+        "arguments" : {
+            "comic-id" : {
+                "msg" : "ID of comic, leave blank for newest",
+                "required" : false
+            }
+        },
         "delete": false,
         "nsfw": false
     },
     "emote":{
         "path": "./plugins/emote_classic.sh",
-        "description": "",
+        "description": "Get a string analysed by IBM Watson",
+        "arguments" : {
+            "string" : {
+                "msg" : "Text to be analysed",
+                "required" : true
+            }
+        },
         "delete": true,
         "nsfw": false
     },
     "cowsay":{
         "path": "./plugins/cowsay.sh",
         "description": "See what the cow has to say",
+        "arguments" : {
+            "string" : {
+                "msg" : "arguments to pass to cowsay",
+                "required" : true
+            }
+        },
         "delete": true,
         "nsfw": false
     },
     "toilet":{
         "path" : "./plugins/toilet.sh",
-        "description": "",
+        "description": "*~Fancify Text~*",
+        "arguments" : {
+            "string" : {
+                "msg" : "arguments to pass to toilet",
+                "required" : true
+            }
+        },
         "delete": true,
         "nsfw": false
     },
     "insult":{
         "path": "./plugins/insulter.py",
         "description": "What the fuck do you think this does, you moron",
+        "arguments" : {
+            "name" : {
+                "msg" : "Person to insult",
+                "required" : true
+            }
+        },
         "delete": true,
         "nsfw": false
     },
     "fortune":{
         "path": "./plugins/fortune.sh",
         "description": "See what your fortune is",
+        "arguments" : null,
         "delete": true,
         "nsfw": false
     },
     "mymessages":{
         "path": "./plugins/mymessages.sh",
         "description": "Get your current message count",
+        "arguments" : null,
         "delete": false,
         "nsfw": false
     },
     "rem":{
         "path": "./plugins/remember.sh",
         "description" : "Nixbot will remember that",
+        "arguments" : {
+            "name" : {
+                "msg" : "Name of person remembering, generally yours.",
+                "required" : true
+            }
+        },
         "delete": true,
         "nsfw": false
     },
     "c":{
         "path": "./plugins/copypasta/copypasta.py",
         "description": "Print one of many copypastas",
+        "arguments" : {
+            "pasta" : {
+                "msg" : "Which pasta to print out",
+                "required" : false
+            }
+        },
         "delete": false,
         "nsfw": false
     },
     "lmgtfy":{
         "path": "./plugins/lmgtfy.py",
         "description": "Get Nixbot to google that for you",
+        "arguments" : {
+            "search" : {
+                "msg" : "String to search for",
+                "required" : true
+            }
+        },
         "delete": true,
         "nsfw": false
     },
     "searx":{
         "path": "./plugins/searx.py",
         "description": "Get Nixbot to search searx for you",
+        "arguments" : {
+            "search" : {
+                "msg" : "String to search for",
+                "required" : true
+            }
+        },
         "delete": true,
         "nsfw": false
     },
     "wiki":{
         "path": "./plugins/wiki.py",
         "description": "Get Nixbot to search the arch wiki for you",
+        "arguments" : {
+            "search" : {
+                "msg" : "String to search for",
+                "required" : true
+            }
+        },
         "delete": true,
         "nsfw": false
     },
-    "neko":{
+    "neko": {
         "path": "./plugins/neko.py",
         "description": "I had to shower after making this, and I still feel dirty",
+        "arguments" : {
+            "search" : {
+                "msg" : "String to search for",
+                "required" : false
+            }
+        },
         "delete": false,
         "nsfw": true
+    },
+    "help": {
+        "path" : "./plugins/help.py",
+        "description": "Shows the help documentation",
+        "arguments" : {
+            "cmd" : {
+                "msg" : "command to look up",
+                "required" : false
+            }
+        },
+        "delete" : false,
+        "nsfw" : false
+    },
+    "🅱an" : {
+        "path" : "./plugins/🅱an.py",
+        "description" : "🅱an 🅱omeone :100:",
+        "arguments" : null,
+        "delete" : true,
+        "nsfw" : false
+    },
+    "ban" : {
+        "path" : "./plugins/ban.py",
+        "description" : "Ban someone",
+        "arguments" : null,
+        "delete" : true,
+        "nsfw" : false
     }
 }
-
