@@ -410,7 +410,7 @@ client.on("message", async message => {
 });
 
 client.on("messageDelete", (message) => {
-    output = "Message: '".join( message.cleanContent, "' by ", message.author.username, " (", message.author.id, ") was deleted")
+    output = "Message: '".concat( message.cleanContent, "' by ", message.author.username, " (", message.author.id, ") was deleted")
     console.log(output)
     client.channels.get(config.logchannel).send(output)
 });
