@@ -18,27 +18,29 @@ else:
     reply = "Couldn't find one, you picky (or pervy) fuck."
     subreddit = sys.argv[2]
     resolution = sys.argv[3].split('x')
-    c_width, c_height = (
-        int(pix) for pix in resolution
-    )
+    if (len(resolution) = 2):
+        c_width, c_height = (
+            int(pix) for pix in resolution
+        )
 
-    posts = requests.get(
-        'https://www.reddit.com/r/' + subreddit + '/top.json?sort=top&t=day',
-        headers=headers
-    ).json()
+        posts = requests.get(
+            'https://www.reddit.com/r/' + subreddit + '/top.json?sort=top&t=day',
+            headers=headers
+        ).json()
 
-    for post in posts['data']['children']:
-        url, width, height = post['data']['preview']['images'][0]['source'].values()
-        width, height = int(width), int(height)
-        if all((
-            width >= c_width,
-            height >= c_height,
-            width > height,
-            not post['data']['over_18']
-        )):
-            reply = 'Found "'+post['data']['title']+'" at resolution '+str(width)+'x'+str(height)+': ' + url
-            break
-
+        for post in posts['data']['children']:
+            url, width, height = post['data']['preview']['images'][0]['source'].values()
+            width, height = int(width), int(height)
+            if all((
+                width >= c_width,
+                height >= c_height,
+                width > height,
+                not post['data']['over_18']
+            )):
+                reply = 'Found "'+post['data']['title']+'" at resolution '+str(width)+'x'+str(height)+': ' + url
+                break
+    else:
+        reply = "Invalid resolution"
 print(reply)
 
 
