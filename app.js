@@ -409,7 +409,7 @@ client.on("message", async message => {
     }
 });
 
-client.on("messageDelete", message => {
+client.on("messageDelete", (message) => {
     client.channels.get(config.logchannel).send("Message: '".join( message.cleanContent, "' by ", message.author.username, " (", message.author.id, ") was deleted"))
 });
 
