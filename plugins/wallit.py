@@ -15,10 +15,10 @@ headers = {
 if (len(sys.argv) < 4):
     reply = "Required arguments: [Subreddit] [HeightxWidth]"
 else:
-    reply = "Couldn't find one, you picky (or pervy) fuck."
+    reply = "Error: Couldn't find one, you picky (or pervy) fuck."
     subreddit = sys.argv[2]
     resolution = sys.argv[3].split('x')
-    if (len(resolution) = 2):
+    if (len(resolution) == 2):
         c_width, c_height = (
             int(pix) for pix in resolution
         )
@@ -40,7 +40,7 @@ else:
                 reply = 'Found "'+post['data']['title']+'" at resolution '+str(width)+'x'+str(height)+': ' + url
                 break
     else:
-        reply = "Invalid resolution"
+        reply = "Error: Invalid resolution"
 print(reply)
 
 
