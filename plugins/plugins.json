@@ -182,5 +182,21 @@
         "arguments" : null,
         "delete" : true,
         "nsfw" : false
+    },
+    "wallit" : {
+        "path" : "./plugins/wallit.py",
+        "description" : "Get picture from reddit to use as a wallpaper",
+        "arguments" : {
+            "subreddit" : {
+                "msg" : "Subreddit to scrape",
+                "required" : true
+            },
+            "resolution" : {
+                "msg" : "Resolution, in ####x#### format",
+                "required" : true
+            }
+        },
+        "delete" : false,
+        "nsfw" : false
     }
 }
