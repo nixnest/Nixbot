@@ -35,17 +35,21 @@ else:
         if ("error" in posts):
             reply = "Error: Couldn't get posts, are you sure that's a valid subreddit?"
         else:
-            for post in posts['data']['children']:
-                url, width, height = post['data']['preview']['images'][0]['source'].values()
-                width, height = int(width), int(height)
-                if all((
-                    width >= config['width'],
-                    height >= config['height'],
-                    width > height,
-                    not post['data']['over_18']
-                )):
-                    reply = 'Found "'+post['data']['title']+'" at resolution '+str(width)+'x'+str(height)+': ' + url
-                    break
+            if (len(posts['data']['children']) > 0):
+                for post in posts['data']['children']:
+                    if ("preview" in post['data']):
+                        url, width, height = post['data']['preview']['images'][0]['source'].values()
+                        width, height = int(width), int(height)
+                        if all((
+                            width >= config['width'],
+                            height >= config['height'],
+                            width > height,
+                            not post['data']['over_18']
+                        )):
+                            reply = 'Found "'+post['data']['title']+'" at resolution '+str(width)+'x'+str(height)+': ' + url
+                            break
+            else:
+                reply = "Error: subreddit seems to have no posts"
     else:
         reply = "Error: Invalid resolution"
 print(reply)
