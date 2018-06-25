@@ -17,7 +17,7 @@ if (len(sys.argv) < 4):
     reply = "Required arguments: [Subreddit] [HeightxWidth]"
 else:
     #Default string, if none of the posts in the list are good enough, then this will display
-    reply = "Error: Couldn't find a good one, you picky (or pervy) fuck."
+    reply = "Error: Couldn't find a good picture, you picky (or pervy) fuck."
     
     config['subreddit'] = sys.argv[2]
     
@@ -40,12 +40,7 @@ else:
                     if ("preview" in post['data']):
                         url, width, height = post['data']['preview']['images'][0]['source'].values()
                         width, height = int(width), int(height)
-                        if all((
-                            width >= config['width'],
-                            height >= config['height'],
-                            width > height,
-                            not post['data']['over_18']
-                        )):
+                        if (width >= config['width'] and height >= config['height'] and width > height and (not post['data']['over_18'])):
                             reply = 'Found "'+post['data']['title']+'" at resolution '+str(width)+'x'+str(height)+': ' + url
                             break
             else:
