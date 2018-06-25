@@ -11,20 +11,24 @@ import requests #Needed for talking to reddit
 headers = {
     'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:61.0)'
 }
+config = {}
 
 if (len(sys.argv) < 4):
     reply = "Required arguments: [Subreddit] [HeightxWidth]"
 else:
+    #Default string, if none of the posts in the list are good enough, then this will display
     reply = "Error: Couldn't find one, you picky (or pervy) fuck."
-    subreddit = sys.argv[2]
+    
+    config['subreddit'] = sys.argv[2]
+    
     resolution = sys.argv[3].split('x')
     if (len(resolution) == 2):
-        c_width, c_height = (
+        config['width'], config['height'] = (
             int(pix) for pix in resolution
         )
 
         posts = requests.get(
-            'https://www.reddit.com/r/' + subreddit + '/top.json?sort=top&t=day',
+            'https://www.reddit.com/r/' + config['subreddit'] + '/top.json?sort=top&t=day',
             headers=headers
         ).json()
 
@@ -35,8 +39,8 @@ else:
                 url, width, height = post['data']['preview']['images'][0]['source'].values()
                 width, height = int(width), int(height)
                 if all((
-                    width >= c_width,
-                    height >= c_height,
+                    width >= config['width'],
+                    height >= config['height'],
                     width > height,
                     not post['data']['over_18']
                 )):
