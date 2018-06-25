@@ -236,9 +236,6 @@ client.on("message", async message => {
                             fields: { manual: newmsg },
                         }
                     ]);
-
-
-
                 }
             } else {
                 message.channel.send(message.author.username + " is not in the sudoers file. This incident will be reported.");
@@ -249,7 +246,6 @@ client.on("message", async message => {
             influx.query("SELECT SUM(manual) FROM message WHERE \"id\"=\'" + message.author.id + "\' fill(0)").then(manresults => {
                 if (manresults[0] !== undefined) {
                     message.channel.send("You have already set your messages.");
-
                 } else {
                     arg.shift();
                     arg.shift();
@@ -327,7 +323,6 @@ client.on("message", async message => {
             });
             break;
         }
-
         case 'reload': {
             message.channel.send(loadplugins(), {"split":true});
             break;
@@ -366,7 +361,6 @@ client.on("message", async message => {
             }
             break;
         }
-
         case 'ping': {
             // Calculates ping between sending a message and editing it, giving a nice round-trip latency.
             // The second ping is an average latency between the bot and the websocket server (one-way, not round-trip)
@@ -408,12 +402,15 @@ client.on("message", async message => {
                 message.channel.send("Discord's best practices for bots state that failed commands should fail silently");
             }
         }
-
     };
     // message.delete();
     if (message.guild.id.toString().includes(config.logserver)) {
         client.channels.get(config.logchannel).send( message.author.username + '(' + message.author.id + ') ran command `' + message.cleanContent + '` in ' + message.channel, {"split":true});
     }
+});
+
+client.on("messageDelete", message => {
+    client.channels.get(config.logchannel).send("Message: '".join( message.cleanContent, "' by ", message.author.username, " (", message.author.id, ") was deleted"))
 });
 
 client.login(config.token);
