@@ -17,7 +17,7 @@ if (len(sys.argv) < 4):
     reply = "Required arguments: [Subreddit] [HeightxWidth]"
 else:
     #Default string, if none of the posts in the list are good enough, then this will display
-    reply = "Error: Couldn't find one, you picky (or pervy) fuck."
+    reply = "Error: Couldn't find a good one, you picky (or pervy) fuck."
     
     config['subreddit'] = sys.argv[2]
     
