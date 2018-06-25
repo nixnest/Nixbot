@@ -28,17 +28,20 @@ else:
             headers=headers
         ).json()
 
-        for post in posts['data']['children']:
-            url, width, height = post['data']['preview']['images'][0]['source'].values()
-            width, height = int(width), int(height)
-            if all((
-                width >= c_width,
-                height >= c_height,
-                width > height,
-                not post['data']['over_18']
-            )):
-                reply = 'Found "'+post['data']['title']+'" at resolution '+str(width)+'x'+str(height)+': ' + url
-                break
+        if ("error" in posts):
+            reply = "Error: Couldn't get posts, are you sure that's a valid subreddit?"
+        else:
+            for post in posts['data']['children']:
+                url, width, height = post['data']['preview']['images'][0]['source'].values()
+                width, height = int(width), int(height)
+                if all((
+                    width >= c_width,
+                    height >= c_height,
+                    width > height,
+                    not post['data']['over_18']
+                )):
+                    reply = 'Found "'+post['data']['title']+'" at resolution '+str(width)+'x'+str(height)+': ' + url
+                    break
     else:
         reply = "Error: Invalid resolution"
 print(reply)
