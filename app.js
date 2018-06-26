@@ -1,10 +1,18 @@
 // Load up the discord.js library
 const Discord = require("discord.js");
+
 const client = new Discord.Client();
+
 const config = require("./config.json");
 const gotkicked = require("./gotkicked.json");
 const joinmessages = require("./joinmessages.json");
 const help = require('./help.json');
+
+var colors = new Array();
+colors.red = 0x781706;
+colors.orange = 0xBA430D;
+colors.green = 0x037800;
+
 fs = require('fs');
 function loadplugins() {
     //fs = require('fs');
@@ -405,7 +413,25 @@ client.on("message", async message => {
     };
     // message.delete();
     if (message.guild.id.toString().includes(config.logserver)) {
-        client.channels.get(config.logchannel).send( message.author.username + '(' + message.author.id + ') ran command `' + message.cleanContent + '` in ' + message.channel, {"split":true});
+        client.channels.get(config.logchannel).send({embed:{
+            color: colors.green,
+            author: {
+                name : message.author.name,
+                icon_url: message.author.avatarURL
+            },
+            title: "Command ran in #".concat( message.channel.name ),
+            fields: [{
+                name: "Command",
+                value: "`".concat( message.cleanContent, "`")
+            }],
+            timestamp: new Date(),
+            footer: {
+                icon_url: client.user.avatarURL,
+                text: "User ID: ".concat(message.author.id.toString())
+            }
+        }})
+            
+        //message.author.username + '(' + message.author.id + ') ran command `' + message.cleanContent + '` in ' + message.channel, {"split":true});
     }
 });
 
@@ -413,12 +439,12 @@ client.on("messageDelete", (message) => {
     output = "Message: '".concat( message.cleanContent, "' by ", message.author.username, " (", message.author.id, ") in #", message.channel.name, " was deleted")
     console.log(output)
     client.channels.get(config.logchannel).send({embed: {
-        color: 0x781706,
+        color: colors.red,
         author: {
             name: message.author.username,
             icon_url: message.author.avatarURL
         },
-        title: "Message Deleted in #".concat( message.channel.name ),
+        title: "Message deleted in #".concat( message.channel.name ),
         description: "The following message was deleted:",
         fields: [{
             name: "Message",
@@ -438,7 +464,7 @@ client.on("messageUpdate", (oldmsg, newmsg) => {
         output = "Message: '".concat( oldmsg.cleanContent, "' by ", oldmsg.author.username, " (", oldmsg.author.id, ") in #", oldmsg.channel.name, " was changed to ", newmsg.cleanContent)
         console.log(output)
         client.channels.get(config.logchannel).send({embed: {
-            color: 0x781706,
+            color: colors.orange,
             author: {
                 name: newmsg.author.username,
                 icon_url: newmsg.author.avatarURL
@@ -461,8 +487,6 @@ client.on("messageUpdate", (oldmsg, newmsg) => {
             }
         }})
     }
-
-    //client.channels.get(config.logchannel).send(output)
 });
 
 client.login(config.token);
