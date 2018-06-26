@@ -447,7 +447,7 @@ client.on("messageDelete", (message) => {
             value: "` " + message.cleanContent + " `"
         },
         {
-            name: "",
+            name: " ",
             value: "test"
         }],
         timestamp: new Date(),
