@@ -1,5 +1,6 @@
 // Load up the discord.js library
 const Discord = require("discord.js");
+fs = require('fs');
 
 const client = new Discord.Client();
 
@@ -8,14 +9,14 @@ const gotkicked = require("./gotkicked.json");
 const joinmessages = require("./joinmessages.json");
 const help = require('./help.json');
 
-var colors = new Array();
-colors.red = 0x781706;
-colors.orange = 0xBA430D;
-colors.green = 0x037800;
+var colors = {
+    red = 0x781706,
+    orange = 0xBA430D,
+    green = 0x037800
+}
 
-fs = require('fs');
+
 function loadplugins() {
-    //fs = require('fs');
     pluginsfile = fs.readFileSync('./plugins/plugins.json');
     plugins = JSON.parse(pluginsfile);
     return("Reloaded plugins. Current plugins:\n\n`" + Object.keys(plugins) + "`");
@@ -419,39 +420,37 @@ client.on("message", async message => {
                 name : message.author.username,
                 icon_url: message.author.displayAvatarURL
             },
-            title: "Command ran in #".concat( message.channel.name ),
+            title: "Command ran in #" + message.channel.name,
             fields: [{
                 name: "Command",
-                value: "`".concat( message.cleanContent, "`")
+                value: "`" + message.cleanContent + "`"
             }],
             timestamp: new Date(),
             footer: {
                 icon_url: client.user.displayAvatarURL,
-                text: "User ID: ".concat(message.author.id.toString())
+                text: "User ID: " + message.author.id,
             }
         }})
     }
 });
 
 client.on("messageDelete", (message) => {
-    output = "Message: '".concat( message.cleanContent, "' by ", message.author.username, " (", message.author.id, ") in #", message.channel.name, " was deleted")
-    console.log(output)
     client.channels.get(config.logchannel).send({embed: {
         color: colors.red,
         author: {
             name: message.author.username,
             icon_url: message.author.displayAvatarURL
         },
-        title: "Message deleted in #".concat( message.channel.name ),
+        title: "Message deleted in #" + message.channel.name,
         description: "The following message was deleted:",
         fields: [{
             name: "Message",
-            value: "`".concat(message.cleanContent, "`")
+            value: "`" + message.cleanContent + "`"
         }],
         timestamp: new Date(),
         footer: {
             icon_url: client.user.displayAvatarURL,
-            text: "User ID: ".concat(message.author.id.toString())
+            text: "User ID: " + message.author.id,
         }
         
     }});
@@ -459,29 +458,27 @@ client.on("messageDelete", (message) => {
 
 client.on("messageUpdate", (oldmsg, newmsg) => {
     if (oldmsg.cleanContent !== newmsg.cleanContent) {
-        output = "Message: '".concat( oldmsg.cleanContent, "' by ", oldmsg.author.username, " (", oldmsg.author.id, ") in #", oldmsg.channel.name, " was changed to ", newmsg.cleanContent)
-        console.log(output)
         client.channels.get(config.logchannel).send({embed: {
             color: colors.orange,
             author: {
                 name: newmsg.author.username,
                 icon_url: newmsg.author.displayAvatarURL
             },
-            title: "Message modified in #".concat( newmsg.channel.name ),
+            title: "Message modified in #" + newmsg.channel.name,
             description: "The following message was modified:",
             fields: [{
                 name: "Old message",
-                value: "`".concat( oldmsg.cleanContent, "`"),
+                value: "`" + oldmsg.cleanContent + "`",
                 
             },
             {
                 name: "New message",
-                value: "`".concat( newmsg.cleanContent, "`")
+                value: "`" + newmsg.cleanContent + "`",
             }],
             timestamp: new Date(),
             footer: {
                 icon_url: client.user.displayAvatarURL,
-                text: "User ID: ".concat(newmsg.author.id.toString())
+                text: "User ID: " + newmsg.author.id,
             }
         }})
     }
