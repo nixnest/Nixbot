@@ -10,9 +10,9 @@ const joinmessages = require("./joinmessages.json");
 const help = require('./help.json');
 
 var colors = {
-    red = 0x781706,
-    orange = 0xBA430D,
-    green = 0x037800
+    red: 0x781706,
+    orange: 0xBA430D,
+    green: 0x037800
 }
 
 
