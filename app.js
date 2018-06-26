@@ -410,15 +410,36 @@ client.on("message", async message => {
 });
 
 client.on("messageDelete", (message) => {
-    output = "Message: '".concat( message.cleanContent, "' by ", message.author.username, " (", message.author.id, ") in #", message.channel.name, " was deleted")
-    console.log(output)
-    client.channels.get(config.logchannel).send(output)
+    //output = "Message: '".concat( message.cleanContent, "' by ", message.author.username, " (", message.author.id, ") in #", message.channel.name, " was deleted")
+    //console.log(output)
+    client.channels.get(config.logchannel).send({embed: {
+        color: 0x781706,
+        author: {
+            name: message.author.username,
+            icon_url: message.author.avatarURL
+        },
+        title: "Message Deleted in ".concat( message.channel.name ),
+        description: "The following message was deleted:",
+        fields: [{
+            name: "Message",
+            value: "`".concat(message.cleanContent, "`")
+        }],
+        timestamp: new Date(),
+        footer: {
+            icon_url: client.user.avatarURL,
+            text: "User ID: ".concat(string(message.author.id))
+        }
+        
+    }});
 });
 
 client.on("messageUpdate", (oldmsg, newmsg) => {
-    output = "Message: '".concat( oldmsg.cleanContent, "' by ", oldmsg.author.username, " (", oldmsg.author.id, ") in #", oldmsg.channel.name, " was changed to ", newmsg.cleanContent)
-    console.log(output)
-    client.channels.get(config.logchannel).send(output)
+    if (oldmsg.cleanContent !== newmsg.cleanContent) {
+
+    }
+    //output = "Message: '".concat( oldmsg.cleanContent, "' by ", oldmsg.author.username, " (", oldmsg.author.id, ") in #", oldmsg.channel.name, " was changed to ", newmsg.cleanContent)
+    //console.log(output)
+    //client.channels.get(config.logchannel).send(output)
 });
 
 client.login(config.token);
