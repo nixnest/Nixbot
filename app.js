@@ -386,34 +386,6 @@ client.on("message", async message => {
             message.delete()
             break;
         }
-        case 'testicle': {
-            message.channel.send({embed: {
-                color: colors.orange,
-                author: {
-                    name: message.author.username,
-                    icon_url: message.author.displayAvatarURL
-                },
-                title: "Message modified in #" + message.channel.name,
-                description: "The following message was modified:",
-                fields: [{
-                    name: "Old message",
-                    value: "` " + message.cleanContent + " `",
-                    
-                },
-                {
-                    value: "test"
-                },
-                {
-                    name: "New message",
-                    value: "` " + message.cleanContent + " `",
-                }],
-                timestamp: new Date(),
-                footer: {
-                    icon_url: client.user.displayAvatarURL,
-                    text: "User ID: " + message.author.id,
-                }
-            }})
-        }
         default: {
             if (plugins.hasOwnProperty(command)) {
                 if (plugins[command].nsfw && !message.channel.nsfw) {
@@ -473,6 +445,9 @@ client.on("messageDelete", (message) => {
         fields: [{
             name: "Message",
             value: "` " + message.cleanContent + " `"
+        },
+        {
+            value: "test"
         }],
         timestamp: new Date(),
         footer: {
