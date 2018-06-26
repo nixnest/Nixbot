@@ -416,8 +416,8 @@ client.on("message", async message => {
         client.channels.get(config.logchannel).send({embed:{
             color: colors.green,
             author: {
-                name : message.author.name,
-                icon_url: message.author.avatarURL
+                name : message.author.username,
+                icon_url: message.author.displayAvatarURL
             },
             title: "Command ran in #".concat( message.channel.name ),
             fields: [{
@@ -426,12 +426,10 @@ client.on("message", async message => {
             }],
             timestamp: new Date(),
             footer: {
-                icon_url: client.user.avatarURL,
+                icon_url: client.user.displayAvatarURL,
                 text: "User ID: ".concat(message.author.id.toString())
             }
         }})
-            
-        //message.author.username + '(' + message.author.id + ') ran command `' + message.cleanContent + '` in ' + message.channel, {"split":true});
     }
 });
 
@@ -442,7 +440,7 @@ client.on("messageDelete", (message) => {
         color: colors.red,
         author: {
             name: message.author.username,
-            icon_url: message.author.avatarURL
+            icon_url: message.author.displayAvatarURL
         },
         title: "Message deleted in #".concat( message.channel.name ),
         description: "The following message was deleted:",
@@ -452,7 +450,7 @@ client.on("messageDelete", (message) => {
         }],
         timestamp: new Date(),
         footer: {
-            icon_url: client.user.avatarURL,
+            icon_url: client.user.displayAvatarURL,
             text: "User ID: ".concat(message.author.id.toString())
         }
         
@@ -467,7 +465,7 @@ client.on("messageUpdate", (oldmsg, newmsg) => {
             color: colors.orange,
             author: {
                 name: newmsg.author.username,
-                icon_url: newmsg.author.avatarURL
+                icon_url: newmsg.author.displayAvatarURL
             },
             title: "Message modified in #".concat( newmsg.channel.name ),
             description: "The following message was modified:",
@@ -482,7 +480,7 @@ client.on("messageUpdate", (oldmsg, newmsg) => {
             }],
             timestamp: new Date(),
             footer: {
-                icon_url: client.user.avatarURL,
+                icon_url: client.user.displayAvatarURL,
                 text: "User ID: ".concat(newmsg.author.id.toString())
             }
         }})
