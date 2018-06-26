@@ -390,14 +390,14 @@ client.on("message", async message => {
             message.channel.send({embed: {
                 color: colors.orange,
                 author: {
-                    name: newmsg.author.username,
-                    icon_url: newmsg.author.displayAvatarURL
+                    name: message.author.username,
+                    icon_url: message.author.displayAvatarURL
                 },
-                title: "Message modified in #" + newmsg.channel.name,
+                title: "Message modified in #" + message.channel.name,
                 description: "The following message was modified:",
                 fields: [{
                     name: "Old message",
-                    value: "` " + oldmsg.cleanContent + " `",
+                    value: "` " + message.cleanContent + " `",
                     
                 },
                 {
@@ -405,12 +405,12 @@ client.on("message", async message => {
                 },
                 {
                     name: "New message",
-                    value: "` " + newmsg.cleanContent + " `",
+                    value: "` " + message.cleanContent + " `",
                 }],
                 timestamp: new Date(),
                 footer: {
                     icon_url: client.user.displayAvatarURL,
-                    text: "User ID: " + newmsg.author.id,
+                    text: "User ID: " + message.author.id,
                 }
             }})
         }
