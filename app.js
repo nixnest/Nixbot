@@ -386,6 +386,34 @@ client.on("message", async message => {
             message.delete()
             break;
         }
+        case 'testicle': {
+            message.channel.send({embed: {
+                color: colors.orange,
+                author: {
+                    name: newmsg.author.username,
+                    icon_url: newmsg.author.displayAvatarURL
+                },
+                title: "Message modified in #" + newmsg.channel.name,
+                description: "The following message was modified:",
+                fields: [{
+                    name: "Old message",
+                    value: "` " + oldmsg.cleanContent + " `",
+                    
+                },
+                {
+                    value: "test"
+                },
+                {
+                    name: "New message",
+                    value: "` " + newmsg.cleanContent + " `",
+                }],
+                timestamp: new Date(),
+                footer: {
+                    icon_url: client.user.displayAvatarURL,
+                    text: "User ID: " + newmsg.author.id,
+                }
+            }})
+        }
         default: {
             if (plugins.hasOwnProperty(command)) {
                 if (plugins[command].nsfw && !message.channel.nsfw) {
@@ -412,7 +440,6 @@ client.on("message", async message => {
             }
         }
     };
-    // message.delete();
     if (message.guild.id.toString().includes(config.logserver)) {
         client.channels.get(config.logchannel).send({embed:{
             color: colors.green,
