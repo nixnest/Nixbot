@@ -410,8 +410,8 @@ client.on("message", async message => {
 });
 
 client.on("messageDelete", (message) => {
-    //output = "Message: '".concat( message.cleanContent, "' by ", message.author.username, " (", message.author.id, ") in #", message.channel.name, " was deleted")
-    //console.log(output)
+    output = "Message: '".concat( message.cleanContent, "' by ", message.author.username, " (", message.author.id, ") in #", message.channel.name, " was deleted")
+    console.log(output)
     client.channels.get(config.logchannel).send({embed: {
         color: 0x781706,
         author: {
