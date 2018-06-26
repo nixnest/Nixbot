@@ -418,7 +418,7 @@ client.on("messageDelete", (message) => {
             name: message.author.username,
             icon_url: message.author.avatarURL
         },
-        title: "Message Deleted in ".concat( message.channel.name ),
+        title: "Message Deleted in #".concat( message.channel.name ),
         description: "The following message was deleted:",
         fields: [{
             name: "Message",
@@ -435,10 +435,33 @@ client.on("messageDelete", (message) => {
 
 client.on("messageUpdate", (oldmsg, newmsg) => {
     if (oldmsg.cleanContent !== newmsg.cleanContent) {
-
+        output = "Message: '".concat( oldmsg.cleanContent, "' by ", oldmsg.author.username, " (", oldmsg.author.id, ") in #", oldmsg.channel.name, " was changed to ", newmsg.cleanContent)
+        console.log(output)
+        client.channels.get(config.logchannel).send({embed: {
+            color: 0x781706,
+            author: {
+                name: newmsg.author.username,
+                icon_url: newmsg.author.avatarURL
+            },
+            title: "Message modified in #".concat( newmsg.channel.name ),
+            description: "The following message was modified:",
+            fields: [{
+                name: "Old message",
+                value: "`".concat( oldmsg.cleanContent, "`"),
+                
+            },
+            {
+                name: "New message",
+                value: "`".concat( newmsg.cleanContent, "`")
+            }],
+            timestamp: new Date(),
+            footer: {
+                icon_url: client.user.avatarURL,
+                text: "User ID: ".concat(newmsg.author.id.toString())
+            }
+        }})
     }
-    //output = "Message: '".concat( oldmsg.cleanContent, "' by ", oldmsg.author.username, " (", oldmsg.author.id, ") in #", oldmsg.channel.name, " was changed to ", newmsg.cleanContent)
-    //console.log(output)
+
     //client.channels.get(config.logchannel).send(output)
 });
 
