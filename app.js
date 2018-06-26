@@ -427,7 +427,7 @@ client.on("messageDelete", (message) => {
         timestamp: new Date(),
         footer: {
             icon_url: client.user.avatarURL,
-            text: "User ID: ".concat(string(message.author.id))
+            text: "User ID: ".concat(message.author.id.toString())
         }
         
     }});
