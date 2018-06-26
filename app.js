@@ -423,7 +423,7 @@ client.on("message", async message => {
             title: "Command ran in #" + message.channel.name,
             fields: [{
                 name: "Command",
-                value: "`" + message.cleanContent + "`"
+                value: "` " + message.cleanContent + " `"
             }],
             timestamp: new Date(),
             footer: {
@@ -445,7 +445,7 @@ client.on("messageDelete", (message) => {
         description: "The following message was deleted:",
         fields: [{
             name: "Message",
-            value: "`" + message.cleanContent + "`"
+            value: "` " + message.cleanContent + " `"
         }],
         timestamp: new Date(),
         footer: {
@@ -468,12 +468,12 @@ client.on("messageUpdate", (oldmsg, newmsg) => {
             description: "The following message was modified:",
             fields: [{
                 name: "Old message",
-                value: "`" + oldmsg.cleanContent + "`",
+                value: "` " + oldmsg.cleanContent + " `",
                 
             },
             {
                 name: "New message",
-                value: "`" + newmsg.cleanContent + "`",
+                value: "` " + newmsg.cleanContent + " `",
             }],
             timestamp: new Date(),
             footer: {
