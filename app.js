@@ -410,7 +410,13 @@ client.on("message", async message => {
 });
 
 client.on("messageDelete", (message) => {
-    output = "Message: '".concat( message.cleanContent, "' by ", message.author.username, " (", message.author.id, ") in ", message.channel.name, " was deleted")
+    output = "Message: '".concat( message.cleanContent, "' by ", message.author.username, " (", message.author.id, ") in #", message.channel.name, " was deleted")
+    console.log(output)
+    client.channels.get(config.logchannel).send(output)
+});
+
+client.on("messageUpdate", (oldmsg, newmsg) => {
+    output = "Message: '".concat( oldmsg.cleanContent, "' by ", oldmsg.author.username, " (", oldmsg.author.id, ") in #", oldmsg.channel.name, " was changed to ", newmsg.cleanContent)
     console.log(output)
     client.channels.get(config.logchannel).send(output)
 });
