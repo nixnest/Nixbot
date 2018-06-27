@@ -15,7 +15,7 @@ var colors = {
     green: 0x037800
 }
 
-var embedLength = 2048;
+var embedLength = 1024;
 
 function loadplugins() {
     pluginsfile = fs.readFileSync('./plugins/plugins.json');
