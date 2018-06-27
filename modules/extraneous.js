@@ -14,7 +14,7 @@ module.exports = {
     },
     
     fieldGenerator: function (message, msgTitle) {
-        splits = exports.lengthSplit(message, exports.embedLength);
+        splits = module.exports.lengthSplit(message, module.exports.embedLength);
         fields = [];
     
         for (n = 0; n < splits.length; n++) {
