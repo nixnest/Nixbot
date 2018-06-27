@@ -37,7 +37,7 @@ case $1 in
             exit 0
         fi
 
-        echo -e "Keywords: \`$words\`" | tac | tr '\n' ' '
+        echo -e "Keywords: \'$words\'" | tr '\n' ' '
         ####
         #
         # Now we construct a json file for sending to Watson that contains the text and keywords to get emotions on
@@ -61,7 +61,7 @@ case $1 in
             -u "$watsonUser":"$watsonPass" \
             -d @$paramDir/parameters$channel.json \
             "https://gateway.watsonplatform.net/natural-language-understanding/api/v1/analyze?version=2018-03-16")
-
+        >&2 echo $response
         ####
         #
         # Do bunches of string manipulation and calls to jq based on the response from Watson
