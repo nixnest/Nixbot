@@ -15,7 +15,7 @@ var colors = {
     green: 0x037800
 }
 
-var embedLength = 1024;
+var embedLength = 1020;
 
 function loadplugins() {
     pluginsfile = fs.readFileSync('./plugins/plugins.json');
@@ -497,7 +497,7 @@ function fieldGenerator(message, msgTitle) {
 
     for (n = 0; n < splits.length; n++) {
         fields.push({
-            name : msgTitle + "(" + n + ")",
+            name : msgTitle + " (" + n + ")",
             value : "` " + splits[n] + " `"
         })
     }
