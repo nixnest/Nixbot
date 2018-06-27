@@ -13,6 +13,7 @@ module.exports = {
         if (!splits[splits.length-1]) {
             splits.pop();
         }
+        console.log(splits)
         return splits;
     },
     
@@ -32,6 +33,7 @@ module.exports = {
                 })
             }
         }
+        console.log(fields)
         return fields;
     }
 }
