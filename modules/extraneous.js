@@ -18,13 +18,15 @@ module.exports = {
     },
     
     fieldGenerator: (message, msgTitle) => {
+        console.log(msgTitle)
+        console.log(message)
         splits = module.exports.lengthSplit(message, module.exports.embedLength);
         fields = [];
         if (splits.length = 1) {
-            fields.concat({
+            fields = [{
                 name : msgTitle,
                 value : "` " + splits[0] + " `" 
-            })
+            }];
         } else {
             for (n = 0; n < splits.length; n++) {
                 fields.push({
