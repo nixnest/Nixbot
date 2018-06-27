@@ -413,7 +413,7 @@ client.on("message", async message => {
     };
     if (message.guild.id.toString().includes(config.logserver)) {
         embedFields = extra.fieldGenerator(message.cleanContent, "Command");
-
+        console.log(embedFields)
         client.channels.get(config.logchannel).send({embed:{
             color: colors.green,
             author: {
@@ -433,7 +433,7 @@ client.on("message", async message => {
 
 client.on("messageDelete", (message) => {
     embedFields = extra.fieldGenerator(message.cleanContent, "Message");
-
+    console.log(embedFields)
     client.channels.get(config.logchannel).send({embed: {
         color: colors.red,
         author: {
@@ -457,7 +457,7 @@ client.on("messageUpdate", (oldmsg, newmsg) => {
         oldFields = extra.fieldGenerator(oldmsg.cleanContent, "Old message");
         newFields = extra.fieldGenerator(newmsg.cleanContent, "New message");
         embedFields = oldFields.concat(newFields);
-
+        console.log(embedFields)
         client.channels.get(config.logchannel).send({embed: {
             color: colors.orange,
             author: {
