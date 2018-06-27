@@ -17,9 +17,9 @@ def optionslist(opts):
     return " ".join(opts)
 
 query = ""
-if (len(sys.argv) >= 3):
+if len(sys.argv) >= 3:
     for opt in options:
-        if (sys.argv[2].lower() == opt):
+        if sys.argv[2].lower() == opt:
             query = opt
 
 if (query == ""):

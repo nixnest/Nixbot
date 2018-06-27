@@ -50,7 +50,7 @@ def cmdLookup(cmds):
             lookup = "**{}**: {}\n{}".format(cmd, plugins[cmd]['description'], info)
     return lookup
 
-if (len(args) < 3):
+if len(args) < 3:
     # If there is no argument sent by user,
     # then display a list of possible commands
     cmdList = cmdList(builtins) + cmdList(plugins)
@@ -60,7 +60,7 @@ else:
     # then get more deets on that
     arg = args[2].lower()
     lookup = "" + cmdLookup(builtins) + cmdLookup(plugins)
-    if (lookup == ""):
+    if lookup == "":
         reply = "Command not found, prehaps you messed up?"
     else:
         reply = lookup
