@@ -27,7 +27,7 @@ builtins = loadJSON(builtinfile)
 def cmdList(cmds):
     cmdList = ""
     for cmd in cmds:
-        cmdList += "**+" + cmd + ":** " + cmds[cmd]['description'] + "\n"
+        cmdList += "**+{}:** {}\n".format(cmd, cmds[cmd]['description'])
     return cmdList
 
 # Finds command info (from json file)
@@ -41,13 +41,13 @@ def cmdLookup(cmds):
                 info = "This command takes no arguments"
             else:
                 info = ""
-                for cmdarg in plugins[cmd]['arguments']:
-                    info = "`[" + cmdarg + "]`: " + \
-                           plugins[cmd]['arguments'][cmdarg]['msg'] + \
-                           ". Required? " + \
-                           plugins[cmd]['arguments'][cmdarg]['required'] + "\n"
-            lookup = "**" + cmd + "**: " + plugins[cmd]['description'] + \
-                     "\n" + info
+                args = plugins[cmd]['arguments']
+
+                for cmdarg in args:
+                    info = "`[{}]`: {}. Required? {}\n".format(cmdarg,
+                                                               args[cmdarg]['msg'],
+                                                               args[cmdarg]['required'])
+            lookup = "**{}**: {}\n{}".format(cmd, plugins[cmd]['description'], info)
     return lookup
 
 if (len(args) < 3):
