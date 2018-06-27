@@ -5,6 +5,7 @@ import sys
 
 pastafile = "./plugins/copypasta/copypasta.json"
 
+
 def commandlist(obj):
     commands = ""
     for key in obj:
@@ -19,7 +20,7 @@ with open(pastafile) as pf:
         print('Error loading JSON from file')
 
 if (len(sys.argv) < 3):
-    cmds = commandlist(obj) 
+    cmds = commandlist(obj)
     reply = "Missing argument. Current available copypasta are: " + cmds
 else:
     pasta = ""

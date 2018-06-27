@@ -17,6 +17,7 @@ if (len(sys.argv) > 2):
     query = q.strip().replace(" ", seperator)
     reply = url + query
 else:
-    reply = "Discord's best practices for bots state that failed commands should fail silently"
+    reply = "Discord's best practices for bots state that failed commands " + \
+        "should fail silently"
 
 print(reply)

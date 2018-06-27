@@ -10,6 +10,7 @@ args = sys.argv
 
 msgtitle = "**Help**\n"
 
+
 def loadJSON(jf):
     with open(jf) as f:
         try:
@@ -21,6 +22,8 @@ plugins = loadJSON(pluginfile)
 builtins = loadJSON(builtinfile)
 
 # Makes a list of all avaliable commands (from json file)
+
+
 def cmdList(cmds):
     cmdList = ""
     for cmd in cmds:
@@ -28,27 +31,33 @@ def cmdList(cmds):
     return cmdList
 
 # Finds command info (from json file)
+
+
 def cmdLookup(cmds):
     lookup = ""
     for cmd in cmds:
         if (arg == cmd):
             if (plugins[cmd]['arguments'] is None):
-                cmdargs = "This command takes no arguments"
+                info = "This command takes no arguments"
             else:
-                cmdargs = ""
+                info = ""
                 for cmdarg in plugins[cmd]['arguments']:
-                    cmdargs += "`[" + cmdarg + "]`: " + plugins[cmd]['arguments'][cmdarg]['msg'] + \
-                                ". Required? " + str(plugins[cmd]['arguments'][cmdarg]['required']) + "\n"
-            lookup = "**" + cmd + "**: " + plugins[cmd]['description'] + "\n" + cmdargs
+                    info = "`[" + cmdarg + "]`: " + \
+                           plugins[cmd]['arguments'][cmdarg]['msg'] + \
+                           ". Required? " + \
+                           plugins[cmd]['arguments'][cmdarg]['required'] + "\n"
+            lookup = "**" + cmd + "**: " + plugins[cmd]['description'] + \
+                     "\n" + info
     return lookup
 
-
 if (len(args) < 3):
-    #If there is no argument sent by user, then display a list of possible commands
-    cmdList = cmdList(builtins) + cmdList(plugins) 
+    # If there is no argument sent by user,
+    # then display a list of possible commands
+    cmdList = cmdList(builtins) + cmdList(plugins)
     reply = msgtitle + cmdList
 else:
-    #If they are asking for help with a specific command, then get more deets on that
+    # If they are asking for help with a specific command,
+    # then get more deets on that
     arg = args[2].lower()
     lookup = "" + cmdLookup(builtins) + cmdLookup(plugins)
     if (lookup == ""):
