@@ -7,7 +7,7 @@ const client = new Discord.Client();
 const config = require("./config.json");
 const gotkicked = require("./gotkicked.json");
 const joinmessages = require("./joinmessages.json");
-const help = require('./help.json');
+const extra = require("modules/extraneous.js")
 
 var colors = {
     red: 0x781706,
@@ -414,7 +414,7 @@ client.on("message", async message => {
         }
     };
     if (message.guild.id.toString().includes(config.logserver)) {
-        embedFields = fieldGenerator(message.cleanContent, "Command");
+        embedFields = extra.fieldGenerator(message.cleanContent, "Command");
 
         client.channels.get(config.logchannel).send({embed:{
             color: colors.green,
@@ -434,7 +434,7 @@ client.on("message", async message => {
 });
 
 client.on("messageDelete", (message) => {
-    embedFields = fieldGenerator(message.cleanContent, "Message");
+    embedFields = extra.fieldGenerator(message.cleanContent, "Message");
 
     client.channels.get(config.logchannel).send({embed: {
         color: colors.red,
@@ -456,8 +456,8 @@ client.on("messageDelete", (message) => {
 
 client.on("messageUpdate", (oldmsg, newmsg) => {
     if (oldmsg.cleanContent !== newmsg.cleanContent) {
-        oldFields = fieldGenerator(oldmsg.cleanContent, "Old message");
-        newFields = fieldGenerator(newmsg.cleanContent, "New message");
+        oldFields = extra.fieldGenerator(oldmsg.cleanContent, "Old message");
+        newFields = extra.fieldGenerator(newmsg.cleanContent, "New message");
         embedFields = oldFields.concat(newFields);
 
         client.channels.get(config.logchannel).send({embed: {
@@ -480,27 +480,3 @@ client.on("messageUpdate", (oldmsg, newmsg) => {
 
 client.login(config.token);
 
-function lengthSplit(message, length) {
-    splitCount = Math.floor( message.length / length) + 1;
-    splits = [];
-
-    for (n = 0; n < splitCount; n++) {
-        splits.push(message.substr(0+(n*length), length));
-    }
-
-    return splits;
-}
-
-function fieldGenerator(message, msgTitle) {
-    splits = lengthSplit(message, embedLength);
-    fields = [];
-
-    for (n = 0; n < splits.length; n++) {
-        fields.push({
-            name : msgTitle + " (" + n + ")",
-            value : "` " + splits[n] + " `"
-        })
-    }
-
-    return fields;
-}
