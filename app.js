@@ -7,7 +7,7 @@ const client = new Discord.Client();
 const config = require("./config.json");
 const gotkicked = require("./gotkicked.json");
 const joinmessages = require("./joinmessages.json");
-const extra = require("modules/extraneous.js")
+const extra = require("./modules/extraneous.js")
 
 var colors = {
     red: 0x781706,
