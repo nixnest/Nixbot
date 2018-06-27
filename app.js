@@ -497,8 +497,8 @@ function fieldGenerator(message, msgTitle) {
 
     for (n = 0; n < splits.length; n++) {
         fields.push({
-            title: msgTitle + "(" + n + ")",
-            value = "` " + splits[n] + " `"
+            title : msgTitle + "(" + n + ")",
+            value : "` " + splits[n] + " `"
         })
     }
 
