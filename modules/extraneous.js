@@ -1,6 +1,7 @@
 //extraneous.js
 
 module.exports = {
+    embedLength: 1020,
     lengthSplit: function (message, length) {
         splitCount = Math.floor( message.length / length) + 1;
         splits = [];
@@ -13,7 +14,7 @@ module.exports = {
     },
     
     fieldGenerator: function (message, msgTitle) {
-        splits = exports.lengthSplit(message, embedLength);
+        splits = exports.lengthSplit(message, exports.embedLength);
         fields = [];
     
         for (n = 0; n < splits.length; n++) {
