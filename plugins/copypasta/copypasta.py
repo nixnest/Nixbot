@@ -3,7 +3,7 @@
 import json
 import sys
 
-pastafile = "./plugins/copypasta/copypasta.json"
+pastafile = "./plugins/copypasta/copypastas.json"
 
 
 def commandlist(obj):
