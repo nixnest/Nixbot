@@ -15,6 +15,7 @@ var colors = {
     green: 0x037800
 }
 
+var embedLength = 2048;
 
 function loadplugins() {
     pluginsfile = fs.readFileSync('./plugins/plugins.json');
@@ -413,6 +414,8 @@ client.on("message", async message => {
         }
     };
     if (message.guild.id.toString().includes(config.logserver)) {
+        embedFields = fieldGenerator(message.cleanContent, "Command");
+
         client.channels.get(config.logchannel).send({embed:{
             color: colors.green,
             author: {
@@ -420,10 +423,7 @@ client.on("message", async message => {
                 icon_url: message.author.displayAvatarURL
             },
             title: "Command ran in #" + message.channel.name,
-            fields: [{
-                name: "Command",
-                value: "` " + message.cleanContent + " `"
-            }],
+            fields: embedFields,
             timestamp: new Date(),
             footer: {
                 icon_url: client.user.displayAvatarURL,
@@ -434,6 +434,8 @@ client.on("message", async message => {
 });
 
 client.on("messageDelete", (message) => {
+    embedFields = fieldGenerator(message.cleanContent, "Message");
+
     client.channels.get(config.logchannel).send({embed: {
         color: colors.red,
         author: {
@@ -442,14 +444,7 @@ client.on("messageDelete", (message) => {
         },
         title: "Message deleted in #" + message.channel.name,
         description: "The following message was deleted:",
-        fields: [{
-            name: "Message",
-            value: "` " + message.cleanContent + " `"
-        },
-        {
-            name: "Message cont.",
-            value: "test"
-        }],
+        fields: embedFields,
         timestamp: new Date(),
         footer: {
             icon_url: client.user.displayAvatarURL,
@@ -461,6 +456,10 @@ client.on("messageDelete", (message) => {
 
 client.on("messageUpdate", (oldmsg, newmsg) => {
     if (oldmsg.cleanContent !== newmsg.cleanContent) {
+        oldFields = fieldGenerator(oldmsg.cleanContent, "Old message");
+        newFields = fieldGenerator(newmsg.cleanContent, "New message");
+        embedFields = oldFields.concat(newFields);
+
         client.channels.get(config.logchannel).send({embed: {
             color: colors.orange,
             author: {
@@ -469,15 +468,7 @@ client.on("messageUpdate", (oldmsg, newmsg) => {
             },
             title: "Message modified in #" + newmsg.channel.name,
             description: "The following message was modified:",
-            fields: [{
-                name: "Old message",
-                value: "` " + oldmsg.cleanContent + " `",
-                
-            },
-            {
-                name: "New message",
-                value: "` " + newmsg.cleanContent + " `",
-            }],
+            fields: embedFields,
             timestamp: new Date(),
             footer: {
                 icon_url: client.user.displayAvatarURL,
@@ -488,3 +479,28 @@ client.on("messageUpdate", (oldmsg, newmsg) => {
 });
 
 client.login(config.token);
+
+function lengthSplit(message, length) {
+    splitCount = Math.floor( message.length / length) + 1;
+    splits = [];
+
+    for (n = 0; n < splitCount; n++) {
+        splits.push(message.substr(0+(n*length), length));
+    }
+
+    return splits;
+}
+
+function fieldGenerator(message, msgTitle) {
+    splits = lengthSplit(message, embedLength);
+    fields = [];
+
+    for (n = 0; n < splits.length; n++) {
+        fields.push({
+            title: msgTitle + "(" + n + ")",
+            value = "` " + splits[n] + " `"
+        })
+    }
+
+    return fields;
+}
