@@ -51,9 +51,6 @@ var influx = new Influx.InfluxDB({
 
 });
 var checkusers = {};
-var copypastafile = require(config.copypastajson);
-var copypasta = JSON.parse(JSON.stringify(copypastafile));
-console.log("copypasta file parsed")
 client.on("guildCreate", guild => {
     console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
 });
