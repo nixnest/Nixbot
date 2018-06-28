@@ -11,7 +11,7 @@ else:
     args.pop(0)
 
     cmd = " ".join(args)
-    os.system("fortune {}".format(cmd))
+    reply = "` {} `".format(os.popen("fortune {}".format(cmd)).read())
 
 try:
     print(reply)
