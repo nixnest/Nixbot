@@ -420,6 +420,7 @@ client.on("message", async message => {
                 name : message.author.username,
                 icon_url: message.author.displayAvatarURL
             },
+            url: extra.urlGenerator(message),
             title: "Command ran in #" + message.channel.name,
             fields: embedFields,
             timestamp: new Date(),
@@ -440,6 +441,7 @@ client.on("messageDelete", (message) => {
             name: message.author.username,
             icon_url: message.author.displayAvatarURL
         },
+        url: extra.urlGenerator(message),
         title: "Message ID#" + message.id + " deleted in #" + message.channel.name,
         description: "The following message was deleted:",
         fields: embedFields,
@@ -464,6 +466,7 @@ client.on("messageUpdate", (oldmsg, newmsg) => {
                 name: newmsg.author.username,
                 icon_url: newmsg.author.displayAvatarURL
             },
+            url: extra.urlGenerator(newmsg),
             title: "Message ID#" + newmsg.id + " modified in #" + newmsg.channel.name,
             description: "The following message was modified:",
             fields: embedFields,

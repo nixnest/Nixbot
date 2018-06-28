@@ -1,6 +1,6 @@
 {
     "test":{
-        "path": "./plugins/test.sh",
+        "path": "./plugins/test.py",
         "description": "Test plugin: Returns arguments sent",
         "arguments" : {
             "echo" : {
@@ -12,7 +12,7 @@
         "nsfw": false
     },
     "xkcd":{
-        "path": "./plugins/xkcd.sh",
+        "path": "./plugins/xkcd.py",
         "description": "XKCD Comic fetcher",
         "arguments" : {
             "comic-id" : {
@@ -36,7 +36,7 @@
         "nsfw": false
     },
     "cowsay":{
-        "path": "./plugins/cowsay.sh",
+        "path": "./plugins/cowsay.py",
         "description": "See what the cow has to say",
         "arguments" : {
             "string" : {
@@ -48,7 +48,7 @@
         "nsfw": false
     },
     "toilet":{
-        "path" : "./plugins/toilet.sh",
+        "path" : "./plugins/toilet.py",
         "description": "*~Fancify Text~*",
         "arguments" : {
             "string" : {
@@ -72,21 +72,21 @@
         "nsfw": false
     },
     "fortune":{
-        "path": "./plugins/fortune.sh",
+        "path": "./plugins/fortune.py",
         "description": "See what your fortune is",
         "arguments" : null,
         "delete": true,
         "nsfw": false
     },
     "mymessages":{
-        "path": "./plugins/mymessages.sh",
+        "path": "./plugins/mymessages.py",
         "description": "Get your current message count",
         "arguments" : null,
         "delete": false,
         "nsfw": false
     },
     "rem":{
-        "path": "./plugins/remember.sh",
+        "path": "./plugins/remember.py",
         "description" : "Nixbot will remember that",
         "arguments" : {
             "name" : {
