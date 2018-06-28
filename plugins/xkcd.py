@@ -27,7 +27,7 @@ def getJSON(id):
 
 def response(id, title, url, alt):
     reply = "#{}: {}\n".format(id, title) + \
-            "{}".format(url) + \
+            "{}\n".format(url) + \
             "*{}*".format(alt)
     return reply
 
