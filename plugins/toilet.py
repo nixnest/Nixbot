@@ -13,9 +13,9 @@ else:
     cmd = " ".join(args)
     if '-f' in args:
         os.system("toilet {}".format(cmd))
-        reply = "` {} `".format(os.popen("toilet {}".format(cmd)).read())
+        reply = "``` {} ```".format(os.popen("toilet {}".format(cmd)).read())
     else:
-        reply = "` {} `".format(os.popen("toiet -f sans {}".format(cmd)).read())
+        reply = "``` {} ```".format(os.popen("toiet -f sans {}".format(cmd)).read())
 
 try:
     print(reply)
