@@ -1,13 +1,21 @@
 // Load up the discord.js library
 const Discord = require("discord.js");
+fs = require('fs');
+
 const client = new Discord.Client();
+
 const config = require("./config.json");
 const gotkicked = require("./gotkicked.json");
 const joinmessages = require("./joinmessages.json");
-const help = require('./help.json');
-fs = require('fs');
+const extra = require("./modules/extraneous.js")
+
+var colors = {
+    red: 0x781706,
+    orange: 0xBA430D,
+    green: 0x037800
+}
+
 function loadplugins() {
-    //fs = require('fs');
     pluginsfile = fs.readFileSync('./plugins/plugins.json');
     plugins = JSON.parse(pluginsfile);
     return("Reloaded plugins. Current plugins:\n\n`" + Object.keys(plugins) + "`");
@@ -236,9 +244,6 @@ client.on("message", async message => {
                             fields: { manual: newmsg },
                         }
                     ]);
-
-
-
                 }
             } else {
                 message.channel.send(message.author.username + " is not in the sudoers file. This incident will be reported.");
@@ -249,7 +254,6 @@ client.on("message", async message => {
             influx.query("SELECT SUM(manual) FROM message WHERE \"id\"=\'" + message.author.id + "\' fill(0)").then(manresults => {
                 if (manresults[0] !== undefined) {
                     message.channel.send("You have already set your messages.");
-
                 } else {
                     arg.shift();
                     arg.shift();
@@ -327,7 +331,6 @@ client.on("message", async message => {
             });
             break;
         }
-
         case 'reload': {
             message.channel.send(loadplugins(), {"split":true});
             break;
@@ -366,7 +369,6 @@ client.on("message", async message => {
             }
             break;
         }
-
         case 'ping': {
             // Calculates ping between sending a message and editing it, giving a nice round-trip latency.
             // The second ping is an average latency between the bot and the websocket server (one-way, not round-trip)
@@ -408,12 +410,71 @@ client.on("message", async message => {
                 message.channel.send("Discord's best practices for bots state that failed commands should fail silently");
             }
         }
-
     };
-    // message.delete();
     if (message.guild.id.toString().includes(config.logserver)) {
-        client.channels.get(config.logchannel).send( message.author.username + '(' + message.author.id + ') ran command `' + message.cleanContent + '` in ' + message.channel, {"split":true});
+        embedFields = extra.fieldGenerator(message.cleanContent, "Command");
+        console.log(embedFields)
+        client.channels.get(config.logchannel).send({embed:{
+            color: colors.green,
+            author: {
+                name : message.author.username,
+                icon_url: message.author.displayAvatarURL
+            },
+            title: "Command ran in #" + message.channel.name,
+            fields: embedFields,
+            timestamp: new Date(),
+            footer: {
+                icon_url: client.user.displayAvatarURL,
+                text: "User ID: " + message.author.id,
+            }
+        }})
+    }
+});
+
+client.on("messageDelete", (message) => {
+    embedFields = extra.fieldGenerator(message.cleanContent, "Message");
+    console.log(embedFields)
+    client.channels.get(config.logchannel).send({embed: {
+        color: colors.red,
+        author: {
+            name: message.author.username,
+            icon_url: message.author.displayAvatarURL
+        },
+        title: "Message ID#" + message.id + " deleted in #" + message.channel.name,
+        description: "The following message was deleted:",
+        fields: embedFields,
+        timestamp: new Date(),
+        footer: {
+            icon_url: client.user.displayAvatarURL,
+            text: "User ID: " + message.author.id,
+        }
+        
+    }});
+});
+
+client.on("messageUpdate", (oldmsg, newmsg) => {
+    if (oldmsg.cleanContent !== newmsg.cleanContent) {
+        oldFields = extra.fieldGenerator(oldmsg.cleanContent, "Old message");
+        newFields = extra.fieldGenerator(newmsg.cleanContent, "New message");
+        embedFields = oldFields.concat(newFields);
+        console.log(embedFields)
+        client.channels.get(config.logchannel).send({embed: {
+            color: colors.orange,
+            author: {
+                name: newmsg.author.username,
+                icon_url: newmsg.author.displayAvatarURL
+            },
+            title: "Message ID#" + newmsg.id + " modified in #" + newmsg.channel.name,
+            description: "The following message was modified:",
+            fields: embedFields,
+            timestamp: new Date(),
+            footer: {
+                icon_url: client.user.displayAvatarURL,
+                text: "User ID: " + newmsg.author.id,
+            }
+        }})
     }
 });
 
 client.login(config.token);
+
