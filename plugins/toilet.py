@@ -2,6 +2,7 @@
 
 import sys
 import os
+import subprocess
 
 if len(sys.argv) < 2:
     reply = "Missing parameters"
@@ -10,12 +11,16 @@ else:
     args.pop(0)
     args.pop(0)
 
-    cmd = " ".join(args)
     if '-f' in args:
-        os.system("toilet {}".format(cmd))
-        reply = "``` {} ```".format(os.popen("toilet {}".format(cmd)).read())
+        try:
+            reply = subprocess.check_output(["toilet"]+args)
+        except subprocess.CalledProcessError:
+            reply = "Something messed up, was it you?"
     else:
-        reply = "``` {} ```".format(os.popen("toiet -f sans {}".format(cmd)).read())
+        try:
+            reply = subprocess.check_output(["toilet", "-f", "sans"]+args)
+        except:
+            reply = "Something messed up, was it you?"
 
 try:
     print(reply)
