@@ -13,13 +13,13 @@ else:
 
     if '-f' in args:
         try:
-            reply = subprocess.check_output(["toilet"]+args)
+            reply = "``` {} ```".format(subprocess.check_output(["toilet"]+args, universal_newlines=True))
         except subprocess.CalledProcessError:
             reply = "Something messed up, was it you?"
     else:
         try:
             reply = "``` {} ```".format(subprocess.check_output(["toilet", "-f", "sans"]+args))
-        except:
+        except subprocess.CalledProcessError:
             reply = "Something messed up, was it you?"
 
 try:

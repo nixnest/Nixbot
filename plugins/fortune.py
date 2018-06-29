@@ -12,7 +12,7 @@ else:
 
     cmd = " ".join(args)
     try:
-        reply = "``` {} ```".format(ubprocess.check_output(["fortune"]))
+        reply = "``` {} ```".format(ubprocess.check_output(["fortune"], universal_newlines=True))
     except subprocess.CalledProcessError:
         reply = "Something messed up, was it you?"
 try:
