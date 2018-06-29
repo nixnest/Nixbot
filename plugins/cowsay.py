@@ -11,7 +11,7 @@ else:
     args.pop(0)
 
     try:
-        reply = subprocess.check_output(["cowsay"]+args)
+        reply = "``` {} ```".format(subprocess.check_output(["cowsay"]+args))
     except subprocess.CalledProcessError:
         reply = "Something messed up, was it you?"
 

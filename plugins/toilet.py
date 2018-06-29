@@ -18,7 +18,7 @@ else:
             reply = "Something messed up, was it you?"
     else:
         try:
-            reply = subprocess.check_output(["toilet", "-f", "sans"]+args)
+            reply = "``` {} ```".format(subprocess.check_output(["toilet", "-f", "sans"]+args))
         except:
             reply = "Something messed up, was it you?"
 
