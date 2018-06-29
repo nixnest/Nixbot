@@ -2,6 +2,7 @@
     "test":{
         "path": "./plugins/test.py",
         "description": "Test plugin: Returns arguments sent",
+        "args-type" : "parameters",
         "arguments" : {
             "echo" : {
                 "msg" : "Text to echo back",
@@ -14,6 +15,7 @@
     "xkcd":{
         "path": "./plugins/xkcd.py",
         "description": "XKCD Comic fetcher",
+        "args-type" : "parameters",
         "arguments" : {
             "comic-id" : {
                 "msg" : "ID of comic, leave blank for newest",
@@ -26,6 +28,7 @@
     "emote":{
         "path": "./plugins/emote_classic.sh",
         "description": "Get a string analysed by IBM Watson",
+        "args-type" : "parameters",
         "arguments" : {
             "string" : {
                 "msg" : "Text to be analysed",
@@ -38,6 +41,7 @@
     "cowsay":{
         "path": "./plugins/cowsay.py",
         "description": "See what the cow has to say",
+        "args-type" : "parameters",
         "arguments" : {
             "string" : {
                 "msg" : "arguments to pass to cowsay",
@@ -50,6 +54,7 @@
     "toilet":{
         "path" : "./plugins/toilet.py",
         "description": "*~Fancify Text~*",
+        "args-type" : "parameters",
         "arguments" : {
             "string" : {
                 "msg" : "arguments to pass to toilet",
@@ -62,6 +67,7 @@
     "insult":{
         "path": "./plugins/insulter.py",
         "description": "What the fuck do you think this does, you moron",
+        "args-type" : "parameters",
         "arguments" : {
             "name" : {
                 "msg" : "Person to insult",
@@ -74,6 +80,7 @@
     "fortune":{
         "path": "./plugins/fortune.py",
         "description": "See what your fortune is",
+        "args-type" : "parameters",
         "arguments" : null,
         "delete": true,
         "nsfw": false
@@ -81,6 +88,7 @@
     "mymessages":{
         "path": "./plugins/mymessages.py",
         "description": "Get your current message count",
+        "args-type" : "parameters",
         "arguments" : null,
         "delete": false,
         "nsfw": false
@@ -88,6 +96,7 @@
     "rem":{
         "path": "./plugins/remember.py",
         "description" : "Nixbot will remember that",
+        "args-type" : "parameters",
         "arguments" : {
             "name" : {
                 "msg" : "Name of person remembering, generally yours.",
@@ -100,6 +109,7 @@
     "c":{
         "path": "./plugins/copypasta/copypasta.py",
         "description": "Print one of many copypastas",
+        "args-type" : "parameters",
         "arguments" : {
             "pasta" : {
                 "msg" : "Which pasta to print out",
@@ -112,6 +122,7 @@
     "lmgtfy":{
         "path": "./plugins/lmgtfy.py",
         "description": "Get Nixbot to google that for you",
+        "args-type" : "parameters",
         "arguments" : {
             "search" : {
                 "msg" : "String to search for",
@@ -124,6 +135,7 @@
     "searx":{
         "path": "./plugins/searx.py",
         "description": "Get Nixbot to search searx for you",
+        "args-type" : "parameters",
         "arguments" : {
             "search" : {
                 "msg" : "String to search for",
@@ -136,6 +148,7 @@
     "wiki":{
         "path": "./plugins/wiki.py",
         "description": "Get Nixbot to search the arch wiki for you",
+        "args-type" : "parameters",
         "arguments" : {
             "search" : {
                 "msg" : "String to search for",
@@ -148,6 +161,7 @@
     "neko": {
         "path": "./plugins/neko.py",
         "description": "I had to shower after making this, and I still feel dirty",
+        "args-type" : "parameters",
         "arguments" : {
             "search" : {
                 "msg" : "String to search for",
@@ -160,6 +174,7 @@
     "help": {
         "path" : "./plugins/help.py",
         "description": "Shows the help documentation",
+        "args-type" : "parameters",
         "arguments" : {
             "cmd" : {
                 "msg" : "command to look up",
@@ -172,6 +187,7 @@
     "🅱an" : {
         "path" : "./plugins/🅱an.py",
         "description" : "🅱an 🅱omeone :100:",
+        "args-type" : "parameters",
         "arguments" : null,
         "delete" : true,
         "nsfw" : false
@@ -179,6 +195,7 @@
     "ban" : {
         "path" : "./plugins/ban.py",
         "description" : "Ban someone",
+        "args-type" : "parameters",
         "arguments" : null,
         "delete" : true,
         "nsfw" : false
@@ -186,6 +203,7 @@
     "wallit" : {
         "path" : "./plugins/wallit.py",
         "description" : "Get picture from reddit to use as a wallpaper",
+        "args-type" : "parameters",
         "arguments" : {
             "subreddit" : {
                 "msg" : "Subreddit to scrape",
