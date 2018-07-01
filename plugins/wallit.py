@@ -42,8 +42,7 @@ else:
                 for post in posts['data']['children']:
                     if ("preview" in post['data']):
                         url, width, height = \
-                            post['data']['preview']['images'][0]['source']
-                        .values()
+                            post['data']['preview']['images'][0]['source'].values()
 
                         width, height = int(width), int(height)
                         if (width >= config['width'] and
