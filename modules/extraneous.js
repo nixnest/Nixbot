@@ -37,5 +37,9 @@ module.exports = {
         }
         console.log(fields)
         return fields;
+    },
+    urlGenerator: (msgObj) => {
+        url = "https://discordapp.com/channels/" + msgObj.guild.id + "/" + msgObj.channel.id + "/" + msgObj.id
+        return url
     }
 }

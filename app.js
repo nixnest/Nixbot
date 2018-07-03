@@ -51,9 +51,6 @@ var influx = new Influx.InfluxDB({
 
 });
 var checkusers = {};
-var copypastafile = require(config.copypastajson);
-var copypasta = JSON.parse(JSON.stringify(copypastafile));
-console.log("copypasta file parsed")
 client.on("guildCreate", guild => {
     console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
 });
@@ -420,6 +417,7 @@ client.on("message", async message => {
                 name : message.author.username,
                 icon_url: message.author.displayAvatarURL
             },
+            url: extra.urlGenerator(message),
             title: "Command ran in #" + message.channel.name,
             fields: embedFields,
             timestamp: new Date(),
@@ -440,6 +438,7 @@ client.on("messageDelete", (message) => {
             name: message.author.username,
             icon_url: message.author.displayAvatarURL
         },
+        url: extra.urlGenerator(message),
         title: "Message ID#" + message.id + " deleted in #" + message.channel.name,
         description: "The following message was deleted:",
         fields: embedFields,
@@ -464,6 +463,7 @@ client.on("messageUpdate", (oldmsg, newmsg) => {
                 name: newmsg.author.username,
                 icon_url: newmsg.author.displayAvatarURL
             },
+            url: extra.urlGenerator(newmsg),
             title: "Message ID#" + newmsg.id + " modified in #" + newmsg.channel.name,
             description: "The following message was modified:",
             fields: embedFields,

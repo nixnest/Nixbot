@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#!/usr/bin/env python3
 
 """Parse the top /r/Art posts for a wallpaper meeting given criteria."""
 # Script originally made by @Aperture#3661 on Discord
