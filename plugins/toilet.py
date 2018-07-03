@@ -22,7 +22,4 @@ else:
         except subprocess.CalledProcessError:
             reply = "Something messed up, was it you?"
 
-try:
-    print(reply)
-except NameError:
-    pass
+print(reply)

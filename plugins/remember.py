@@ -11,7 +11,5 @@ else:
 
     reply = "*{} will remember that*".format(" ".join(args))
 
-try:
-    print(reply)
-except NameError:
-    pass
+
+print(reply)

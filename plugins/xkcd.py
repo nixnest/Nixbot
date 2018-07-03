@@ -37,17 +37,19 @@ def getComic(id):
     comic = response(id, data['safe_title'], data['img'], data['alt'])
     return comic
 
+comicid = sys.argv[2]
+
 if len(sys.argv) < 3:
     reply = getComic(latest)
 else:
-    if sys.argv[2] == "rand":
+    if comicid == "rand":
         id = random.randint(1, latest)
         reply = getComic(id)
     else:
-        try:
+        if comicid.isdigit():
             if int(sys.argv[2]) in range(1, latest):
                 reply = getComic(int(sys.argv[2]))
-        except ValueError:
+        else:
             reply = getComic(latest)
 
 try:
