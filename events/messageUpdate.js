@@ -25,6 +25,8 @@ module.exports = async (config, client, oldmsg, newmsg) => {
     }
 }
 
+const embedLength = 1020;
+
 function lengthSplit (message, length) {
     splitCount = Math.floor( message.length / length) + 1;
     splits = [];
