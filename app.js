@@ -424,7 +424,7 @@ client.on("message", async message => {
 
 var messageDelete = require("./events/messageDelete.js");
 
-client.on("messageDelete", messageDelete.bind(config, client, null));
+client.on("messageDelete", messageDelete.bind(null, config, client));
 
 client.on("messageUpdate", (oldmsg, newmsg) => {
     if (oldmsg.cleanContent !== newmsg.cleanContent) {
