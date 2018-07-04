@@ -69,12 +69,9 @@ client.on("guildDelete", guild => {
     client.channels.get(config.sasschannel).send(gotkicked.message[Math.ceil(Math.random() * gotkicked.messages.length)], {"split":true});
 
 });
-//var pluginfs = require('fs');
-//var pluginfiles = pluginfs.readdirSync('./plugins');
-//console.log(pluginfiles);
+
 
 client.on("guildMemberAdd", async member => {
-    //member.send("Welcome, remember that support goes in #support not #home");
     var timestamp = new Date();
     var seconds = Math.round(timestamp / 1000);
     influx.writePoints([
@@ -189,12 +186,6 @@ client.on("message", async message => {
 
     }
     }
-//    if (/^[iI]'m.*$/.test(message.cleanContent.split(" "))) {
-//        var name = message.cleanContent.slice(config.prefix.length).trim().split(/ +/g);
-//        name.shift()
-
-//        message.channel.send('Hi, ' + name.join(" ") + ', I\'m dad.');
-//    }
 
     arg.unshift(message.channel);
     const { execFile } = require('child_process');
@@ -426,30 +417,9 @@ var messageDelete = require("./events/messageDelete.js");
 
 client.on("messageDelete", messageDelete.bind(null, config, client));
 
-client.on("messageUpdate", (oldmsg, newmsg) => {
-    if (oldmsg.cleanContent !== newmsg.cleanContent) {
-        oldFields = extra.fieldGenerator(oldmsg.cleanContent, "Old message");
-        newFields = extra.fieldGenerator(newmsg.cleanContent, "New message");
-        embedFields = oldFields.concat(newFields);
-        console.log(embedFields)
-        client.channels.get(config.logchannel).send({embed: {
-            color: config.colors.orange,
-            author: {
-                name: newmsg.author.username,
-                icon_url: newmsg.author.displayAvatarURL
-            },
-            url: extra.urlGenerator(newmsg),
-            title: "Message ID#" + newmsg.id + " modified in #" + newmsg.channel.name,
-            description: "The following message was modified:",
-            fields: embedFields,
-            timestamp: new Date(),
-            footer: {
-                icon_url: client.user.displayAvatarURL,
-                text: "User ID: " + newmsg.author.id,
-            }
-        }})
-    }
-});
+var messageUpdate = require("./events/messageUpdate.js");
+
+client.on("messageUpdate", messageUpdate.bind(null, config, client));
 
 client.login(config.token);
 
