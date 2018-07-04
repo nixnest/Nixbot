@@ -15,6 +15,14 @@ var colors = {
     green: 0x037800
 }
 
+function loadModules() {
+    const eventsFiles = fs.readdir("./events");
+    eventsFiles.forEach( file => {
+        const name = file.split('.')[0]
+    
+    })
+}
+
 function loadplugins() {
     pluginsfile = fs.readFileSync('./plugins/plugins.json');
     plugins = JSON.parse(pluginsfile);
@@ -97,22 +105,7 @@ client.on("message", async message => {
     } else {
         messages.push(message.cleanContent);
     }
-    //  var zmentions = message.mentions.users.findAll('id', '124615648482426880');
-    //	if (zmentions != null &&  zmentions.length > 0) {
-    //        	console.log("Somebody mentioned you");
-    //		const { execFile } = require('child_process');
-    //		const child = execFile('/home/zack/dbot/lights.sh', ['blink'],(error, stdout, stderr) => {
-    //  		if (error) {
-    //    			throw error;
-    //    			}
-    //console.log(stdout);
-    //	});
 
-    //	}
-
-
-    //console.log(`message in channel: ${message.cleanContent}`)
-    //console.log(message.guild.roles)
     if (message.channel.id == config.supportchannel) {
         influx.query("SELECT last(join) FROM message WHERE \"id\"=\'" + message.author.id + "\' fill(0)").then(results => {
             joindate = results[0].last;
@@ -429,27 +422,9 @@ client.on("message", async message => {
     }
 });
 
-client.on("messageDelete", (message) => {
-    embedFields = extra.fieldGenerator(message.cleanContent, "Message");
-    console.log(embedFields)
-    client.channels.get(config.logchannel).send({embed: {
-        color: colors.red,
-        author: {
-            name: message.author.username,
-            icon_url: message.author.displayAvatarURL
-        },
-        url: extra.urlGenerator(message),
-        title: "Message ID#" + message.id + " deleted in #" + message.channel.name,
-        description: "The following message was deleted:",
-        fields: embedFields,
-        timestamp: new Date(),
-        footer: {
-            icon_url: client.user.displayAvatarURL,
-            text: "User ID: " + message.author.id,
-        }
-        
-    }});
-});
+var messageDelete = require("./events/messageDelete.js");
+
+client.on("messageDelete", messageDelete.bind(client));
 
 client.on("messageUpdate", (oldmsg, newmsg) => {
     if (oldmsg.cleanContent !== newmsg.cleanContent) {
