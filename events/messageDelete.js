@@ -4,7 +4,7 @@ module.exports = async (config, client, message) => {
     embedFields = fieldGenerator(message.cleanContent, "Message");
     console.log(embedFields)
     client.channels.get(config.logchannel).send({embed: {
-        color: colors.red,
+        color: config.colors.red,
         author: {
             name: message.author.username,
             icon_url: message.author.displayAvatarURL
