@@ -9,7 +9,7 @@ const gotkicked = require("./gotkicked.json");
 const joinmessages = require("./joinmessages.json");
 const extra = require("./modules/extraneous.js")
 
-var colors = {
+config.colors = {
     red: 0x781706,
     orange: 0xBA430D,
     green: 0x037800
@@ -405,7 +405,7 @@ client.on("message", async message => {
         embedFields = extra.fieldGenerator(message.cleanContent, "Command");
         console.log(embedFields)
         client.channels.get(config.logchannel).send({embed:{
-            color: colors.green,
+            color: config.colors.green,
             author: {
                 name : message.author.username,
                 icon_url: message.author.displayAvatarURL
@@ -433,7 +433,7 @@ client.on("messageUpdate", (oldmsg, newmsg) => {
         embedFields = oldFields.concat(newFields);
         console.log(embedFields)
         client.channels.get(config.logchannel).send({embed: {
-            color: colors.orange,
+            color: config.colors.orange,
             author: {
                 name: newmsg.author.username,
                 icon_url: newmsg.author.displayAvatarURL
