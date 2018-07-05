@@ -83,7 +83,7 @@ module.exports = async (config, client, influx, message) => {
     // If message is only some form of "oof" then send the oof file
     if (/^(o+of)$/ig.test(message.cleanContent)) {
         message.channel.send({
-            files: ['https://cdn.discordapp.com/attachments/437302483044401152/446047008147374091/Roblox_Death_Sound_Effect.mp3']
+            files: ['./oof.mp3']
         })
         if (message.member.voiceChannelID) {
             message.member.voiceChannel.join()
