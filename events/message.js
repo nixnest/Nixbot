@@ -1,11 +1,22 @@
 //message.js
 
 var checkusers = {};
+var messages = []
 
 module.exports = async (config, client, influx, message) => {
 
     if (message.author.bot) {
         return;
+    }
+
+    if (message.channel.toString().includes("436660589616431106")) {
+        message.delete();
+    }
+    if (messages.length > 99) {
+        messages.shift();
+        messages.push(message.cleanContent);
+    } else {
+        messages.push(message.cleanContent);
     }
 
     if (message.channel.id == config.supportchannel) {
