@@ -20,12 +20,14 @@ config.gotkicked = gotkicked
 config.joinmessages = joinmessages
 
 function loadEvents() {
-    const eventsFiles = fs.readdir("./events/");
-    eventsFiles.forEach( file => {
-        const name = file.split('.')[0]
-        const event = require("./events/${file}");
-        client.on(name, event.bind(null, config, client, influx));
-    })
+    fs.readdir("./events/", (err, files) => {
+        files.forEach( file => {
+            const name = file.split('.')[0]
+            const event = require("./events/${file}");
+            client.on(name, event.bind(null, config, client, influx));
+        })
+    });
+    
 }
 
 function loadplugins() {
