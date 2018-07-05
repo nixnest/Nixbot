@@ -1,45 +1,45 @@
-//extraneous.js
+// extraneous.js
 
 module.exports = {
     embedLength: 1020,
     lengthSplit: (message, length) => {
-        splitCount = Math.floor( message.length / length) + 1;
-        splits = [];
-    
-        for (n = 0; n < splitCount; n++) {
-            splits.push(message.substr(0+(n*length), length));
+        var splitCount = Math.floor(message.length / length) + 1
+        var splits = []
+
+        for (var n = 0; n < splitCount; n++) {
+            splits.push(message.substr(0 + (n * length), length))
         }
-        
-        if (!splits[splits.length-1]) {
-            splits.pop();
+
+        if (!splits[splits.length - 1]) {
+            splits.pop()
         }
         console.log(splits)
-        return splits;
+        return splits
     },
-    
+
     fieldGenerator: (message, msgTitle) => {
         console.log(msgTitle)
         console.log(message)
-        splits = module.exports.lengthSplit(message, module.exports.embedLength);
-        fields = [];
-        if (splits.length = 1) {
+        var splits = module.exports.lengthSplit(message, module.exports.embedLength)
+        var fields = []
+        if (splits.length === 1) {
             fields = [{
-                name : msgTitle,
-                value : "` " + splits[0] + " `" 
-            }];
+                name: msgTitle,
+                value: '` ' + splits[0] + ' `'
+            }]
         } else {
-            for (n = 0; n < splits.length; n++) {
+            for (var n = 0; n < splits.length; n++) {
                 fields.push({
-                    name : msgTitle + " (" + n + ")",
-                    value : "` " + splits[n] + " `"
+                    name: msgTitle + ' (' + n + ')',
+                    value: '` ' + splits[n] + ' `'
                 })
             }
         }
         console.log(fields)
-        return fields;
+        return fields
     },
     urlGenerator: (msgObj) => {
-        url = "https://discordapp.com/channels/" + msgObj.guild.id + "/" + msgObj.channel.id + "/" + msgObj.id
+        var url = `https://discordapp.com/channels/${msgObj.guild.id}/${msgObj.channel.id}/${msgObj.id}`
         return url
     }
 }
