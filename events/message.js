@@ -81,7 +81,7 @@ module.exports = async (config, client, influx, message) => {
     }
     const arg = message.cleanContent.split(' ')
     // If message is only some form of "oof" then send the oof file
-    if (/^(o|O)+(o|O)(f|F)$/.test(message.cleanContent.split(' '))) {
+    if (/^(o+of)$/ig.test(message.cleanContent)) {
         message.channel.send({
             files: ['https://cdn.discordapp.com/attachments/437302483044401152/446047008147374091/Roblox_Death_Sound_Effect.mp3']
         })
