@@ -23,7 +23,7 @@ function loadEvents() {
     fs.readdir("./events/", (err, files) => {
         files.forEach( file => {
             const name = file.split('.')[0]
-            const event = require('./events/${file}');
+            const event = require('./events/'+file);
             client.on(name, event.bind(null, config, client, influx));
         })
     });
