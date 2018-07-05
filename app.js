@@ -23,7 +23,8 @@ function loadModules() {
     const eventsFiles = fs.readdir("./events");
     eventsFiles.forEach( file => {
         const name = file.split('.')[0]
-    
+        const event = require("./events/${file}");
+        client.on(name, event.bind(null, config, client, influx));
     })
 }
 
@@ -62,7 +63,7 @@ var influx = new Influx.InfluxDB({
     ]
 
 });
-
+/*
 var guildCreate = require("./events/guildCreate.js");
 
 client.on("guildCreate", guildCreate.bind(null, config, client, influx));
@@ -86,6 +87,9 @@ client.on("messageDelete", messageDelete.bind(null, config, client, influx));
 var messageUpdate = require("./events/messageUpdate.js");
 
 client.on("messageUpdate", messageUpdate.bind(null, config, client, influx));
+*/
+
+loadModules();
 
 client.login(config.token);
 
