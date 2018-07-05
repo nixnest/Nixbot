@@ -15,6 +15,10 @@ config.colors = {
     green: 0x037800
 }
 
+// Since the events are moved to seperate files, need to smuggle these in through the config argument
+config.gotkicked = gotkicked
+config.joinmessages = joinmessages
+
 function loadModules() {
     const eventsFiles = fs.readdir("./events");
     eventsFiles.forEach( file => {
@@ -58,7 +62,7 @@ var influx = new Influx.InfluxDB({
     ]
 
 });
-var checkusers = {};
+
 client.on("guildCreate", guild => {
     console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
 });
@@ -70,26 +74,9 @@ client.on("guildDelete", guild => {
 
 });
 
+var guildMemberAdd = require("./events/guildMemberAdd.js")
 
-client.on("guildMemberAdd", async member => {
-    var timestamp = new Date();
-    var seconds = Math.round(timestamp / 1000);
-    influx.writePoints([
-        {
-            measurement: 'message',
-            tags: { id: member.id },
-            fields: { join: seconds },
-        }
-    ]);
-    if (member.guild.id == config.logserver) {
-        var message = joinmessages.messages[Math.ceil(Math.random() * joinmessages.messages.length)];
-        var finalmessage = message.replace(/\$n/g, member.user.toString());
-        var finalmessage = finalmessage.replace(/\$p/g, member.displayName.toString());
-        client.channels.get(config.homechannel).send(finalmessage, {"split":true});
-    
-    }
-
-});
+client.on("guildMemberAdd", guildMemberAdd.bind(null, config, client, influx));
 
 var message = require("./events/message.js");
 
