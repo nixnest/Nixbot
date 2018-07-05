@@ -83,12 +83,12 @@ module.exports = async (config, client, influx, message) => {
     // If message is only some form of "oof" then send the oof file
     if (/^(o+of)$/ig.test(message.cleanContent)) {
         message.channel.send({
-            files: ['./oof.mp3']
+            files: ['./Roblox_Death_Sound_Effect.mp3']
         })
         if (message.member.voiceChannelID) {
             message.member.voiceChannel.join()
                 .then(connection => {
-                    connection.playFile('./oof.mp3')
+                    connection.playFile('./Roblox_Death_Sound_Effect.mp3')
                 })
             await sleep(3000)
             message.member.voiceChannel.leave()
