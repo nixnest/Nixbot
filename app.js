@@ -38,7 +38,7 @@ config.loadplugins = loadplugins()
 function loadplugins () {
     var pluginsfile = fs.readFileSync('./plugins/plugins.json')
     config.plugins = JSON.parse(pluginsfile)
-    return ('Reloaded plugins. Current plugins:\n\n`' + Object.keys(config.plugins) + '`')
+    console.log('Reloaded plugins. Current plugins:\n\n`' + Object.keys(config.plugins) + '`')
 }
 
 var Influx = require('influx')
@@ -62,6 +62,6 @@ var influx = new Influx.InfluxDB({
 })
 
 loadEvents()
-console.log(loadplugins())
+loadplugins()
 
 client.login(config.token)
