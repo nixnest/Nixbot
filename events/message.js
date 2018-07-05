@@ -80,10 +80,11 @@ module.exports = async (config, client, influx, message) => {
         }
     }
     const arg = message.cleanContent.split(' ')
+
     // If message is only some form of "oof" then send the oof file
     if (/^(o+of)$/ig.test(message.cleanContent)) {
         message.channel.send({
-            files: ['./Roblox_Death_Sound_Effect.mp3']
+            files: ['https://cdn.discordapp.com/attachments/437302483044401152/446047008147374091/Roblox_Death_Sound_Effect.mp3']
         })
         if (message.member.voiceChannelID) {
             message.member.voiceChannel.join()
@@ -94,10 +95,11 @@ module.exports = async (config, client, influx, message) => {
             message.member.voiceChannel.leave()
         }
     }
+
     // If message is only some for of "bidoof" then send the bidoof file
     if (/^(bido+f)$/ig.test(message.cleanContent)) {
         message.channel.send({
-            files: ['./bidoof.png']
+            files: ['https://cdn.discordapp.com/attachments/460892286423793696/464497037283688469/bidoof.png']
         })
     }
 
