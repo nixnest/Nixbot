@@ -63,16 +63,13 @@ var influx = new Influx.InfluxDB({
 
 });
 
-client.on("guildCreate", guild => {
-    console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-});
+var guildCreate = require("./events/guildCreate.js");
 
-client.on("guildDelete", guild => {
-    console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
-    //complain to just the devs
-    client.channels.get(config.sasschannel).send(gotkicked.message[Math.ceil(Math.random() * gotkicked.messages.length)], {"split":true});
+client.on("guildCreate", guildCreate.bind(null, config, client, influx));
 
-});
+var guildDelete = require("./events/guildDelete.js");
+
+client.on("guildDelete", guildDelete.bind(null, config, client, influx));
 
 var guildMemberAdd = require("./events/guildMemberAdd.js")
 
