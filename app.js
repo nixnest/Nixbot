@@ -19,22 +19,20 @@ config.gotkicked = gotkicked
 config.joinmessages = joinmessages
 
 function loadEvents () {
-    var log = 'Loading Events:\n'
+    console.log('Loading Events:')
     fs.readdir('./events/', (err, files) => {
         if (err) {
-            log = 'Failed to load Events'
-            return log
+            return 'Failed to load Events'
         } else {
             files.forEach(file => {
                 const name = file.split('.')[0]
                 const event = require(`./events/${file}`)
                 client.on(name, event.bind(null, config, client, influx))
-                log += file + '\n'
+                console.log(file)
             })
         }
     })
-    log += 'Events Loaded'
-    return log
+    return 'Events Loaded'
 }
 
 config.loadplugins = loadplugins()
