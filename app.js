@@ -32,7 +32,6 @@ function loadEvents () {
             })
         }
     })
-    return 'Events Loaded'
 }
 
 config.loadplugins = loadplugins()
