@@ -62,7 +62,7 @@ var influx = new Influx.InfluxDB({
 
 })
 
-console.log(loadEvents())
+loadEvents()
 console.log(loadplugins())
 
 client.login(config.token)
