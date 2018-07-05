@@ -1,6 +1,6 @@
 //messageUpdate.js
 
-module.exports = async (config, client, oldmsg, newmsg) => {
+module.exports = async (config, client, influx, oldmsg, newmsg) => {
     if (oldmsg.cleanContent !== newmsg.cleanContent) {
         oldFields = fieldGenerator(oldmsg.cleanContent, "Old message");
         newFields = fieldGenerator(newmsg.cleanContent, "New message");

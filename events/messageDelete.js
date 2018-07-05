@@ -1,6 +1,6 @@
 // messageDelete.js
 
-module.exports = async (config, client, message) => {
+module.exports = async (config, client, influx, message) => {
     embedFields = fieldGenerator(message.cleanContent, "Message");
     console.log(embedFields)
     client.channels.get(config.logchannel).send({embed: {
