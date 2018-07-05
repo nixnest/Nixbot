@@ -1,5 +1,7 @@
 //message.js
 
+var checkusers = {};
+
 module.exports = async (config, client, influx, message) => {
 
     if (message.author.bot) {
