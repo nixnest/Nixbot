@@ -19,7 +19,6 @@ config.gotkicked = gotkicked
 config.joinmessages = joinmessages
 
 function loadEvents () {
-    console.log()
     fs.readdir('./events/', (err, files) => {
         if (err) {
             return 'Failed to load Events'
