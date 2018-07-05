@@ -19,8 +19,8 @@ config.colors = {
 config.gotkicked = gotkicked
 config.joinmessages = joinmessages
 
-function loadModules() {
-    const eventsFiles = fs.readdir("./events");
+function loadEvents() {
+    const eventsFiles = fs.readdir("./events/");
     eventsFiles.forEach( file => {
         const name = file.split('.')[0]
         const event = require("./events/${file}");
@@ -89,7 +89,7 @@ var messageUpdate = require("./events/messageUpdate.js");
 client.on("messageUpdate", messageUpdate.bind(null, config, client, influx));
 */
 
-loadModules();
+loadEvents();
 
 client.login(config.token);
 
