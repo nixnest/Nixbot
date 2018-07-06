@@ -93,7 +93,7 @@ module.exports = async (config, client, influx, message) => {
                     connection.playFile('./Roblox_Death_Sound_Effect.mp3')
                 })
             await sleep(30000)
-            console.log('disconnecting from voice channel')
+            console.log('Disconnecting from voice channel')
             message.member.voiceChannel.leave()
         }
     }
@@ -367,6 +367,6 @@ function urlGenerator (msgObj) {
 
 async function sleep (ms = 0) {
     return new Promise((resolve, reject) => {
-        setTimeout(resolve(), ms)
+        setTimeout(resolve(), 3000)
     })
 }
