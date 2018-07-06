@@ -99,7 +99,7 @@ module.exports = async (config, client, influx, message) => {
     }
 
     // If message is only some for of "bidoof" then send the bidoof file
-    if (/^(bido+f)$/ig.test(message.cleanContent)) {
+    if (/^(bido+of)$/ig.test(message.cleanContent)) {
         message.channel.send({
             files: ['https://cdn.discordapp.com/attachments/460892286423793696/464497037283688469/bidoof.png']
         })
