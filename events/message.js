@@ -91,7 +91,7 @@ module.exports = async (config, client, influx, message) => {
                 .then(connection => {
                     connection.playFile('./Roblox_Death_Sound_Effect.mp3')
                 })
-            await sleep(3000)
+            await sleep(30000)
             message.member.voiceChannel.leave()
         }
     }
