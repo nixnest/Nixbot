@@ -87,11 +87,13 @@ module.exports = async (config, client, influx, message) => {
             files: ['https://cdn.discordapp.com/attachments/437302483044401152/446047008147374091/Roblox_Death_Sound_Effect.mp3']
         })
         if (message.member.voiceChannelID) {
+            console.log('Connecting to voice channel')
             message.member.voiceChannel.join()
                 .then(connection => {
                     connection.playFile('./Roblox_Death_Sound_Effect.mp3')
                 })
             await sleep(30000)
+            console.log('disconnecting from voice channel')
             message.member.voiceChannel.leave()
         }
     }
