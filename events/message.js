@@ -87,11 +87,13 @@ module.exports = async (config, client, influx, message) => {
             files: ['https://cdn.discordapp.com/attachments/437302483044401152/446047008147374091/Roblox_Death_Sound_Effect.mp3']
         })
         if (message.member.voiceChannelID) {
+            console.log('Connecting to voice channel')
             message.member.voiceChannel.join()
                 .then(connection => {
                     connection.playFile('./Roblox_Death_Sound_Effect.mp3')
                 })
             await sleep(3000)
+            console.log('Disconnecting from voice channel')
             message.member.voiceChannel.leave()
         }
     }
@@ -364,5 +366,9 @@ function urlGenerator (msgObj) {
 }
 
 async function sleep (ms = 0) {
-    return new Promise(resolve => setTimeout(null, ms))
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve()
+        }, ms)
+    })
 }
