@@ -365,6 +365,6 @@ function urlGenerator (msgObj) {
 
 async function sleep (ms = 0) {
     return new Promise((resolve, reject) => {
-        setTimeout(() => { return 0 }, ms)
+        setTimeout(resolve(), ms)
     })
 }
