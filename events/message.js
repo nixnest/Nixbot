@@ -287,6 +287,8 @@ module.exports = async (config, client, influx, message) => {
             argb.shift()
             argb.shift()
             argb.unshift(message.author.id)
+            console.log(command)
+            console.log(argb)
             const { execFile } = require('child_process')
             execFile(config.plugins[command].path, argb, (error, stdout, stderr) => {
                 if (error) {
