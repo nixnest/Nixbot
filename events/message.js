@@ -50,7 +50,7 @@ module.exports = async (config, client, influx, message) => {
             checkusers[message.author.id] = 0
         }
         checkusers[message.author.id] += 1
-        if (checkusers[message.author.id] % 10 === 0) {
+        if (config.msgs_500 && checkusers[message.author.id] % 10 === 0) {
             console.log('checking ' + message.author.id)
             influx.query('SELECT SUM(value) + SUM(manual) FROM message WHERE \'id\'=\'' + message.author.id + '\' fill(0)').then(results => {
                 var newcount = results[0].sum_sum
@@ -118,6 +118,7 @@ module.exports = async (config, client, influx, message) => {
     const command = args.shift().toLowerCase()
     switch (command) {
     case 'setmsgs': {
+        if (!config.msgs_500) return;
         var mentions = message.mentions.users.array()
         var target = mentions[0].id
         arg.shift()
@@ -148,6 +149,7 @@ module.exports = async (config, client, influx, message) => {
         break
     }
     case 'messages': {
+        if (!config.msgs_500) return;
         influx.query('SELECT SUM(manual) FROM message WHERE \'id\'=\'' + message.author.id + '\' fill(0)').then(manresults => {
             if (manresults[0] !== undefined) {
                 message.channel.send('You have already set your messages.')
