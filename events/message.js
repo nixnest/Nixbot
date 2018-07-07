@@ -286,9 +286,6 @@ module.exports = async (config, client, influx, message) => {
             var argb = message.content.split(' ')
             argb.shift()
             argb.unshift(message.author.id)
-            console.log('message: ' + message.content)
-            console.log('command: ' + command)
-            console.log('arguments: ' + argb)
             const { execFile } = require('child_process')
             execFile(config.plugins[command].path, argb, (error, stdout, stderr) => {
                 if (error) {
@@ -304,23 +301,22 @@ module.exports = async (config, client, influx, message) => {
         }
     }
     };
-    if (message.guild.id.toString().includes(config.logserver)) {
-        var embedFields = extra.fieldGenerator(message.cleanContent, 'Command')
-        console.log(embedFields)
-        client.channels.get(config.logchannel).send({embed: {
-            color: config.colors.green,
-            author: {
-                name: message.author.username,
-                icon_url: message.author.displayAvatarURL
-            },
-            url: extra.urlGenerator(message),
-            title: 'Command ran in #' + message.channel.name,
-            fields: embedFields,
-            timestamp: new Date(),
-            footer: {
-                icon_url: client.user.displayAvatarURL,
-                text: 'User ID: ' + message.author.id
-            }
-        }})
-    }
+
+    var embedFields = extra.fieldGenerator(message.cleanContent, 'Command')
+    console.log(embedFields)
+    client.channels.get(config.logchannel).send({embed: {
+        color: config.colors.green,
+        author: {
+            name: message.author.username,
+            icon_url: message.author.displayAvatarURL
+        },
+        url: extra.urlGenerator(message),
+        title: 'Command ran in #' + message.channel.name,
+        fields: embedFields,
+        timestamp: new Date(),
+        footer: {
+            icon_url: client.user.displayAvatarURL,
+            text: 'User ID: ' + message.author.id
+        }
+    }})
 }
