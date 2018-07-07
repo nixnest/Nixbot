@@ -280,14 +280,15 @@ module.exports = async (config, client, influx, message) => {
     default: {
         if (config.plugins.hasOwnProperty(command)) {
             if (config.plugins[command].nsfw && !message.channel.nsfw) {
-                message.channel.send('Tisk tisk, '.join(message.author.username, '. Don\'t be naughty here.'))
+                message.channel.send('Tisk tisk, '.join(message.author.username), '. Don\'t be naughty here.')
                 break
             }
-            arg.shift()
-            arg.shift()
-            arg.unshift(message.author.id)
+            var argb = message.content.split(' ')
+            argb.shift()
+            argb.shift()
+            argb.unshift(message.author.id)
             const { execFile } = require('child_process')
-            execFile(config.plugins[command].path, arg, (error, stdout, stderr) => {
+            execFile(config.plugins[command].path, argb, (error, stdout, stderr) => {
                 if (error) {
                     throw error
                 }
