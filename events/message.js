@@ -285,7 +285,6 @@ module.exports = async (config, client, influx, message) => {
             }
             var argb = message.content.split(' ')
             argb.shift()
-            argb.shift()
             argb.unshift(message.author.id)
             console.log('message: ' + message.content)
             console.log('command: ' + command)
