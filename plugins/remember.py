@@ -3,7 +3,8 @@
 import sys
 
 if len(sys.argv) < 3:
-    reply = "Missing parameters"
+    arg = sys.argv[1]
+    reply = "*<@{}> will remember that*".format(arg)
 else:
     args = sys.argv
     args.pop(0)

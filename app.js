@@ -8,13 +8,12 @@ const config = require('./config.json')
 const gotkicked = require('./gotkicked.json')
 const joinmessages = require('./joinmessages.json')
 
+// Since the events are moved to seperate files, need to smuggle these in through the config argument
 config.colors = {
     red: 0x781706,
     orange: 0xBA430D,
     green: 0x037800
 }
-
-// Since the events are moved to seperate files, need to smuggle these in through the config argument
 config.gotkicked = gotkicked
 config.joinmessages = joinmessages
 

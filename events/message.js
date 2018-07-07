@@ -1,5 +1,7 @@
 // message.js
 
+const extra = require('./../modules/extraneous')
+
 var checkusers = {}
 var messages = []
 
@@ -92,7 +94,7 @@ module.exports = async (config, client, influx, message) => {
                 .then(connection => {
                     connection.playFile('./Roblox_Death_Sound_Effect.mp3')
                 })
-            await sleep(3000)
+            await extra.sleep(3000)
             console.log('Disconnecting from voice channel')
             message.member.voiceChannel.leave()
         }
@@ -134,7 +136,7 @@ module.exports = async (config, client, influx, message) => {
                     database: 'nixnest'
                 })
                 message.channel.send('Setting messages for user')
-                await sleep(2000)
+                await extra.sleep(2000)
                 influx.writePoints([
                     {
                         measurement: 'message',
@@ -280,14 +282,14 @@ module.exports = async (config, client, influx, message) => {
     default: {
         if (config.plugins.hasOwnProperty(command)) {
             if (config.plugins[command].nsfw && !message.channel.nsfw) {
-                message.channel.send('Tisk tisk, '.join(message.author.username, '. Don\'t be naughty here.'))
+                message.channel.send('Tisk tisk, '.join(message.author.username), '. Don\'t be naughty here.')
                 break
             }
-            arg.shift()
-            arg.shift()
-            arg.unshift(message.author.id)
+            var argb = message.content.split(' ')
+            argb.shift()
+            argb.unshift(message.author.id)
             const { execFile } = require('child_process')
-            execFile(config.plugins[command].path, arg, (error, stdout, stderr) => {
+            execFile(config.plugins[command].path, argb, (error, stdout, stderr) => {
                 if (error) {
                     throw error
                 }
@@ -301,76 +303,22 @@ module.exports = async (config, client, influx, message) => {
         }
     }
     };
-    if (message.guild.id.toString().includes(config.logserver)) {
-        var embedFields = fieldGenerator(message.cleanContent, 'Command')
-        console.log(embedFields)
-        client.channels.get(config.logchannel).send({embed: {
-            color: config.colors.green,
-            author: {
-                name: message.author.username,
-                icon_url: message.author.displayAvatarURL
-            },
-            url: urlGenerator(message),
-            title: 'Command ran in #' + message.channel.name,
-            fields: embedFields,
-            timestamp: new Date(),
-            footer: {
-                icon_url: client.user.displayAvatarURL,
-                text: 'User ID: ' + message.author.id
-            }
-        }})
-    }
-}
 
-const embedLength = 1020
-
-function lengthSplit (message, length) {
-    var splitCount = Math.floor(message.length / length) + 1
-    var splits = []
-
-    for (var n = 0; n < splitCount; n++) {
-        splits.push(message.substr(0 + (n * length), length))
-    }
-
-    if (!splits[splits.length - 1]) {
-        splits.pop()
-    }
-    console.log(splits)
-    return splits
-};
-
-function fieldGenerator (message, msgTitle) {
-    console.log(msgTitle)
-    console.log(message)
-    var splits = lengthSplit(message, embedLength)
-    var fields = []
-
-    if (splits.length === 1) {
-        fields = [{
-            name: msgTitle,
-            value: '` ' + splits[0] + ' `'
-        }]
-    } else {
-        for (var n = 0; n < splits.length; n++) {
-            fields.push({
-                name: msgTitle + ' (' + n + ')',
-                value: '` ' + splits[n] + ' `'
-            })
+    var embedFields = extra.fieldGenerator(message.cleanContent, 'Command')
+    console.log(embedFields)
+    client.channels.get(config.logchannel).send({embed: {
+        color: config.colors.green,
+        author: {
+            name: message.author.username,
+            icon_url: message.author.displayAvatarURL
+        },
+        url: extra.urlGenerator(message),
+        title: 'Command ran in #' + message.channel.name,
+        fields: embedFields,
+        timestamp: new Date(),
+        footer: {
+            icon_url: client.user.displayAvatarURL,
+            text: 'User ID: ' + message.author.id
         }
-    }
-    console.log(fields)
-    return fields
-};
-
-function urlGenerator (msgObj) {
-    var url = `https://discordapp.com/channels/${msgObj.guild.id}/${msgObj.channel.id}/${msgObj.id}`
-    return url
-}
-
-async function sleep (ms = 0) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve()
-        }, ms)
-    })
+    }})
 }

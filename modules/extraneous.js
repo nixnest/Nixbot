@@ -41,5 +41,10 @@ module.exports = {
     urlGenerator: (msgObj) => {
         var url = `https://discordapp.com/channels/${msgObj.guild.id}/${msgObj.channel.id}/${msgObj.id}`
         return url
+    },
+    sleep (ms = 0) {
+        return new Promise((resolve, reject) => {
+            setTimeout(resolve, ms)
+        })
     }
 }
