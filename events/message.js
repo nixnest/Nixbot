@@ -279,6 +279,16 @@ module.exports = async (config, client, influx, message) => {
         message.delete()
         break
     }
+    case 'literally-ban-me': {
+        message.member.ban('Literally banned themselves');
+	message.channel.send('Done. Buh-bye forever!');
+        break
+    }
+    case 'literally-kick-me': {
+        message.member.kick('Literally kicked themselves');
+        message.channel.send('Done. Buh-bye!');
+	break
+    }
     default: {
         if (config.plugins.hasOwnProperty(command)) {
             if (config.plugins[command].nsfw && !message.channel.nsfw) {

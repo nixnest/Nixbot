@@ -50,5 +50,17 @@
                 "required" : true
             }
         }
+    },
+    "literally-ban-me" : {
+        "description" : "Literally bans the user who executes the command. This is not a joke.",
+        "arguments" : null,
+        "delete" : false,
+        "nsfw" : false
+    },
+    "literally-kick-me" : {
+        "description" : "Literally kicks the user who executes the command. This is not a joke.",
+        "arguments" : null,
+        "delete" : false,
+        "nsfw" : false
     }
 }
