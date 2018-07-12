@@ -1,7 +1,7 @@
 // Load up the discord.js library
 const Discord = require('discord.js')
 const fs = require('fs')
-
+const _ = require('underscore')
 const client = new Discord.Client()
 
 const config = require('./config.json')
@@ -16,7 +16,6 @@ config.colors = {
 }
 config.gotkicked = gotkicked
 config.joinmessages = joinmessages
-
 function loadEvents () {
     fs.readdir('./events/', (err, files) => {
         if (err) {
@@ -39,26 +38,49 @@ function loadplugins () {
     config.plugins = JSON.parse(pluginsfile)
     console.log('Reloaded plugins. Current plugins:\n\n`' + Object.keys(config.plugins) + '`')
 }
-
 var Influx = require('influx')
 var influx = new Influx.InfluxDB({
     host: 'oort.zwater.us:8086',
     database: 'nixnest',
     schema: [
-        {
-            measurement: 'message',
+    {
+        measurement: 'message',
             fields: {
                 value: Influx.FieldType.FLOAT,
-                manual: Influx.FieldType.FLOAT,
-                join: Influx.FieldType.FLOAT
+                    manual: Influx.FieldType.FLOAT,
+                    join: Influx.FieldType.FLOAT
             },
             tags: [
                 'id'
             ]
-        }
+    }
     ]
 
 })
+function getStats() {
+    console.log('Grabbing new stats, generating graphs');
+    const { execFile } = require('child_process')
+    execFile('./leaderboard.py', null, (error, stdout, stderr) => {
+        if (error) {
+            throw error
+        }
+        var leaders = JSON.parse(stdout)
+        console.log(leaders);
+        //console.log(client.guilds);
+        //logGuild = _.find(client.guilds, function(guild) {return guild.id == config.logserver; });
+        logGuild = client.guilds.find('id', config.logserver);
+        for (var entry in leaders) {
+            console.log(logGuild.members.find('id', leaders[entry].id).displayName);
+
+        }
+        //console.log(leaders[1].id);
+        //console.log(logGuild.members.find('id', leaders[1].id).displayName);
+
+    })
+
+}
+
+setInterval(getStats, 10000);
 
 loadEvents()
 loadplugins()
