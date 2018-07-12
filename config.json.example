@@ -14,5 +14,7 @@
     "msgs_50000" : ["407992497139220490", "50000"],
     "modrole" : "305469024693649410",
     "homechannel" : "MAIN OR GENERAL CHANNEL",
-    "supportchannel" : "TECHSUPPORT OR HELP CHANNEL"
+    "supportchannel" : "TECHSUPPORT OR HELP CHANNEL",
+    "plotlyuser" : "PLOTLY USERNAME",
+    "plotlykey" : "PLOTLY API KEY"
 }
