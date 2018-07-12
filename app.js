@@ -70,7 +70,11 @@ function getStats() {
         //logGuild = _.find(client.guilds, function(guild) {return guild.id == config.logserver; });
         logGuild = client.guilds.find('id', config.logserver);
         for (var entry in leaders) {
-            console.log(logGuild.members.find('id', leaders[entry].id).displayName);
+            if (logGuild.members.find('id', leaders[entry].id)) {
+                console.log(logGuild.members.find('id', leaders[entry].id).displayName);
+            } else {
+                console.log('User Not Found')
+            }
 
         }
         //console.log(leaders[1].id);
@@ -80,7 +84,7 @@ function getStats() {
 
 }
 
-setInterval(getStats, 10000);
+setInterval(getStats, 3600000);
 
 loadEvents()
 loadplugins()
