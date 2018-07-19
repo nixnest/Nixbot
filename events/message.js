@@ -54,8 +54,9 @@ module.exports = async (config, client, influx, message) => {
         checkusers[message.author.id] += 1
         if (config.msgs_500 && checkusers[message.author.id] % 10 === 0) {
             console.log('checking ' + message.author.id)
-            influx.query('SELECT SUM(value) + SUM(manual) FROM message WHERE \'id\'=\'' + message.author.id + '\' fill(0)').then(results => {
-                var newcount = results[0].sum_sum
+            influx.query('SELECT SUM(value) + SUM(manual) FROM message WHERE \"id\"=\'' + message.author.id + '\' fill(0)').then(results => {
+                console.log(results[0]);
+		var newcount = results[0].sum_sum
                 if (newcount > 500) {
                     message.member.addRole(config.msgs_500[0])
                 }

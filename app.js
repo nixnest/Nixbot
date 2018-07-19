@@ -32,7 +32,6 @@ function loadEvents () {
 }
 
 config.loadplugins = loadplugins()
-
 function loadplugins () {
     var pluginsfile = fs.readFileSync('./plugins/plugins.json')
     config.plugins = JSON.parse(pluginsfile)
@@ -57,7 +56,7 @@ var influx = new Influx.InfluxDB({
     ]
 
 })
-function getStats() {
+async function getStats() {
     console.log('Grabbing new stats, generating graphs');
     const { execFile } = require('child_process')
     execFile('./leaderboard.py', null, (error, stdout, stderr) => {
@@ -122,5 +121,4 @@ setInterval(getStats, 3600000);
 
 loadEvents()
 loadplugins()
-
 client.login(config.token)
