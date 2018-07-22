@@ -56,7 +56,7 @@ module.exports = async (config, client, influx, message) => {
             console.log('checking ' + message.author.id)
             influx.query('SELECT SUM(value) + SUM(manual) FROM message WHERE \"id\"=\'' + message.author.id + '\' fill(0)').then(results => {
                 console.log(results[0]);
-		var newcount = results[0].sum_sum
+        var newcount = results[0].sum_sum
                 if (newcount > 500) {
                     message.member.addRole(config.msgs_500[0])
                 }
@@ -107,23 +107,23 @@ module.exports = async (config, client, influx, message) => {
             files: ['https://cdn.discordapp.com/attachments/460892286423793696/464497037283688469/bidoof.png']
         })
     }
-    //    if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.cleanContent)) {
-    //        const m = await message.channel.send('detected image link. Analyzing')
-    //        var imgre = new RegExp('/http.*\.(png|jpg|jpeg)/ig');
-    //        var r = message.cleanContent.match(imgre);
-    //        console.log('using image url ' + r);
-    //        request('https://nsfw.haschek.at/api.php?url=' + message.cleanContent, { json: true }, (err, res, body) => {
-    //            console.log(body)
-    //            if (err) {
-    //                return console.log(err);
-    //            }
-    //            if (body.porn_probability) {
-    //                m.edit('Probability that this is porn: ' + body.porn_probability);
-    //            } else {
-    //                message.channel.send('Error');
-    //            }
-    //});
-    //    }
+        if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.cleanContent)) {
+            //const m = await message.channel.send('detected image link. Analyzing')
+            var imgre = new RegExp('/http.*\.(png|jpg|jpeg)/ig');
+            var r = message.cleanContent.match(imgre);
+            console.log('using image url ' + r);
+            request('https://nsfw.haschek.at/api.php?url=' + message.cleanContent, { json: true }, (err, res, body) => {
+                console.log(body)
+                if (err) {
+                    return console.log(err);
+                }
+                if (body.porn_probability) {
+                    if (body.porn_probability > 90) {
+                        message.channel.send('This is _probably_ porn(' + body.porn_probability + '%)');
+                    }
+                }
+    });
+        }
 
 
     arg.unshift(message.channel)
