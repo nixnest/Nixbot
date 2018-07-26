@@ -12,9 +12,9 @@ function leaderboard(users, counts) {
     var leaderboard = ""
     while (x <= num) {
         if ( x == 0 ) {
-            leaderboard = leaderboard + '__**' + x + '. ' + users[x] + ', ' + counts [x] + ' messages**__' + '\n'
+            leaderboard = leaderboard + '__**' + (x + 1) + '. ' + users[x] + ', ' + counts [x] + ' messages**__' + '\n'
         } else {
-            leaderboard = leaderboard + '**' + x + '.** *' + users[x] + '*, ' + counts[x] + ' messages' + '\n'
+            leaderboard = leaderboard + '**' + (x + 1) + '.** *' + users[x] + '*, ' + counts[x] + ' messages' + '\n'
         }
         x++;
     }
