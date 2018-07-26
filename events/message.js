@@ -4,8 +4,8 @@ const extra = require('./../modules/extraneous')
 const request = require('request');
 var checkusers = {}
 var messages = []
-
-module.exports = async (config, client, influx, message) => {
+//var vote = []
+module.exports = async (config, client, influx, vote, message) => {
     if (message.author.bot) return
 
     if (message.channel.toString().includes('436660589616431106')) {
@@ -56,7 +56,7 @@ module.exports = async (config, client, influx, message) => {
             console.log('checking ' + message.author.id)
             influx.query('SELECT SUM(value) + SUM(manual) FROM message WHERE \"id\"=\'' + message.author.id + '\' fill(0)').then(results => {
                 console.log(results[0]);
-        var newcount = results[0].sum_sum
+                var newcount = results[0].sum_sum
                 if (newcount > 500) {
                     message.member.addRole(config.msgs_500[0])
                 }
@@ -107,23 +107,27 @@ module.exports = async (config, client, influx, message) => {
             files: ['https://cdn.discordapp.com/attachments/460892286423793696/464497037283688469/bidoof.png']
         })
     }
-        if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.cleanContent)) {
-            //const m = await message.channel.send('detected image link. Analyzing')
-            var imgre = new RegExp('/http.*\.(png|jpg|jpeg)/ig');
-            var r = message.cleanContent.match(imgre);
-            console.log('using image url ' + r);
-            request('https://nsfw.haschek.at/api.php?url=' + message.cleanContent, { json: true }, (err, res, body) => {
-                console.log(body)
-                if (err) {
-                    return console.log(err);
+    if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.cleanContent)) {
+        //const m = await message.channel.send('detected image link. Analyzing')
+        var imgre = new RegExp('/http.*\.(png|jpg|jpeg)/ig');
+        var r = message.cleanContent.match(imgre);
+        console.log('using image url ' + r);
+        if (!message.channel.nsfw) {
+        request('https://nsfw.haschek.at/api.php?url=' + message.cleanContent, { json: true }, (err, res, body) => {
+            console.log(body)
+            if (err) {
+                return console.log(err);
+            }
+            if (body.porn_probability) {
+                if (body.porn_probability > 90) {
+                    message.channel.send('This is _probably_ porn(' + body.porn_probability + '%). React up to delete it. Needs 5 votes');
+                    message.react('⬆');
+                    vote[message.id] = 0
                 }
-                if (body.porn_probability) {
-                    if (body.porn_probability > 90) {
-                        message.channel.send('This is _probably_ porn(' + body.porn_probability + '%)');
-                    }
-                }
-    });
+            }
+        });
         }
+    }
 
 
     arg.unshift(message.channel)
@@ -180,7 +184,8 @@ module.exports = async (config, client, influx, message) => {
         }
         case 'messages': {
             if (!config.msgs_500) return;
-            influx.query('SELECT SUM(manual) FROM message WHERE \'id\'=\'' + message.author.id + '\' fill(0)').then(manresults => {
+            influx.query('SELECT SUM(manual) FROM message WHERE \"id\"=\'' + message.author.id + '\' fill(0)').then(async manresults => {
+                console.log(manresults);
                 if (manresults[0] !== undefined) {
                     message.channel.send('You have already set your messages.')
                 } else {
@@ -192,6 +197,13 @@ module.exports = async (config, client, influx, message) => {
                     if (isNaN(newmsg)) {
                         message.channel.send('Provided message count `' + newmsg + '` does not appear to be a number. Try again.')
                     } else if (newmsg < 500 && newmsg > 0) {
+                        influx.dropSeries({
+                            measurement: m => m.name('message'),
+                            where: e => e.tag('id').equals.value(message.author.id),
+                            database: 'nixnest'
+                        })
+                        await extra.sleep(2000)
+
                         influx.writePoints([
                             {
                                 measurement: 'message',
@@ -201,6 +213,13 @@ module.exports = async (config, client, influx, message) => {
                         ])
                         message.channel.send('Setting your message count in the database to ' + newmsg + '. **You cannot do this again. If you screwed it up, Ping ZackW**')
                     } else if (message.member.roles.find('id', config.msgs_500[0]) && newmsg < config.msgs_1000[1] && newmsg > 0) {
+                        influx.dropSeries({
+                            measurement: m => m.name('message'),
+                            where: e => e.tag('id').equals.value(message.author.id),
+                            database: 'nixnest'
+                        })
+                        await extra.sleep(2000)
+
                         influx.writePoints([
                             {
                                 measurement: 'message',
@@ -210,6 +229,13 @@ module.exports = async (config, client, influx, message) => {
                         ])
                         message.channel.send('Setting your message count in the database to ' + newmsg + '. **You cannot do this again. If you screwed it up, Ping ZackW**')
                     } else if (message.member.roles.find('id', config.msgs_1000[0]) && newmsg < config.msgs_2500[1] && newmsg > 0) {
+                        influx.dropSeries({
+                            measurement: m => m.name('message'),
+                            where: e => e.tag('id').equals.value(message.author.id),
+                            database: 'nixnest'
+                        })
+                        await extra.sleep(2000)
+
                         influx.writePoints([
                             {
                                 measurement: 'message',
@@ -219,6 +245,13 @@ module.exports = async (config, client, influx, message) => {
                         ])
                         message.channel.send('Setting your message count in the database to ' + newmsg + '. **You cannot do this again. If you screwed it up, Ping ZackW**')
                     } else if (message.member.roles.find('id', config.msgs_2500[0]) && newmsg < config.msgs_5000[1] && newmsg > 0) {
+                        influx.dropSeries({
+                            measurement: m => m.name('message'),
+                            where: e => e.tag('id').equals.value(message.author.id),
+                            database: 'nixnest'
+                        })
+                        await extra.sleep(2000)
+
                         influx.writePoints([
                             {
                                 measurement: 'message',
@@ -228,6 +261,13 @@ module.exports = async (config, client, influx, message) => {
                         ])
                         message.channel.send('Setting your message count in the database to ' + newmsg + '. **You cannot do this again. If you screwed it up, Ping ZackW**')
                     } else if (message.member.roles.find('id', config.msgs_5000[0]) && newmsg < config.msgs_10000[1] && newmsg > 0) {
+                        influx.dropSeries({
+                            measurement: m => m.name('message'),
+                            where: e => e.tag('id').equals.value(message.author.id),
+                            database: 'nixnest'
+                        })
+                        await extra.sleep(2000)
+
                         influx.writePoints([
                             {
                                 measurement: 'message',
@@ -237,6 +277,13 @@ module.exports = async (config, client, influx, message) => {
                         ])
                         message.channel.send('Setting your message count in the database to ' + newmsg + '. **You cannot do this again. If you screwed it up, Ping ZackW**')
                     } else if (message.member.roles.find('id', config.msgs_10000[0]) && newmsg < config.msgs_25000[1] && newmsg > 0) {
+                        influx.dropSeries({
+                            measurement: m => m.name('message'),
+                            where: e => e.tag('id').equals.value(message.author.id),
+                            database: 'nixnest'
+                        })
+                        await extra.sleep(2000)
+
                         influx.writePoints([
                             {
                                 measurement: 'message',
@@ -246,6 +293,13 @@ module.exports = async (config, client, influx, message) => {
                         ])
                         message.channel.send('Setting your message count in the database to ' + newmsg + '. **You cannot do this again. If you screwed it up, Ping ZackW**')
                     } else if (message.member.roles.find('id', config.msgs_25000[0]) && newmsg < config.msgs_50000[1] && newmsg > 0) {
+                        influx.dropSeries({
+                            measurement: m => m.name('message'),
+                            where: e => e.tag('id').equals.value(message.author.id),
+                            database: 'nixnest'
+                        })
+                        await extra.sleep(2000)
+
                         influx.writePoints([
                             {
                                 measurement: 'message',

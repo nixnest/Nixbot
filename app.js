@@ -8,6 +8,7 @@ const plotly = require('plotly')(config.plotlyuser, config.plotlykey)
 const gotkicked = require('./gotkicked.json')
 const joinmessages = require('./joinmessages.json')
 const stream = require('stream')
+var vote = {};
 // Since the events are moved to seperate files, need to smuggle these in through the config argument
 config.colors = {
     red: 0x781706,
@@ -24,7 +25,7 @@ function loadEvents () {
             files.forEach(file => {
                 const name = file.split('.')[0]
                 const event = require(`./events/${file}`)
-                client.on(name, event.bind(null, config, client, influx))
+                client.on(name, event.bind(null, config, client, influx, vote))
                 console.log(`Loading Event: ${name}`)
             })
         }

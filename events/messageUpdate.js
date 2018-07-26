@@ -2,7 +2,7 @@
 
 const extra = require('./../modules/extraneous')
 
-module.exports = async (config, client, influx, oldmsg, newmsg) => {
+module.exports = async (config, client, influx, vote, oldmsg, newmsg) => {
     if (oldmsg.cleanContent !== newmsg.cleanContent) {
         var oldFields = extra.fieldGenerator(oldmsg.cleanContent, 'Old message')
         var newFields = extra.fieldGenerator(newmsg.cleanContent, 'New message')

@@ -2,7 +2,7 @@
 
 const extra = require('./../modules/extraneous')
 
-module.exports = async (config, client, influx, message) => {
+module.exports = async (config, client, influx, vote, message) => {
     var embedFields = extra.fieldGenerator(message.cleanContent, 'Message')
     console.log(embedFields)
     client.channels.get(config.logchannel).send({embed: {

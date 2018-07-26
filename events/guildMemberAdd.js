@@ -1,6 +1,6 @@
 // guildMemberAdd.js
 
-module.exports = async (config, client, influx, member) => {
+module.exports = async (config, client, influx, vote, member) => {
     var timestamp = new Date()
     var seconds = Math.round(timestamp / 1000)
     influx.writePoints([
