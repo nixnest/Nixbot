@@ -9,6 +9,7 @@
        "`ssh $p@nixnest`",
        "`echo $p’s problems >> #support`",
        "`info $p`",
+       "`emerge -av $p`",
        "So $n, how many peppercoins have you mined?",
        "Welcome, $n, You will never find a country whose laws will satisfy your autism",
        "Look out, $n has joined the server",
