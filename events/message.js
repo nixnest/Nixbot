@@ -123,11 +123,20 @@ module.exports = async (config, client, influx, vote, message) => {
             files: ['https://cdn.discordapp.com/attachments/460892286423793696/464497037283688469/bidoof.png']
         })
     }
-    //console.log(message.attachments.find(message.id));
-    if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.cleanContent)) {
+
+    //console.log(message.attachments.size);
+    //console.log(message.id);
+    if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.cleanContent))  {
+        var data = message.cleanContent;
+    } else if (message.attachments.size == 1) {
+        if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.attachments.array()[0].url)) {
+        var data = message.attachments.array()[0].url;
+        }
+    }
+    if (data) {
         //const m = await message.channel.send('detected image link. Analyzing')
         var imgre = /http.*\.(png|jpg|jpeg)/ig;
-        var r = message.cleanContent.match(imgre);
+        var r = data.match(imgre);
         console.log('using image url ' + r);
         if (!message.channel.nsfw) {
             request('https://nsfw.haschek.at/api.php?url=' + r, { json: true }, (err, res, body) => {
