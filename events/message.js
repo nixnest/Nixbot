@@ -5,6 +5,7 @@ const request = require('request');
 var checkusers = {}
 var messages = []
 //var vote = []
+var lastimage = {};
 function leaderboard(users, counts) {
     var num = Object.keys(users).length
     num--;
@@ -125,15 +126,19 @@ module.exports = async (config, client, influx, vote, message) => {
     //console.log(message.attachments.find(message.id));
     if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.cleanContent)) {
         //const m = await message.channel.send('detected image link. Analyzing')
-        var imgre = new RegExp('/http.*\.(png|jpg|jpeg)/ig');
+        var imgre = /http.*\.(png|jpg|jpeg)/ig;
         var r = message.cleanContent.match(imgre);
         console.log('using image url ' + r);
         if (!message.channel.nsfw) {
-            request('https://nsfw.haschek.at/api.php?url=' + message.cleanContent, { json: true }, (err, res, body) => {
+            request('https://nsfw.haschek.at/api.php?url=' + r, { json: true }, (err, res, body) => {
                 console.log(body)
                 if (err) {
                     return console.log(err);
                 }
+                lastimage[message.channel.id] = {};
+                lastimage[message.channel.id]["url"] = r
+                lastimage[message.channel.id]["score"] = body.porn_probability
+                console.log(lastimage);
                 if (body.porn_probability) {
                     if (body.porn_probability > 90) {
                         message.channel.send('This is _probably_ porn(' + body.porn_probability + '%). React up to delete it. Needs 5 votes');
@@ -170,6 +175,15 @@ module.exports = async (config, client, influx, vote, message) => {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g)
     const command = args.shift().toLowerCase()
     switch (command) {
+        case 'isthisporn': {
+            if (message.channel.nsfw) {
+                message.channel.send("This command does not work in NSFW channels. It's safe to assume the last image posted was porn");
+            } else {
+                message.channel.send("URL to the last image posted: `" + lastimage[message.channel.id]["url"] + "`\nScore: **" + lastimage[message.channel.id]["score"] + "%**");
+            }
+        break;
+        }
+
         case 'leaderboard': {
             const { execFile } = require('child_process')
             execFile('./leaderboard.py', null, (error, stdout, stderr) => {
