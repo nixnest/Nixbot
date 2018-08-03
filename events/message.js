@@ -35,7 +35,7 @@ module.exports = async (config, client, influx, vote, message) => {
     }
 
     if (message.channel.id === config.supportchannel) {
-        influx.query('SELECT last(join) FROM message WHERE \'id\'=\'' + message.author.id + '\' fill(0)').then(results => {
+        influx.query('SELECT last(join) FROM message WHERE \"d\"=\'' + message.author.id + '\' fill(0)').then(results => {
             var joindate = results[0].last
             var currdate = new Date()
             var currdatesec = Math.round(currdate / 1000)
