@@ -232,6 +232,34 @@ module.exports = async (config, client, influx, vote, message) => {
             });
             break
         }
+        case 'realban': {
+            //console.log(message.mentions.users.array().length);
+            if (message.mentions.users.array().length == 1) {
+            //console.log(message.mentions);
+                var mentions = message.mentions.users.array()
+                //console.log("using mention");
+                console.log(mentions);
+            var target = message.guild.members.find('id', mentions[0].id)
+            } else {
+                arg.shift();
+                arg.shift();
+                var potential = arg.toString();
+                if (message.guild.members.find('id', potential)) {
+                    var target = message.guild.members.find('id', potential);
+                } else {
+                    message.channel.send("No user by that ID. Sorry.");
+                }
+            }
+            if (target && message.member.roles.find('id', config.modrole)) {
+                message.channel.send("banning" + target);
+                target.ban()
+            } else {
+                message.channel.send('Something has gone wrong. Either there\'s been an error, or, more likely, you aren\'t a moderator')
+            }
+
+
+            break;
+        }
         case 'setmsgs': {
             if (!config.msgs_500) return;
             var mentions = message.mentions.users.array()
