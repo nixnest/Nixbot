@@ -4,7 +4,7 @@ channel=$(echo $1 | tr --delete '[<>#]')
 #echo $channel
 shift
 message=$*
-if [ -e /home/zack/dbot/logs/$channel ]
+if [ -e $logDir/$channel ]
 then
     echo -e "$(tail -99 $logDir/$channel)\n$message" > $logDir/$channel
 else

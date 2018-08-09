@@ -26,8 +26,10 @@ case $1 in
                 shift
                 ;;
         esac
-        ostring=$(cat $logDir/$channel)
-        ostring2=$(echo -e $ostring | tr "\"" " ")
+        ostring=$(cat $logDir/$channel | tr -cd '[[:alnum:]]\ \n._-')
+        ostring2=$ostring
+        #echo -e $ostring2
+        #ostring2=$(echo -e $ostring | tr "\"" " ")
         #echo $(echo $ostring | tr -c '[:alpha:]' '[\n*]' | fgrep -v -w -i -f /usr/share/groff/current/eign | sort -i | uniq -c | sort -nr | head -50)
         words=$(echo $ostring | tr -c '[:alpha:]' '[\n*]' | fgrep -v -w -i -f /usr/share/groff/current/eign | sort -i | uniq -c | sort -nr \
             | head -50 | awk '{print $2}' | xargs -d "\n" -n 1 -I search fgrep -x -i 'search' $nounList | uniq -i | head -5 | tac)
@@ -37,7 +39,8 @@ case $1 in
             exit 0
         fi
 
-        echo -e "Keywords: \'$words\'" | tr '\n' ' '
+        echo -e "**Keywords:** \`$words\`" | tr '\n' ' '
+        echo ""
         ####
         #
         # Now we construct a json file for sending to Watson that contains the text and keywords to get emotions on
