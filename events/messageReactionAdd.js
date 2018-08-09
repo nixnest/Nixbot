@@ -1,7 +1,7 @@
 // guildCreate.js
 
 module.exports = async (config, client, influx, vote, react) => {
-//    console.log(vote);
+    console.log(react);
 //    console.log('id');
 //    console.log(react.message.id);
 //    console.log('emoji');

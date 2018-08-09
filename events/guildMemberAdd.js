@@ -3,6 +3,7 @@
 module.exports = async (config, client, influx, vote, member) => {
     var timestamp = new Date()
     var seconds = Math.round(timestamp / 1000)
+    console.log('new join at ' + seconds);
     influx.writePoints([
         {
             measurement: 'message',
