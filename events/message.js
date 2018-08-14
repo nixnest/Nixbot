@@ -193,7 +193,7 @@ module.exports = async (config, client, influx, vote, message) => {
         case 'isthisporn': {
             if (message.channel.nsfw) {
                 message.channel.send("This command does not work in NSFW channels. It's safe to assume the last image posted was porn");
-            } else {
+            } else if (message.member.roles.find("id", config.modrole)) {
                 message.channel.send("URL to the last image posted: `" + lastimage[message.channel.id]["url"] + "`\nScore: **" + lastimage[message.channel.id]["score"] + "%**");
             }
             break;
