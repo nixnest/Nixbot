@@ -102,18 +102,22 @@ module.exports = async (config, client, influx, vote, message) => {
 
     // If message is only some form of "oof" then send the oof file
     if (/^(o+of)$/ig.test(message.cleanContent)) {
-        message.channel.send({
-            files: ['https://cdn.discordapp.com/attachments/437302483044401152/446047008147374091/Roblox_Death_Sound_Effect.mp3']
-        })
-        if (message.member.voiceChannelID) {
-            console.log('Connecting to voice channel')
-            message.member.voiceChannel.join()
-                .then(connection => {
-                    connection.playFile('./Roblox_Death_Sound_Effect.mp3')
-                })
-            await extra.sleep(3000)
-            console.log('Disconnecting from voice channel')
-            message.member.voiceChannel.leave()
+        var rand = Math.floor(Math.random() * Math.floor(100));
+        if (rand >= 66) {
+
+            message.channel.send({
+                files: ['https://cdn.discordapp.com/attachments/437302483044401152/446047008147374091/Roblox_Death_Sound_Effect.mp3']
+            })
+            if (message.member.voiceChannelID) {
+                console.log('Connecting to voice channel')
+                message.member.voiceChannel.join()
+                    .then(connection => {
+                        connection.playFile('./Roblox_Death_Sound_Effect.mp3')
+                    })
+                await extra.sleep(3000)
+                console.log('Disconnecting from voice channel')
+                message.member.voiceChannel.leave()
+            }
         }
     }
 
@@ -130,7 +134,7 @@ module.exports = async (config, client, influx, vote, message) => {
         var data = message.cleanContent;
     } else if (message.attachments.size == 1) {
         if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.attachments.array()[0].url)) {
-        var data = message.attachments.array()[0].url;
+            var data = message.attachments.array()[0].url;
         }
     }
     if (data) {
@@ -190,7 +194,7 @@ module.exports = async (config, client, influx, vote, message) => {
             } else {
                 message.channel.send("URL to the last image posted: `" + lastimage[message.channel.id]["url"] + "`\nScore: **" + lastimage[message.channel.id]["score"] + "%**");
             }
-        break;
+            break;
         }
 
         case 'leaderboard': {
@@ -235,11 +239,11 @@ module.exports = async (config, client, influx, vote, message) => {
         case 'realban': {
             //console.log(message.mentions.users.array().length);
             if (message.mentions.users.array().length == 1) {
-            //console.log(message.mentions);
+                //console.log(message.mentions);
                 var mentions = message.mentions.users.array()
                 //console.log("using mention");
                 console.log(mentions);
-            var target = message.guild.members.find('id', mentions[0].id)
+                var target = message.guild.members.find('id', mentions[0].id)
             } else {
                 arg.shift();
                 arg.shift();
