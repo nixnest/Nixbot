@@ -154,11 +154,11 @@ module.exports = async (config, client, influx, vote, message) => {
                 console.log(lastimage);
                 if (body.porn_probability) {
                     if (body.porn_probability > 90) {
-                        message.channel.send('This is _probably_ porn(' + body.porn_probability + '%). React up to delete it. Needs 5 votes');
+                        message.channel.send('This is _probably_ porn(' + body.porn_probability + '%). React up on the image to delete it. Needs 5 votes');
                         message.react('⬆');
                         vote[message.id] = 0
                     } else {
-                        message.react('✔');
+                        //message.react('✔');
                     }
                 }
             });
