@@ -157,6 +157,8 @@ module.exports = async (config, client, influx, vote, message) => {
                         message.channel.send('This is _probably_ porn(' + body.porn_probability + '%). React up to delete it. Needs 5 votes');
                         message.react('⬆');
                         vote[message.id] = 0
+                    } else {
+                        message.react('✔');
                     }
                 }
             });
