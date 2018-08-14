@@ -5,7 +5,7 @@ import json
 from operator import itemgetter
 influxUrl = 'http://oort.zwater.us:8086/query'
 values = {'db' : 'nixnest',
-          'q' : 'SELECT sum("value") AS "sum_value" FROM "nixnest"."autogen"."message" WHERE time > now() - 7d GROUP BY time(1w), "id" FILL(none)'
+          'q' : 'SELECT sum("value") AS "sum_value" FROM "nixnest"."autogen"."message" WHERE time > now() - 7d GROUP BY "id" FILL(0)'
          }
 data = urllib.parse.urlencode(values)
 data = data.encode('ascii')
