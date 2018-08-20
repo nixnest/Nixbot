@@ -157,8 +157,8 @@ module.exports = async (config, client, influx, vote, message) => {
                         message.channel.send('This is _probably_ porn(' + body.porn_probability + '%). React up on the image to delete it. Needs 5 votes');
                         message.react('⬆');
                         vote[message.id] = 0
-                    } else {
-                        //message.react('✔');
+                    } else  if (message.channel.id == "124648453652480003") {
+                        message.react('✔');
                     }
                 }
             });
@@ -193,7 +193,7 @@ module.exports = async (config, client, influx, vote, message) => {
         case 'isthisporn': {
             if (message.channel.nsfw) {
                 message.channel.send("This command does not work in NSFW channels. It's safe to assume the last image posted was porn");
-            } else if (message.member.roles.find("id", config.modrole)) {
+            } else if (message.member.roles.find("id", config.modrole) || message.channel.id == "124648453652480003") {
                 message.channel.send("URL to the last image posted: `" + lastimage[message.channel.id]["url"] + "`\nScore: **" + lastimage[message.channel.id]["score"] + "%**");
             }
             break;
@@ -227,7 +227,7 @@ module.exports = async (config, client, influx, vote, message) => {
                     }
 
                 }
-                message.channel.send(leaderboard(users, counts));
+                message.channel.send('**Top posters, last 7 days:**\n' + leaderboard(users, counts));
                 //message.channel.send(counts);
                 //message.channel.send({
                 //    files: [{
