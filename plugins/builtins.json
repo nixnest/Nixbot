@@ -62,5 +62,14 @@
         "arguments" : null,
         "delete" : false,
         "nsfw" : false
+    },
+    "cas" : {
+        "description" : "Runs Content-aware scaling on images. run with no arguments to use the most recently posted image",
+        "arguments" : {
+            "URL" : {
+                "msg" : "URL of Image",
+                "required" : false
+            }
+        }
     }
 }
