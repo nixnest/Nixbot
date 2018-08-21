@@ -6,6 +6,7 @@ var checkusers = {}
 var messages = []
 //var vote = []
 var lastimage = {};
+var casprocessing = false
 function leaderboard(users, counts) {
     var num = Object.keys(users).length
     num--;
@@ -141,17 +142,17 @@ module.exports = async (config, client, influx, vote, message) => {
         //const m = await message.channel.send('detected image link. Analyzing')
         var imgre = /http.*\.(png|jpg|jpeg)/ig;
         var r = data.match(imgre);
-        console.log('using image url ' + r);
+        console.log('scanning image url ' + r);
         if (!message.channel.nsfw) {
             request('https://nsfw.haschek.at/api.php?url=' + r, { json: true }, (err, res, body) => {
-                console.log(body)
+                //console.log(body)
                 if (err) {
                     return console.log(err);
                 }
                 lastimage[message.channel.id] = {};
                 lastimage[message.channel.id]["url"] = r
                 lastimage[message.channel.id]["score"] = body.porn_probability
-                console.log(lastimage);
+                //console.log(lastimage);
                 if (body.porn_probability) {
                     if (body.porn_probability > 90) {
                         message.channel.send('This is _probably_ porn(' + body.porn_probability + '%). React up on the image to delete it. Needs 5 votes');
@@ -190,6 +191,70 @@ module.exports = async (config, client, influx, vote, message) => {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g)
     const command = args.shift().toLowerCase()
     switch (command) {
+        case 'cas' : {
+            if (casprocessing == false) {
+                if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.cleanContent))  {
+                    const m = await message.channel.send('Processing. Hold on a minute.');
+                    console.log('found a URL');
+                    arg.shift();
+
+                    arg.shift();
+                    var url = arg.toString();
+                    var casargs = [url,'1','1'];
+                    console.log(casargs)
+                    const { execFile } = require('child_process')
+                    casprocessing = true
+                    execFile('./ContentAware.sh', casargs, (error, stdout, stderr) => {
+                        console.log(stderr);
+                        if (stderr) {
+                            casprocessing = false
+                        }
+                        if (error) {
+                            casprocessing = false
+                            throw error
+                        }
+                        if (stdout) {
+                            casprocessing = false
+                            m.delete();
+                            message.channel.send({
+                                files: [{
+                                    attachment: './CAS_OUTPUT.jpg',
+                                    name: 'CAS_OUTPUT.jpg'
+                                }]
+                            })
+                        }
+                    });
+                } else {
+                    const m = await message.channel.send('Processing the most recently posted image. Hold on a minute.');
+                    var casargs = [lastimage[message.channel.id]["url"], '1', '1']
+                    casprocessing = true
+                    const { execFile } = require('child_process')
+                    execFile('./ContentAware.sh', casargs, (error, stdout, stderr) => {
+                        console.log(stderr);
+                        if (stderr) {
+                            casprocessing = false
+                        }
+                        if (error) {
+                            casprocessing = false
+                            throw error
+                        }
+                        if (stdout) {
+                            m.delete();
+                            casprocessing = false
+                            message.channel.send('Using most recently posted image.', {
+                                files: [{
+                                    attachment: './CAS_OUTPUT.jpg',
+                                    name: 'CAS_OUTPUT.jpg'
+                                }]
+                            })
+                        }
+                    });
+                }
+            } else {
+                message.channel.send('Still processing. Wait a minute.');
+            }
+            break;
+        }
         case 'isthisporn': {
             if (message.channel.nsfw) {
                 message.channel.send("This command does not work in NSFW channels. It's safe to assume the last image posted was porn");
