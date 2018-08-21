@@ -194,6 +194,7 @@ module.exports = async (config, client, influx, vote, message) => {
         case 'cas' : {
             if (casprocessing == false) {
                 if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.cleanContent))  {
+                    message.delete();
                     const m = await message.channel.send('Processing. Hold on a minute.');
                     console.log('found a URL');
                     arg.shift();
