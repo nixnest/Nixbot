@@ -13,7 +13,7 @@ function leaderboard(users, counts) {
     var x = 0
     var leaderboard = ""
     while (x <= num) {
-        if ( x == 0 ) {
+        if ( x == 0) {
             leaderboard = leaderboard + '__**' + (x + 1) + '. ' + users[x] + ', ' + counts [x] + ' messages**__' + '\n'
         } else {
             leaderboard = leaderboard + '**' + (x + 1) + '.** *' + users[x] + '*, ' + counts[x] + ' messages' + '\n'
@@ -24,7 +24,7 @@ function leaderboard(users, counts) {
 }
 module.exports = async (config, client, influx, vote, message) => {
     if (message.author.bot) return
-
+    if (message.member.roles.find('id', config.botbannedrole) && !message.member.roles.find("id", config.modrole)) return
     if (message.channel.toString().includes('436660589616431106')) {
         message.delete()
     }

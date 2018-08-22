@@ -16,5 +16,6 @@
     "homechannel" : "MAIN OR GENERAL CHANNEL",
     "supportchannel" : "TECHSUPPORT OR HELP CHANNEL",
     "plotlyuser" : "PLOTLY USERNAME",
-    "plotlykey" : "PLOTLY API KEY"
+    "plotlykey" : "PLOTLY API KEY",
+    "botbannedrole" : "ROLE_ID"
 }
