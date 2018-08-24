@@ -143,14 +143,17 @@ module.exports = async (config, client, influx, vote, message) => {
         var imgre = /http.*\.(png|jpg|jpeg)/ig;
         var r = data.match(imgre);
         console.log('scanning image url ' + r);
+        lastimage[message.channel.id] = {};
+        lastimage[message.channel.id]["url"] = r
+        lastimage[message.channel.id]["score"] = "stillscanning"
         if (!message.channel.nsfw) {
             request('https://nsfw.haschek.at/api.php?url=' + r, { json: true }, (err, res, body) => {
                 //console.log(body)
                 if (err) {
                     return console.log(err);
                 }
-                lastimage[message.channel.id] = {};
-                lastimage[message.channel.id]["url"] = r
+                //lastimage[message.channel.id] = {};
+                //lastimage[message.channel.id]["url"] = r
                 lastimage[message.channel.id]["score"] = body.porn_probability
                 //console.log(lastimage);
                 if (body.porn_probability) {
@@ -232,6 +235,36 @@ module.exports = async (config, client, influx, vote, message) => {
                     arg.shift();
                     arg.shift();
                     var url = 'https://cdn.discordapp.com/emojis/' + /^.*<:.*:([0-9]{18})>/ig.exec(message.cleanContent)[1] +'.png'
+                    var casargs = [url,'1','1'];
+                    console.log(casargs)
+                    const { execFile } = require('child_process')
+                    casprocessing = true
+                    execFile('./ContentAware.sh', casargs, (error, stdout, stderr) => {
+                        console.log(stderr);
+                        if (stderr) {
+                            casprocessing = false
+                        }
+                        if (error) {
+                            casprocessing = false
+                            throw error
+                        }
+                        if (stdout) {
+                            casprocessing = false
+                            m.delete();
+                            message.channel.send({
+                                files: [{
+                                    attachment: './CAS_OUTPUT.jpg',
+                                    name: 'CAS_OUTPUT.jpg'
+                                }]
+                            })
+                        }
+                    });
+                } else if (arg.includes("avatar")) {
+                    const m = await message.channel.send('Processing. Hold on a minute.');
+                    console.log('found an emoji');
+                    arg.shift();
+                    arg.shift();
+                    var url = message.author.displayAvatarURL
                     var casargs = [url,'1','1'];
                     console.log(casargs)
                     const { execFile } = require('child_process')
