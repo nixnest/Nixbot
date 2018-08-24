@@ -259,7 +259,7 @@ module.exports = async (config, client, influx, vote, message) => {
                             })
                         }
                     });
-                } else if (arg.includes("avatar")) {
+                } else if (arg.includes("me")) {
                     const m = await message.channel.send('Processing. Hold on a minute.');
                     console.log('found an emoji');
                     arg.shift();
@@ -267,28 +267,75 @@ module.exports = async (config, client, influx, vote, message) => {
                     var url = message.author.displayAvatarURL
                     var casargs = [url,'1','1'];
                     console.log(casargs)
-                    const { execFile } = require('child_process')
-                    casprocessing = true
-                    execFile('./ContentAware.sh', casargs, (error, stdout, stderr) => {
-                        console.log(stderr);
-                        if (stderr) {
-                            casprocessing = false
+                    if (/.*\.gif/ig.test(url)) {
+                        m.edit('User avatar is a gif. Can\'t operate');
+                    } else {
+                        const { execFile } = require('child_process')
+                        casprocessing = true
+                        execFile('./ContentAware.sh', casargs, (error, stdout, stderr) => {
+                            console.log(stderr);
+                            if (stderr) {
+                                casprocessing = false
+                            }
+                            if (error) {
+                                casprocessing = false
+                                throw error
+                            }
+                            if (stdout) {
+                                casprocessing = false
+                                m.delete();
+                                message.channel.send({
+                                    files: [{
+                                        attachment: './CAS_OUTPUT.jpg',
+                                        name: 'CAS_OUTPUT.jpg'
+                                    }]
+                                })
+                            }
+                        });
+                    }
+                } else if (message.mentions.users.array().length == 1) {
+                    //console.log(message.mentions);
+                    var mentions = message.mentions.users.array()
+                    //console.log("using mention");
+                    //console.log(mentions);
+                    var target = message.guild.members.find('id', mentions[0].id)
+                    if (target) {
+                        const m = await message.channel.send('Processing. Hold on a minute.');
+                        console.log(target)
+                        console.log('found a mention');
+                        arg.shift();
+                        arg.shift();
+                        var url = target.user.displayAvatarURL
+                        console.log(url);
+                        var casargs = [url,'1','1'];
+                        console.log(casargs)
+                        if (/.*\.gif/ig.test(url)) {
+                            m.edit('User avatar is a gif. Can\'t operate');
+                        } else {
+                            const { execFile } = require('child_process')
+                            casprocessing = true
+                            execFile('./ContentAware.sh', casargs, (error, stdout, stderr) => {
+                                console.log(stderr);
+                                if (stderr) {
+                                    casprocessing = false
+                                }
+                                if (error) {
+                                    casprocessing = false
+                                    throw error
+                                }
+                                if (stdout) {
+                                    casprocessing = false
+                                    m.delete();
+                                    message.channel.send({
+                                        files: [{
+                                            attachment: './CAS_OUTPUT.jpg',
+                                            name: 'CAS_OUTPUT.jpg'
+                                        }]
+                                    })
+                                }
+                            });
                         }
-                        if (error) {
-                            casprocessing = false
-                            throw error
-                        }
-                        if (stdout) {
-                            casprocessing = false
-                            m.delete();
-                            message.channel.send({
-                                files: [{
-                                    attachment: './CAS_OUTPUT.jpg',
-                                    name: 'CAS_OUTPUT.jpg'
-                                }]
-                            })
-                        }
-                    });
+                    }
                 } else {
                     const m = await message.channel.send('Processing the most recently posted image. Hold on a minute.');
                     var casargs = [lastimage[message.channel.id]["url"], '1', '1']
