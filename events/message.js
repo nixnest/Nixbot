@@ -225,6 +225,37 @@ module.exports = async (config, client, influx, vote, message) => {
                             })
                         }
                     });
+                } else if (/^.*<:.*:([0-9]{18})>/ig.test(message.cleanContent))  {
+                    message.delete();
+                    const m = await message.channel.send('Processing. Hold on a minute.');
+                    console.log('found an emoji');
+                    arg.shift();
+                    arg.shift();
+                    var url = 'https://cdn.discordapp.com/emojis/' + /^.*<:.*:([0-9]{18})>/ig.exec(message.cleanContent)[1] +'.png'
+                    var casargs = [url,'1','1'];
+                    console.log(casargs)
+                    const { execFile } = require('child_process')
+                    casprocessing = true
+                    execFile('./ContentAware.sh', casargs, (error, stdout, stderr) => {
+                        console.log(stderr);
+                        if (stderr) {
+                            casprocessing = false
+                        }
+                        if (error) {
+                            casprocessing = false
+                            throw error
+                        }
+                        if (stdout) {
+                            casprocessing = false
+                            m.delete();
+                            message.channel.send({
+                                files: [{
+                                    attachment: './CAS_OUTPUT.jpg',
+                                    name: 'CAS_OUTPUT.jpg'
+                                }]
+                            })
+                        }
+                    });
                 } else {
                     const m = await message.channel.send('Processing the most recently posted image. Hold on a minute.');
                     var casargs = [lastimage[message.channel.id]["url"], '1', '1']
