@@ -16,7 +16,7 @@ def loadJSON(jf):
         try:
             return json.load(f)
         except ValueError:
-            print('Error loading JSON from file')
+            print('Error loading JSON from ' + jf)
 
 plugins = loadJSON(pluginfile)
 builtins = loadJSON(builtinfile)
