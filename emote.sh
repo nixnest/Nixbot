@@ -63,7 +63,7 @@ case $1 in
             -H "Content-Type: application/json" \
             -u "$watsonUser":"$watsonPass" \
             -d @$paramDir/parameters$channel.json \
-            "https://gateway.watsonplatform.net/natural-language-understanding/api/v1/analyze?version=2018-03-16")
+            "https://gateway.watsonplatform.net/natural-language-understanding/api/v1/analyze?version=2018-08-23")
         >&2 echo $response
         ####
         #
