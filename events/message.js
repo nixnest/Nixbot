@@ -208,7 +208,7 @@ module.exports = async (config, client, influx, vote, message) => {
                     var casargs = [url];
                     console.log(casargs)
                     const { execFile } = require('child_process')
-                    casprocessing = true
+                    fryprocessing = true
                     execFile('./bashwrapperboi.sh', casargs, (error, stdout, stderr) => {
                         console.log(stderr);
                         if (stderr) {
