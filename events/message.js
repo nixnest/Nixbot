@@ -7,6 +7,7 @@ var messages = []
 //var vote = []
 var lastimage = {};
 var casprocessing = false
+var fryprocessing = false
 function leaderboard(users, counts) {
     var num = Object.keys(users).length
     num--;
@@ -194,6 +195,179 @@ module.exports = async (config, client, influx, vote, message) => {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g)
     const command = args.shift().toLowerCase()
     switch (command) {
+        case 'deepfry' : {
+            if (fryprocessing == false) {
+                if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.cleanContent))  {
+                    message.delete();
+                    const m = await message.channel.send('Processing. Hold on a minute.');
+                    console.log('found a URL');
+                    arg.shift();
+
+                    arg.shift();
+                    var url = arg.toString();
+                    var casargs = [url];
+                    console.log(casargs)
+                    const { execFile } = require('child_process')
+                    casprocessing = true
+                    execFile('./bashwrapperboi.sh', casargs, (error, stdout, stderr) => {
+                        console.log(stderr);
+                        if (stderr) {
+                            fryprocessing = false
+                        }
+                        if (error) {
+                            fryprocessing = false
+                            throw error
+                        }
+                        if (stdout) {
+                            fryprocessing = false
+                            m.delete();
+                            message.channel.send({
+                                files: [{
+                                    attachment: './deepfry_output.png',
+                                    name: 'deepfry_output.png'
+                                }]
+                            })
+                        }
+                    });
+                } else if (/^.*<:.*:([0-9]{18})>/ig.test(message.cleanContent))  {
+                    message.delete();
+                    const m = await message.channel.send('Processing. Hold on a minute.');
+                    console.log('found an emoji');
+                    arg.shift();
+                    arg.shift();
+                    var url = 'https://cdn.discordapp.com/emojis/' + /^.*<:.*:([0-9]{18})>/ig.exec(message.cleanContent)[1] +'.png'
+                    var casargs = [url];
+                    console.log(casargs)
+                    const { execFile } = require('child_process')
+                    fryprocessing = true
+                    execFile('./bashwrapperboi.sh', casargs, (error, stdout, stderr) => {
+                        console.log(stderr);
+                        if (stderr) {
+                            fryprocessing = false
+                        }
+                        if (error) {
+                            fryprocessing = false
+                            throw error
+                        }
+                        if (stdout) {
+                            fryprocessing = false
+                            m.delete();
+                            message.channel.send({
+                                files: [{
+                                    attachment: './deepfry_output.png',
+                                    name: 'deepfry_output.png'
+                                }]
+                            })
+                        }
+                    });
+                } else if (arg.includes("me")) {
+                    const m = await message.channel.send('Processing. Hold on a minute.');
+                    console.log('found an emoji');
+                    arg.shift();
+                    arg.shift();
+                    var url = message.author.displayAvatarURL
+                    var casargs = [url];
+                    console.log(casargs)
+                    if (/.*\.gif/ig.test(url)) {
+                        m.edit('User avatar is a gif. Can\'t operate');
+                    } else {
+                        const { execFile } = require('child_process')
+                        fryprocessing = true
+                        execFile('./bashwrapperboi.sh', casargs, (error, stdout, stderr) => {
+                            console.log(stderr);
+                            if (stderr) {
+                                fryprocessing = false
+                            }
+                            if (error) {
+                                fryprocessing = false
+                                throw error
+                            }
+                            if (stdout) {
+                                fryprocessing = false
+                                m.delete();
+                                message.channel.send({
+                                    files: [{
+                                        attachment: './deepfry_output.png',
+                                        name: 'deepfry_output.png'
+                                    }]
+                                })
+                            }
+                        });
+                    }
+                } else if (message.mentions.users.array().length == 1) {
+                    //console.log(message.mentions);
+                    var mentions = message.mentions.users.array()
+                    //console.log("using mention");
+                    //console.log(mentions);
+                    var target = message.guild.members.find('id', mentions[0].id)
+                    if (target) {
+                        const m = await message.channel.send('Processing. Hold on a minute.');
+                        console.log(target)
+                        console.log('found a mention');
+                        arg.shift();
+                        arg.shift();
+                        var url = target.user.displayAvatarURL
+                        console.log(url);
+                        var casargs = [url];
+                        console.log(casargs)
+                        if (/.*\.gif/ig.test(url)) {
+                            m.edit('User avatar is a gif. Can\'t operate');
+                        } else {
+                            const { execFile } = require('child_process')
+                            fryprocessing = true
+                            execFile('./bashwrapperboi.sh', casargs, (error, stdout, stderr) => {
+                                console.log(stderr);
+                                if (stderr) {
+                                    fryprocessing = false
+                                }
+                                if (error) {
+                                    fryprocessing = false
+                                    throw error
+                                }
+                                if (stdout) {
+                                    fryprocessing = false
+                                    m.delete();
+                                    message.channel.send({
+                                        files: [{
+                                            attachment: './deepfry_output.png',
+                                            name: 'deepfry_output.png'
+                                        }]
+                                    })
+                                }
+                            });
+                        }
+                    }
+                } else {
+                    const m = await message.channel.send('Processing the most recently posted image. Hold on a minute.');
+                    var casargs = [lastimage[message.channel.id]["url"]]
+                    fryprocessing = true
+                    const { execFile } = require('child_process')
+                    execFile('./bashwrapperboi.sh', casargs, (error, stdout, stderr) => {
+                        console.log(stderr);
+                        if (stderr) {
+                            fryprocessing = false
+                        }
+                        if (error) {
+                            fryprocessing = false
+                            throw error
+                        }
+                        if (stdout) {
+                            m.delete();
+                            fryprocessing = false
+                            message.channel.send('Using most recently posted image.', {
+                                files: [{
+                                    attachment: './deepfry_output.png',
+                                    name: 'deepfry_output.png'
+                                }]
+                            })
+                        }
+                    });
+                }
+            } else {
+                message.channel.send('Still processing. Wait a minute.');
+            }
+            break;
+        }
         case 'cas' : {
             if (casprocessing == false) {
                 if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.cleanContent))  {
