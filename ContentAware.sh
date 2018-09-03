@@ -1,43 +1,54 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
+
+# grab arguments
 FILE="$1"
-SLASH="/"
-if (echo "$FILE" | grep -Eiq 'http.*\.(png|jpg|jpeg)')
-then
-    curl -s $FILE -o /tmp/contentaware.png
-    FILE="/tmp/contentaware.png"
-    #echo "file is a URL"
-else
-    #echo "file is not a URL"
-    FILE="$PWD$SLASH$FILE"
-fi
-MULT="$2"
-#SLASH="/"
-#FILE="$PWD$SLASH$FILE"
-INFO=$(identify $FILE)
-#echo $INFO
-RES=$(echo $INFO | grep -o [0-9][0-9]*x[0-9][0-9]*\ )
-#echo $RES
-WIDTH=$(echo $RES | grep -o ^[0-9][0-9]*)
-HEIGHT=$(echo $RES | grep -o [0-9][0-9]*$)
-#echo $WIDTH $HEIGHT
+MULT1="$2"
+MULT2="$3"
+
+case "$FILE" in
+    http*.[Pp][Nn][Gg]|http*.[Jj][Pp][Gg]|http*.[Jj][Pp][Ee][Gg])
+        # file is a url
+        curl -s "$FILE" -o /tmp/contentaware.png
+        FILE="/tmp/contentaware.png"
+        echo "file is a URL"
+        ;;
+    *)
+        # file is not a url
+        echo "file is not a URL"
+        FILE="$PWD/$FILE"
+        ;;
+esac
+
+# grab resolution parameters
+set -- $(identify "$FILE")
+RES="$3"
+WIDTH="${3%x*}"
+HEIGHT="${3#*x}"
+
 if [ "$WIDTH" -gt "1920" ] || [ "$HEIGHT" -gt "1080" ]
 then
     echo "resizing"
     convert "$FILE" -resize 1920x1080 -quality 100 "$FILE"
-    INFO=$(identify $FILE)
-    RES=$(echo $INFO | grep -o [0-9][0-9]*x[0-9][0-9]*\ )
-    WIDTH=$(echo $RES | grep -o ^[0-9][0-9]*)
-    HEIGHT=$(echo $RES | grep -o [0-9][0-9]*$)
+    set -- $(identify "$FILE")
+    RES="$3"
+    WIDTH="${3%x*}"
+    HEIGHT="${3#*x}"
 fi
-let HEIGHT2=$HEIGHT/"(2*$MULT)"
-let WIDTH2=$WIDTH/"(2*$MULT)"
-DEL="x"
-STR=$WIDTH2$DEL$HEIGHT2
-let W3=$WIDTH*$3
-let H3=$HEIGHT*$3
-STR2=$W3$DEL$H3
+
+# cas step one
+H2="$(( HEIGHT/ (2 * MULT1) ))"
+W2="$(( WIDTH/ (2 * MULT1) ))"
+STR="${W2}x${H2}"
+
+# cas step two
+W3="$(( WIDTH * MULT2 ))"
+H3="$(( HEIGHT * MULT2 ))"
+STR2="${W3}x${H3}"
+
+# do cas conversion
 echo "Starting first stage"
-convert -liquid-rescale $STR $FILE ./CAS_OUTPUT.jpg
+convert -liquid-rescale $STR "$FILE" ./CAS_OUTPUT.jpg
 echo "Starting Second stage"
 convert -liquid-rescale $STR2 ./CAS_OUTPUT.jpg ./CAS_OUTPUT.jpg
+
 echo "Done"
