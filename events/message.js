@@ -25,7 +25,7 @@ function leaderboard(users, counts) {
 }
 module.exports = async (config, client, influx, vote, message) => {
     if (message.author.bot) return
-    if (message.member.roles.find('id', config.botbannedrole) && !message.member.roles.find("id", config.modrole) && message.channel.id !== config.botspam) return
+    if (message.member.roles.find('id', config.botbannedrole) && !message.member.roles.find("id", config.modrole) && message.channel.id !== config.botspam || message.member.roles.find('id', '338719997167665163')) return
     if (message.channel.toString().includes('436660589616431106')) {
         message.delete()
     }
