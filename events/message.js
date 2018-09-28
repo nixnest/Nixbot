@@ -33,13 +33,13 @@ module.exports = async (config, client, influx, vote, message) => {
         timestamp = Math.round(timestamp / 1000)
         if (message.channel.id == config.botspam || message.member.roles.find('id', config.modrole)) { return }
         if (ratelimit[user]) {
-            if (ratelimit[user]['num'] == 5 && ratelimit[user]['banned'] == 0 && timestamp - ratelimit[user]['firsttime'] <= banlength) {
+            if (ratelimit[user]['num'] == 15 && ratelimit[user]['banned'] == 0 && timestamp - ratelimit[user]['firsttime'] <= banlength) {
                 ratelimit[user]['lastban'] = timestamp
                 ratelimit[user]['banned'] = 1
                 console.log('banning user after too many commands');
                 console.log(ratelimit[user]);
                 message.channel.send('You are banned from using this and other commands for 4 hours due to abuse outside of the proper channel');
-            } else if (ratelimit[user]['num'] == 5 && timestamp - ratelimit[user]['firsttime'] >= banlength) {
+            } else if (ratelimit[user]['num'] == 15 && timestamp - ratelimit[user]['firsttime'] >= banlength) {
                 ratelimit[user]['firsttime'] = timestamp
                 ratelimit[user]['num'] = 1
                 ratelimit[user]['banned'] = 0
