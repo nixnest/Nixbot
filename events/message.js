@@ -167,8 +167,6 @@ module.exports = async (config, client, influx, vote, message) => {
         })
     }
 
-    //console.log(message.attachments.size);
-    //console.log(message.id);
     if (/^.*http.*\.(png|jpg|jpeg)/ig.test(message.cleanContent))  {
         var data = message.cleanContent;
     } else if (message.attachments.size == 1) {
@@ -610,15 +608,9 @@ module.exports = async (config, client, influx, vote, message) => {
                     throw error
                 }
                 var leaders = JSON.parse(stdout)
-                //console.log(leaders);
-                //console.log(client.guilds);
-                //logGuild = _.find(client.guilds, function(guild) {return guild.id == config.logserver; });
-                //console.log(config.logserver);
-                //console.log(client.guilds);
                 var logGuild = client.guilds.find('id', config.logserver);
                 var users = [];
                 var counts = [];
-                //console.log(logGuild);
                 for (var entry in leaders) {
                     if (logGuild.members.find('id', leaders[entry].id)) {
                         users[entry] = logGuild.members.find('id', leaders[entry].id).displayName;
@@ -632,22 +624,12 @@ module.exports = async (config, client, influx, vote, message) => {
 
                 }
                 message.channel.send('**Top posters, last 7 days:**\n' + leaderboard(users, counts));
-                //message.channel.send(counts);
-                //message.channel.send({
-                //    files: [{
-                //        attachment: 'leaderboard.png',
-                //        name: 'current_leaderboard.png'
-                //    }]
-                //})
             });
             break
         }
         case 'realban': {
-            //console.log(message.mentions.users.array().length);
             if (message.mentions.users.array().length == 1) {
-                //console.log(message.mentions);
                 var mentions = message.mentions.users.array()
-                //console.log("using mention");
                 console.log(mentions);
                 var target = message.guild.members.find('id', mentions[0].id)
             } else {
@@ -701,143 +683,11 @@ module.exports = async (config, client, influx, vote, message) => {
             }
             break
         }
-        case 'messages': {
-            if (!config.msgs_500) return;
-            influx.query('SELECT SUM(manual) FROM message WHERE \"id\"=\'' + message.author.id + '\' fill(0)').then(async manresults => {
-                console.log(manresults);
-                if (manresults[0] !== undefined) {
-                    message.channel.send('You have already set your messages.')
-                } else {
-                    arg.shift()
-                    arg.shift()
-                    arg.join()
-                    var newmsg = arg.toString()
-
-                    if (isNaN(newmsg)) {
-                        message.channel.send('Provided message count `' + newmsg + '` does not appear to be a number. Try again.')
-                    } else if (newmsg < 500 && newmsg > 0) {
-                        influx.dropSeries({
-                            measurement: m => m.name('message'),
-                            where: e => e.tag('id').equals.value(message.author.id),
-                            database: 'nixnest'
-                        })
-                        await extra.sleep(2000)
-
-                        influx.writePoints([
-                            {
-                                measurement: 'message',
-                                tags: { id: message.author.id },
-                                fields: { manual: newmsg }
-                            }
-                        ])
-                        message.channel.send('Setting your message count in the database to ' + newmsg + '. **You cannot do this again. If you screwed it up, Ping ZackW**')
-                    } else if (message.member.roles.find('id', config.msgs_500[0]) && newmsg < config.msgs_1000[1] && newmsg > 0) {
-                        influx.dropSeries({
-                            measurement: m => m.name('message'),
-                            where: e => e.tag('id').equals.value(message.author.id),
-                            database: 'nixnest'
-                        })
-                        await extra.sleep(2000)
-
-                        influx.writePoints([
-                            {
-                                measurement: 'message',
-                                tags: { id: message.author.id },
-                                fields: { manual: newmsg }
-                            }
-                        ])
-                        message.channel.send('Setting your message count in the database to ' + newmsg + '. **You cannot do this again. If you screwed it up, Ping ZackW**')
-                    } else if (message.member.roles.find('id', config.msgs_1000[0]) && newmsg < config.msgs_2500[1] && newmsg > 0) {
-                        influx.dropSeries({
-                            measurement: m => m.name('message'),
-                            where: e => e.tag('id').equals.value(message.author.id),
-                            database: 'nixnest'
-                        })
-                        await extra.sleep(2000)
-
-                        influx.writePoints([
-                            {
-                                measurement: 'message',
-                                tags: { id: message.author.id },
-                                fields: { manual: newmsg }
-                            }
-                        ])
-                        message.channel.send('Setting your message count in the database to ' + newmsg + '. **You cannot do this again. If you screwed it up, Ping ZackW**')
-                    } else if (message.member.roles.find('id', config.msgs_2500[0]) && newmsg < config.msgs_5000[1] && newmsg > 0) {
-                        influx.dropSeries({
-                            measurement: m => m.name('message'),
-                            where: e => e.tag('id').equals.value(message.author.id),
-                            database: 'nixnest'
-                        })
-                        await extra.sleep(2000)
-
-                        influx.writePoints([
-                            {
-                                measurement: 'message',
-                                tags: { id: message.author.id },
-                                fields: { manual: newmsg }
-                            }
-                        ])
-                        message.channel.send('Setting your message count in the database to ' + newmsg + '. **You cannot do this again. If you screwed it up, Ping ZackW**')
-                    } else if (message.member.roles.find('id', config.msgs_5000[0]) && newmsg < config.msgs_10000[1] && newmsg > 0) {
-                        influx.dropSeries({
-                            measurement: m => m.name('message'),
-                            where: e => e.tag('id').equals.value(message.author.id),
-                            database: 'nixnest'
-                        })
-                        await extra.sleep(2000)
-
-                        influx.writePoints([
-                            {
-                                measurement: 'message',
-                                tags: { id: message.author.id },
-                                fields: { manual: newmsg }
-                            }
-                        ])
-                        message.channel.send('Setting your message count in the database to ' + newmsg + '. **You cannot do this again. If you screwed it up, Ping ZackW**')
-                    } else if (message.member.roles.find('id', config.msgs_10000[0]) && newmsg < config.msgs_25000[1] && newmsg > 0) {
-                        influx.dropSeries({
-                            measurement: m => m.name('message'),
-                            where: e => e.tag('id').equals.value(message.author.id),
-                            database: 'nixnest'
-                        })
-                        await extra.sleep(2000)
-
-                        influx.writePoints([
-                            {
-                                measurement: 'message',
-                                tags: { id: message.author.id },
-                                fields: { manual: newmsg }
-                            }
-                        ])
-                        message.channel.send('Setting your message count in the database to ' + newmsg + '. **You cannot do this again. If you screwed it up, Ping ZackW**')
-                    } else if (message.member.roles.find('id', config.msgs_25000[0]) && newmsg < config.msgs_50000[1] && newmsg > 0) {
-                        influx.dropSeries({
-                            measurement: m => m.name('message'),
-                            where: e => e.tag('id').equals.value(message.author.id),
-                            database: 'nixnest'
-                        })
-                        await extra.sleep(2000)
-
-                        influx.writePoints([
-                            {
-                                measurement: 'message',
-                                tags: { id: message.author.id },
-                                fields: { manual: newmsg }
-                            }
-                        ])
-                        message.channel.send('Setting your message count in the database to ' + newmsg + '. **You cannot do this again. If you screwed it up, Ping ZackW**')
-                    } else { message.channel.send('That number is too high for your current role. Cheater.') }
-                }
-            })
-            break
-        }
         case 'reload': {
             message.channel.send(config.loadplugins(), {'split': true})
             break
         }
         case 'tldr': {
-if(annoyance(message.author.id, message) == 'banned'){ return };
             const m = await message.channel.send('Working on it...')
             if (message.mentions.channels.array().join() === '') {
                 const { execFile } = require('child_process')
