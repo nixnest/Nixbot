@@ -1,61 +1,52 @@
 #!/usr/bin/env python3
 
 """Parse the top /r/Art posts for a wallpaper meeting given criteria."""
-# Script originally made by @Aperture#3661 on Discord
+
+import re
+import sys
+
+import requests
 
 
-import sys  # Needed for arguments
-import json  # Needed to parse response
-import requests  # Needed for talking to reddit
-
+size_pattern = re.compile(r'\[(\d+) ?[xX] ?(\d+)\]')
 headers = {
     'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:61.0)'
 }
-config = {}
+subreddit_url = 'https://www.reddit.com/r/{0}/top.json?sort=top&t=day'
 
-if (len(sys.argv) < 4):
-    reply = "Required arguments: [Subreddit] [HeightxWidth]"
-else:
-    # Default string, if none of the posts in the list are good enough,
-    # then this will display
-    reply = "Error: Couldn't find one, you picky (or pervy) fuck."
 
-    config['subreddit'] = sys.argv[2]
+def run_wallit(args: list) -> str:
+    """Take the arguments for the command, and return the response."""
+    if len(args) < 4:
+        return 'Required arguments: [Subreddit] [HeightxWidth]'
+    subreddit, resolution = args[2], args[3].split('x')
+    if not len(resolution) == 2:
+        return 'Error: Invalid resolution'
+    p_width, p_height = map(int, resolution)
 
-    resolution = sys.argv[3].split('x')
-    if (len(resolution) == 2):
-        config['width'], config['height'] = (
-            int(pix) for pix in resolution
-        )
+    posts = requests.get(subreddit_url.format(subreddit)).json()
+    if 'error' in posts:
+        return "Error: Couldn't get posts, is this a valid subreddit?"
+    if not posts['data']['children']:
+        return 'Error: Subreddit seems to have no posts.'
 
-        posts = requests.get(
-            'https://www.reddit.com/r/' + config['subreddit'] +
-            '/top.json?sort=top&t=day',
-            headers=headers
-        ).json()
+    for post in posts['data']['children']:
+        if post['data']['over_18']:
+            continue
+        url = post['data']['url']
 
-        if ("error" in posts):
-            reply = "Error: Couldn't get posts, " + \
-                + "are you sure that's a valid subreddit?"
-        else:
-            if (len(posts['data']['children']) > 0):
-                for post in posts['data']['children']:
-                    if ("preview" in post['data']):
-                        url, width, height = \
-                            post['data']['preview']['images'][0]['source'].values()
+        if url.endswith(('jpg', 'png')):
+            match = size_pattern.search(post['data']['title'])
+            width, height = map(int, match.groups())
+            if (
+                width >= p_width and height >= p_height and
+                width > height if p_width > p_height else True
+            ):
+                return 'Found {0} with resolution {1}x{2}'.format(
+                    url, width, height
+                )
+    return "Error: Couldn't find one, you picky (or pervy) fuck."
 
-                        width, height = int(width), int(height)
-                        if (width >= config['width'] and
-                                height >= config['height'] and
-                                width > height and
-                                (not post['data']['over_18'])):
-                            reply = 'Found "'+post['data']['title'] + \
-                                    '" at resolution '+str(width)+'x' + \
-                                    str(height)+': ' + url
-                            break
-            else:
-                reply = "Error: subreddit seems to have no posts"
-    else:
-        reply = "Error: Invalid resolution"
 
-print(reply)
+if __name__ == '__main__':
+    print(run_wallit(sys.argv))
