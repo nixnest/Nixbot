@@ -16,7 +16,6 @@ subreddit_url = 'https://www.reddit.com/r/{0}/top.json?sort=top&t=day'
 
 
 def run_wallit(args: list) -> str:
-    print(args)
     """Take the arguments for the command, and return the response."""
     if len(args) < 4:
         return 'Required arguments: [Subreddit] [HeightxWidth]'
