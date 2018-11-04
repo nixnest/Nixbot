@@ -16,11 +16,10 @@ subreddit_url = 'https://www.reddit.com/r/{0}/top.json?sort=top&t=day'
 
 
 def run_wallit(args: list) -> str:
-    print(args)
     """Take the arguments for the command, and return the response."""
-    if len(args) < 3:
+    if len(args) < 4:
         return 'Required arguments: [Subreddit] [HeightxWidth]'
-    subreddit, resolution = args[1], args[2].split('x')
+    subreddit, resolution = args[2], args[3].split('x')
     if not len(resolution) == 2:
         return 'Error: Invalid resolution'
     p_width, p_height = map(int, resolution)
