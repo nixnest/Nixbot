@@ -16,16 +16,19 @@ subreddit_url = 'https://www.reddit.com/r/{0}/top.json?sort=top&t=day'
 
 
 def run_wallit(args: list) -> str:
+    print(args)
     """Take the arguments for the command, and return the response."""
-    if len(args) < 4:
+    if len(args) < 3:
         return 'Required arguments: [Subreddit] [HeightxWidth]'
-    subreddit, resolution = args[2], args[3].split('x')
+    subreddit, resolution = args[1], args[2].split('x')
     if not len(resolution) == 2:
         return 'Error: Invalid resolution'
     p_width, p_height = map(int, resolution)
-
-    posts = requests.get(subreddit_url.format(subreddit)).json()
+    posts = requests.get(
+        subreddit_url.format(subreddit), headers=headers
+    ).json()
     if 'error' in posts:
+        print(posts)
         return "Error: Couldn't get posts, is this a valid subreddit?"
     if not posts['data']['children']:
         return 'Error: Subreddit seems to have no posts.'
@@ -37,7 +40,15 @@ def run_wallit(args: list) -> str:
 
         if url.endswith(('jpg', 'png')):
             match = size_pattern.search(post['data']['title'])
-            width, height = map(int, match.groups())
+            try:
+                if match:
+                    width, height = map(int, match.groups())
+                else:
+                    meta = post['data']['preview']['images'][0]['source']
+                    width, height = meta['width'], meta['height']
+            except Exception as e:
+                print(e)
+                continue
             if (
                 width >= p_width and height >= p_height and
                 width > height if p_width > p_height else True
