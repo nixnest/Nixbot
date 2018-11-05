@@ -43,6 +43,8 @@
        "$n, why have you come here? Leave before it’s too late",
        "Introducing your new owner, $n",
        "$n is not in the sudoers file. This incident will be reported.",
-       "$n what's your highest uptime? You get a gold star if you win the uptime meme."
+       "$n what's your highest uptime? You get a gold star if you win the uptime meme.",
+       "$n has joined the Party!",
+       "$n attacks!"
     ]
 }
