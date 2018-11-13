@@ -190,9 +190,9 @@ module.exports = async (config, client, influx, vote, message) => {
                 }
                 //lastimage[message.channel.id] = {};
                 //lastimage[message.channel.id]["url"] = r
-                lastimage[message.channel.id]["score"] = body.porn_probability
+                //lastimage[message.channel.id]["score"] = body.porn_probability
                 //console.log(lastimage);
-                if (body.porn_probability) {
+                if (typeof body != 'undefined' && body) {
                     if (body.porn_probability > 90) {
                         message.channel.send('The link posted by **' + message.author.username + '** is _probably_ porn(' + body.porn_probability + '%). React up on the image to delete it. Needs 5 votes');
                         message.react('⬆');
