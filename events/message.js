@@ -183,18 +183,20 @@ module.exports = async (config, client, influx, vote, message) => {
         lastimage[message.channel.id]["url"] = r
         lastimage[message.channel.id]["score"] = "stillscanning"
         if (!message.channel.nsfw) {
-            request('https://nsfw.haschek.at/api.php?url=' + r, { json: true }, (err, res, body) => {
+            const { execFile } = require('child_process');
+            execFile('./nsfw_detect.py', r, (error, stdout, stderr) => {
+                //request('https://nsfw.haschek.at/api.php?url=' + r, { json: true }, (err, res, body) => {
                 //console.log(body)
-                if (err) {
+                if (error) {
                     return console.log(err);
                 }
                 //lastimage[message.channel.id] = {};
                 //lastimage[message.channel.id]["url"] = r
-                //lastimage[message.channel.id]["score"] = body.porn_probability
+                lastimage[message.channel.id]["score"] = Math.round(stdout*100)
                 //console.log(lastimage);
-                if (typeof body != 'undefined' && body) {
-                    if (body.porn_probability > 90) {
-                        message.channel.send('The link posted by **' + message.author.username + '** is _probably_ porn(' + body.porn_probability + '%). React up on the image to delete it. Needs 5 votes');
+                if (typeof stdout != 'undefined' && stdout) {
+                    if (stdout > .90) {
+                        message.channel.send('The link posted by **' + message.author.username + '** is _probably_ porn(' + Math.round(stdout*100) + '%). React up on the image to delete it. Needs 5 votes');
                         message.react('⬆');
                         vote[message.id] = 0
                         var embedFields = extra.fieldGenerator(message.cleanContent, 'Command')
