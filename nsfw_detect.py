@@ -61,7 +61,7 @@ class NSFWDetector:
             return -1.0
 
         scores = self._compute(image_data)
-
+        os.remove(fpath)
         return scores[1]
 if __name__ == "__main__":
     n = NSFWDetector()
@@ -69,7 +69,8 @@ if __name__ == "__main__":
     for inf in sys.argv[1:]:
         if re.match(regex, inf):
             #print("is a url")
-            urllib.request.urlretrieve(inf, os.path.basename(inf))
+            #urllib.request.urlretrieve(inf, os.path.basename(inf))
+            run(["curl","-s", inf, "--output", os.path.basename(inf)])
             score = n.detect(os.path.basename(inf))
         else:
             #print("is not a URL")
