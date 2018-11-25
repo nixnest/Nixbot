@@ -190,7 +190,7 @@ module.exports = async (config, client, influx, vote, message) => {
                 //request('https://nsfw.haschek.at/api.php?url=' + r, { json: true }, (err, res, body) => {
                 //console.log(body)
                 if (error) {
-                    return console.log(err);
+                    return console.log(error);
                 }
                 //lastimage[message.channel.id] = {};
                 //lastimage[message.channel.id]["url"] = r
