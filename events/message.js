@@ -123,9 +123,11 @@ module.exports = async (config, client, influx, vote, message) => {
                 }
                 if (newcount > 5000) {
                     message.member.addRole(config.msgs_5000[0])
+                    message.member.addRole('516049434497515521')
                 }
                 if (newcount > 10000) {
                     message.member.addRole(config.msgs_10000[0])
+                    message.member.addRole('516050186997596212')
                 }
                 if (newcount > 25000) {
                     message.member.addRole(config.msgs_25000[0])
@@ -322,7 +324,7 @@ module.exports = async (config, client, influx, vote, message) => {
                     var casargs = [url];
                     console.log(casargs)
                     if (/.*\.gif/ig.test(url)) {
-                        m.edit('User avatar is a gif. Can\'t operate');
+                        m.edit('User avatar is a gif. Can\'t eoperate');
                     } else {
                         const { execFile } = require('child_process')
                         fryprocessing = true
