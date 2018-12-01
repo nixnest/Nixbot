@@ -10,11 +10,11 @@ cookies = {
 }
 
 leaderboard = requests.get(LEADERBOARD_URL, cookies=cookies).json()
+members = leaderboard['members']
 
 table = "\nCurrent Advent of Code 2018 ranking:\n"
 
-for member in leaderboard['members'].values():
-    table += "%s:\t%s\n" % (member['name'], member['local_score'])
+for member in sorted(members.values(), key=lambda k: k['local_score'], reverse=True):
+    table += '{0:<22} {1:>5}\n'.format(member['name'], member['local_score'])
 
-print("```%s```" % table)
-
+print("```{}```".format(table))
