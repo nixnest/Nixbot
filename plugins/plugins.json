@@ -216,5 +216,13 @@
         },
         "delete" : false,
         "nsfw" : false
+    },
+    "adventofcode" : {
+        "path" : "./plugins/adventofcode.py",
+        "description" : "Gets the current state of the nixnest AoC 2018 leaderboard",
+        "args-type" : "parameters",
+        "arguments" : null,
+        "delete" : false,
+        "nsfw" : false
     }
 }
