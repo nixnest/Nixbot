@@ -14,7 +14,27 @@ members = leaderboard['members']
 
 table = "\nCurrent Advent of Code 2018 ranking:\n"
 
-for member in sorted(members.values(), key=lambda k: k['local_score'], reverse=True):
-    table += '{0:<22} {1:>5}\n'.format(member['name'], member['local_score'])
+table += '{0:3}  {1:4} {2:25} {3}\n'.format("", "", "        1111111111122222", "")
+table += '{0:3}  {1:4} {2:25} {3}\n'.format("", "", "123456890123456789012345", "")
+
+
+for position, member in enumerate(sorted(members.values(), key=lambda k: k['local_score'], reverse=True)):
+    stars = ""
+    for n in range(1,25):
+        days = member['completion_day_level']
+        if str(n) in days and days[str(n)]:
+            if "2" in days[str(n)]:
+                stars += '*'
+            else:
+                stars += '-'
+        else:
+            stars += ' '
+
+    table += '{0:3}) {1:4} {2:25} {3}\n'.format(
+            position + 1,
+            member['local_score'],
+            stars,
+            member['name'],
+        )
 
 print("```{}```".format(table))
