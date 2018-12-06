@@ -14,8 +14,8 @@ members = leaderboard['members']
 
 table = "\nCurrent Advent of Code 2018 ranking:\n"
 
-table += '{0:3}  {1:4} {2:25} {3}\n'.format("", "", "        1111111111122222", "")
-table += '{0:3}  {1:4} {2:25} {3}\n'.format("", "", "123456890123456789012345", "")
+table += '{0:3}  {1:4} {2:26} {3}\n'.format("", "", "         1111111111222222", "")
+table += '{0:3}  {1:4} {2:26} {3}\n'.format("", "", "1234567890123456789012345", "")
 
 
 for position, member in enumerate(sorted(members.values(), key=lambda k: k['local_score'], reverse=True)):
@@ -30,7 +30,7 @@ for position, member in enumerate(sorted(members.values(), key=lambda k: k['loca
         else:
             stars += ' '
 
-    table += '{0:3}) {1:4} {2:25} {3}\n'.format(
+    table += '{0:3}) {1:4} {2:26} {3}\n'.format(
             position + 1,
             member['local_score'],
             stars,
