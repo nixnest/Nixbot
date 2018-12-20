@@ -158,19 +158,6 @@
         "delete": true,
         "nsfw": false
     },
-    "neko": {
-        "path": "./plugins/neko.py",
-        "description": "I had to shower after making this, and I still feel dirty",
-        "args-type" : "parameters",
-        "arguments" : {
-            "search" : {
-                "msg" : "String to search for",
-                "required" : false
-            }
-        },
-        "delete": false,
-        "nsfw": true
-    },
     "help": {
         "path" : "./plugins/help.py",
         "description": "Shows the help documentation",
