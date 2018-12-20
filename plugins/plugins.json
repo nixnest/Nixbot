@@ -224,5 +224,17 @@
         "arguments" : null,
         "delete" : false,
         "nsfw" : false
+    },
+    "cloudlight" : {
+        "path" : "./plugins/lightchange.sh",
+        "description" : "Changes the single light color in Cloud's room",
+        "args-type" : "parameters",
+        "arguments" : {
+            "color" : {
+                "msg" : "Color to set his light to",
+                "required" : true
+            }
+        }
+    }
     }
 }
