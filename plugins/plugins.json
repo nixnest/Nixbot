@@ -224,7 +224,7 @@
         }
     },
     "fishlight" : {
-        "path" : "./plugins/lightchange.sh",
+        "path" : "./plugins/lightchangefish.sh",
         "description" : "Changes the lights on fish's laptop",
         "args-type" : "parameters",
         "arguments" : {
