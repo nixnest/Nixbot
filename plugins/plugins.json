@@ -222,6 +222,17 @@
                 "required" : true
             }
         }
+    },
+    "fishlight" : {
+        "path" : "./plugins/lightchange.sh",
+        "description" : "Changes the lights on fish's laptop",
+        "args-type" : "parameters",
+        "arguments" : {
+            "color" : {
+                "msg" : "Color to set his light to",
+                "required" : true
+            }
+        }
     }
-    }
+}
 
