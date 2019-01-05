@@ -10,7 +10,7 @@ module.exports = async (config, client, influx, vote, react) => {
 //    console.log(vote[react.message.id]);
     if (vote[react.message.id] == 0) {
         if (react.emoji.name.toString() == '⬆') {
-            if (react.count.toString() == '6') {
+            if (react.count == 6) {
                 react.message.delete();
             }
         }
