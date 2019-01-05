@@ -162,6 +162,11 @@ module.exports = async (config, client, influx, vote, message) => {
         }
     }
 
+    // If message contains some form of "Install OpenBSD" then respond with unix vs linux rant
+    if (/^(install\ openbsd)$/ig.test(message.cleanContent)) {
+    	message.channel.send("https://www.youtube.com/watch?v=2HO_MXPjnqg")
+    }
+
     // If message is only some for of "bidoof then send the bidoof file
     if (/^(bido+of)$/ig.test(message.cleanContent)) {
         message.channel.send({
