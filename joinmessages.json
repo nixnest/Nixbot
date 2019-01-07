@@ -48,6 +48,7 @@
        "$n, are you inebriated?",
        "Oh god $n just joined. I need to inebriate myself.",
        "$n! I need my ketamine!",
-       "$n, do you have my ketamine?"
+       "$n, do you have my ketamine?",
+       "Hey $n, have you played UDP tetris today?"
     ]
 }
