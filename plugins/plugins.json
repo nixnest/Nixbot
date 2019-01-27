@@ -187,6 +187,14 @@
         "delete" : true,
         "nsfw" : false
     },
+    "graf" : {
+	 "path" : "./plugins/graf.py",
+	 "description" : "Grafana link",
+	 "args-type" : "parameters",
+	 "arguments" : null,
+	 "delete" : true,
+	 "nsfw" : false
+    },
     "wallit" : {
         "path" : "./plugins/wallit.py",
         "description" : "Get picture from reddit to use as a wallpaper",
